@@ -44,7 +44,7 @@ const CustomNode = ({ data, isHorizontal }) => {
               transition: "filter 0.3s ease", // Smooth transition for hover
               filter: isHovered
                 ? `drop-shadow(0px 0px 8px ${data.color})`
-                : "drop-shadow(0px 5px 6px rgba(0, 0, 0, 0.25))", // Conditional shadow
+                : "drop-shadow(0px 5px 6px rgba(0, 0, 0, 0.25))",
             }}
           />
 
