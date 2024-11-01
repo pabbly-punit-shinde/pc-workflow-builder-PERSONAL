@@ -4,7 +4,7 @@ import { CONFIG } from 'src/config-global';
 
 import LayoutFlow from 'src/components/workflow builder/WorkflowBuilder';
 
-import WorkflowNameHeader from 'src/components/workflow builder/workflow-name-header';
+// import WorkflowNameHeader from 'src/components/workflow builder/workflow-name-header';
 
 // ----------------------------------------------------------------------
 

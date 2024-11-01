@@ -15,9 +15,10 @@ import {
   ReactFlowProvider,
 } from '@xyflow/react';
 
-import WorkflowNameHeader from 'src/components/workflow builder/workflow-name-header';
-import Drawer from './Drawer';
-import CustomNode from './CustomNodes';
+import WorkflowNameHeader from 'src/components/workflow builder/components/workflow-name-header';
+
+import Drawer from './components/Drawer';
+import CustomNode from './components/CustomNodes';
 import { initialNodes, initialEdges } from './nodes-edges';
 
 // Define pro options
@@ -137,9 +138,9 @@ function LayoutFlow() {
     [nodes, edges, fitView, setEdges, setNodes]
   );
 
-  useLayoutEffect(() => {
-    onLayout({ direction: 'TB', useInitialNodes: true });
-  }, []);
+  // useLayoutEffect(() => {
+  //   onLayout({ direction: 'TB', useInitialNodes: true });
+  // }, []);
 
   const toggleAnimation = () => {
     setIsAnimated((prev) => {

@@ -2,7 +2,7 @@ import React from 'react';
 
 // import { Box, CircularProgress } from '@mui/material';
 
-import WorkflowNameHeader from 'src/components/workflow builder/workflow-name-header';
+import WorkflowNameHeader from 'src/components/workflow builder/components/workflow-name-header';
 
 export default function Page() {
   return (
