@@ -15,10 +15,10 @@ import {
   ReactFlowProvider,
 } from '@xyflow/react';
 
+import WorkflowNameHeader from 'src/components/workflow builder/workflow-name-header';
 import Drawer from './Drawer';
 import CustomNode from './CustomNodes';
 import { initialNodes, initialEdges } from './nodes-edges';
-import WorkflowNameHeader from 'src/components/workflow builder/workflow-name-header';
 
 // Define pro options
 const proOptions = {
@@ -61,7 +61,7 @@ const getDagreLayout = (nodes, edges, direction = 'TB') => {
 
 // Updated generateGradients function
 const generateGradients = (nodes, edges, direction) => {
-  let gradients = [];
+  const gradients = [];
   edges.forEach((edge, index) => {
     const sourceNode = nodes.find((node) => node.id === edge.source);
     const targetNode = nodes.find((node) => node.id === edge.target);
@@ -112,8 +112,17 @@ function LayoutFlow() {
       const newEdge = { ...params, type: edgeType, animated: isAnimated };
       setEdges((eds) => addEdge(newEdge, eds));
     },
-    [edgeType, isAnimated]
+    [edgeType, isAnimated, setEdges]
   );
+
+  const updateEdgesWithTypeAndAnimation = (newEdgeType, newIsAnimated) => {
+    const updatedEdges = edges.map((edge) => ({
+      ...edge,
+      type: newEdgeType,
+      animated: newIsAnimated,
+    }));
+    setEdges(updatedEdges);
+  };
 
   const onLayout = useCallback(
     ({ direction, useInitialNodes = false }) => {
@@ -125,24 +134,18 @@ function LayoutFlow() {
       setEdges(layoutedElements.edges);
       window.requestAnimationFrame(() => fitView());
     },
-    [nodes, edges]
+    [nodes, edges, fitView, setEdges, setNodes]
   );
 
   useLayoutEffect(() => {
     onLayout({ direction: 'TB', useInitialNodes: true });
   }, []);
 
-  React.useEffect(() => {
-    const updatedEdges = edges.map((edge) => ({
-      ...edge,
-      type: edgeType,
-      animated: isAnimated,
-    }));
-    setEdges(updatedEdges);
-  }, [edgeType, isAnimated]);
-
   const toggleAnimation = () => {
-    setIsAnimated((prev) => !prev);
+    setIsAnimated((prev) => {
+      updateEdgesWithTypeAndAnimation(edgeType, !prev);
+      return !prev;
+    });
   };
 
   const nodeTypes = {
@@ -151,10 +154,9 @@ function LayoutFlow() {
 
   const gradients = generateGradients(nodes, edges, isHorizontal ? 'LR' : 'TB');
 
-  // Define a function for button click
-  const handleButtonClick = () => {
-    // Perform some action here
-    console.log('Button clicked!');
+  const handleEdgeTypeChange = (newEdgeType) => {
+    setEdgeType(newEdgeType);
+    updateEdgesWithTypeAndAnimation(newEdgeType, isAnimated);
   };
 
   return (
@@ -167,7 +169,7 @@ function LayoutFlow() {
         onEdgesChange={onEdgesChange}
         fitView
         nodeTypes={nodeTypes}
-        draggable={true}
+        draggable
         defaultEdgeOptions={defaultEdgeOptions}
         proOptions={proOptions}
       >
@@ -180,7 +182,7 @@ function LayoutFlow() {
             isDrawerOpen={isDrawerOpen}
             setIsDrawerOpen={setIsDrawerOpen}
             onLayout={onLayout}
-            setEdgeType={setEdgeType}
+            setEdgeType={handleEdgeTypeChange}
             toggleAnimation={toggleAnimation}
           />
         </Panel>
