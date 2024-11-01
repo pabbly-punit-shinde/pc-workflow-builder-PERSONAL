@@ -59,8 +59,8 @@ function DownloadButton() {
     <button
     type="button"
       style={{
-        width: "40px",
-        height: "40px",
+        width: "30px",
+        height: "30px",
         backgroundColor: "transparent",
         border: "none",
         cursor: "pointer",

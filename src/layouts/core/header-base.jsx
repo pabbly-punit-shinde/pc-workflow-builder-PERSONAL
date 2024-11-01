@@ -73,7 +73,7 @@ export function HeaderBase({
     <HeaderSection
       sx={{
         backgroundColor: 'common.white',
-        borderBottom: '1px dashed',
+        borderBottom: '1px solid',
         borderColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.3),
         ...sx,
       }}

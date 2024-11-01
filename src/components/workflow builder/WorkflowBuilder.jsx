@@ -1,7 +1,7 @@
 import '@xyflow/react/dist/style.css';
 
 import dagre from 'dagre';
-import React, { useState, useCallback, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Panel,
   MiniMap,
@@ -14,6 +14,8 @@ import {
   useNodesState,
   ReactFlowProvider,
 } from '@xyflow/react';
+
+// import { Box } from '@mui/material';
 
 import WorkflowNameHeader from 'src/components/workflow builder/components/workflow-name-header';
 
@@ -107,6 +109,7 @@ function LayoutFlow() {
   const [edgeType, setEdgeType] = useState('smoothstep');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isAnimated, setIsAnimated] = useState(false);
+  const [isInitialLayoutSet, setIsInitialLayoutSet] = useState(false); // New state
 
   const onConnect = useCallback(
     (params) => {
@@ -133,14 +136,23 @@ function LayoutFlow() {
       const layoutedElements = getDagreLayout(ns, es, direction);
       setNodes(layoutedElements.nodes);
       setEdges(layoutedElements.edges);
-      window.requestAnimationFrame(() => fitView());
     },
-    [nodes, edges, fitView, setEdges, setNodes]
+    [nodes, edges, setEdges, setNodes]
   );
 
-  // useLayoutEffect(() => {
-  //   onLayout({ direction: 'TB', useInitialNodes: true });
-  // }, []);
+  // Use useEffect to set the initial layout to TB and fit the view
+  useEffect(() => {
+    if (!isInitialLayoutSet) {
+      onLayout({ direction: 'TB', useInitialNodes: true });
+      setIsInitialLayoutSet(true); // Set the flag to true after initial layout
+    }
+  }, [isInitialLayoutSet, onLayout]);
+
+  useEffect(() => {
+    if (isInitialLayoutSet) {
+      fitView(); // Fit the view after layout is set
+    }
+  }, [isInitialLayoutSet, fitView]);
 
   const toggleAnimation = () => {
     setIsAnimated((prev) => {
@@ -161,7 +173,7 @@ function LayoutFlow() {
   };
 
   return (
-    <div style={{ width: '94vw', height: '85vh' }}>
+    <div style={{ width: '95vw', height: '92vh' }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -177,7 +189,9 @@ function LayoutFlow() {
         <svg width="0" height="0">
           <defs>{gradients}</defs>
         </svg>
-        <WorkflowNameHeader />
+        <Panel position="top-left">
+          <WorkflowNameHeader />
+        </Panel>
         <Panel position="top-right">
           <Drawer
             isDrawerOpen={isDrawerOpen}
@@ -185,10 +199,11 @@ function LayoutFlow() {
             onLayout={onLayout}
             setEdgeType={handleEdgeTypeChange}
             toggleAnimation={toggleAnimation}
+            fitView={fitView}
           />
         </Panel>
-        <Controls />
 
+        <Controls />
         <MiniMap
           style={{
             borderRadius: '0 0 4px 4px',

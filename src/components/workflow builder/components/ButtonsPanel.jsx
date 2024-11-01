@@ -8,8 +8,8 @@ const DIRECTION = {
 };
 
 const buttonStyle = {
-  width: '40px',
-  height: '40px',
+  width: '30px',  // Adjusted width
+  height: '30px', // Adjusted height
   backgroundColor: 'transparent',
   border: 'none',
   cursor: 'pointer',
@@ -20,12 +20,15 @@ const iconStyle = {
   height: '100%',
 };
 
-const ButtonsPanel = ({ onLayout, setEdgeType, isAnimated, toggleAnimation }) => (
+const ButtonsPanel = ({ onLayout, setEdgeType, fitView }) => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
     <button
       type="button"
       style={buttonStyle}
-      onClick={() => onLayout({ direction: DIRECTION.DOWN })}
+      onClick={() => {
+        onLayout({ direction: DIRECTION.DOWN });
+        fitView(); // Trigger fitView after layout change
+      }}
     >
       <img
         src="/assets/images/reactflow/icons/vertical.svg"
@@ -36,7 +39,10 @@ const ButtonsPanel = ({ onLayout, setEdgeType, isAnimated, toggleAnimation }) =>
     <button
       type="button"
       style={buttonStyle}
-      onClick={() => onLayout({ direction: DIRECTION.RIGHT })}
+      onClick={() => {
+        onLayout({ direction: DIRECTION.RIGHT });
+        fitView(); // Trigger fitView after layout change
+      }}
     >
       <img
         src="/assets/images/reactflow/icons/horizontal.svg"
@@ -57,7 +63,7 @@ const ButtonsPanel = ({ onLayout, setEdgeType, isAnimated, toggleAnimation }) =>
     </button>
     <button
       type="button"
-      style={{ ...buttonStyle, width: '45px', height: '45px' }}
+      style={{ ...buttonStyle }} // Slightly larger for this button
       onClick={() => setEdgeType('smoothstep')}
     >
       <img

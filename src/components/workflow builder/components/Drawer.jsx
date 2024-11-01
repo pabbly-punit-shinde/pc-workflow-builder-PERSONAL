@@ -1,28 +1,26 @@
-// Drawer.jsx
 import React from 'react';
-// import { Icon } from "@iconify-icon/react";
 
 import ButtonsPanel from './ButtonsPanel';
 
-const Drawer = ({ isDrawerOpen, setIsDrawerOpen, onLayout, setEdgeType, toggleAnimation }) => (
+const Drawer = ({ isDrawerOpen, setIsDrawerOpen, onLayout, setEdgeType, toggleAnimation, fitView }) => (
   <div
     style={{
       display: 'flex',
       flexDirection: 'column',
       gap: '10px',
       backgroundColor: '#FFFFFF',
-      padding: '10px',
-      borderRadius: '10px',
-      width: '60px',
-      boxShadow: '0px 5px 6px rgb(0 0 0 / 0.25)',
+      padding: '5px',
+      width: '38px', // Set this to 38px
+       borderRadius: '4px',
+        boxShadow: '0 2px 4px rgba(84, 95, 111, .16), 0 0 1px rgba(37, 45, 91, .04)',
     }}
   >
     <button
       type="button"
       onClick={() => setIsDrawerOpen(!isDrawerOpen)}
       style={{
-        width: '40px',
-        height: '40px',
+        width: '30px',  // Adjusted width
+        height: '30px', // Adjusted height
         backgroundColor: 'transparent',
         border: 'none',
         cursor: 'pointer',
@@ -45,15 +43,19 @@ const Drawer = ({ isDrawerOpen, setIsDrawerOpen, onLayout, setEdgeType, toggleAn
 
     {isDrawerOpen && (
       <>
-        <ButtonsPanel onLayout={onLayout} setEdgeType={setEdgeType} />
+        <ButtonsPanel 
+          onLayout={onLayout} 
+          setEdgeType={setEdgeType} 
+          fitView={fitView}  // Pass fitView here
+        />
 
         {/* Button to toggle edge animation */}
         <button
           type="button"
           onClick={toggleAnimation}
           style={{
-            width: '40px',
-            height: '40px',
+            width: '30px',  // Adjusted width
+            height: '30px', // Adjusted height
             backgroundColor: 'transparent',
             border: 'none',
             cursor: 'pointer',
