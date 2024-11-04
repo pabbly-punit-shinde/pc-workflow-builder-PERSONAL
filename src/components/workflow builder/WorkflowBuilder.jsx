@@ -127,7 +127,7 @@ const generateGradients = (nodes, edges, direction) => {
         y2={gradientCoords.y2}
         key={index}
       >
-        <stop offset="0%" stopColor={sourceNode.data.color} />
+        <stop offset="10%" stopColor={sourceNode.data.color} />
         <stop offset="100%" stopColor={targetNode.data.color} />
       </linearGradient>
     );
@@ -135,10 +135,12 @@ const generateGradients = (nodes, edges, direction) => {
     edge.style = {
       strokeWidth: 2,
       stroke: `url(#${gradientId})`,
+      opacity: 0.75, // Set the desired light opacity here
     };
     edge.markerEnd = {
       type: MarkerType.ArrowClosed,
       color: targetNode.data.color,
+      opacity: 0.75, // Optionally set opacity for the marker end
     };
   });
   return gradients;
