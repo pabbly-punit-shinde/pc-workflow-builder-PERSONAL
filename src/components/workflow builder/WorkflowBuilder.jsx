@@ -1,7 +1,7 @@
 import '@xyflow/react/dist/style.css';
 
 import dagre from 'dagre';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import {
   Panel,
   MiniMap,
@@ -15,12 +15,11 @@ import {
   ReactFlowProvider,
 } from '@xyflow/react';
 
-// import { Box } from '@mui/material';
-
 import WorkflowNameHeader from 'src/components/workflow builder/components/workflow-name-header';
 
 import Drawer from './components/Drawer';
 import CustomNode from './components/CustomNodes';
+import ContextMenu from './components/ContextMenu';
 import { initialNodes, initialEdges } from './nodes-edges';
 
 // Define pro options
@@ -38,71 +37,58 @@ const defaultEdgeOptions = {
 // Updated Dagre Layout
 const getDagreLayout = (nodes, edges, direction = 'TB') => {
   const g = new dagre.graphlib.Graph();
-  const baseNodeSpacing  = direction === 'LR' ? 180 : 200;
-  const baseRankSpacing  = direction === 'LR' ? 60 : 100;
- // Custom spacing for nodes with multiple targets
- const multipleTargetsNodeSpacing = direction === 'LR' ? 180 : 200; // Adjust for direction
- const multipleTargetsRankSpacing = direction === 'LR' ? 120 : 200;  // Adjust for direction
+  const baseNodeSpacing = direction === 'LR' ? 180 : 200;
+  const baseRankSpacing = direction === 'LR' ? 60 : 100;
 
- // Create a map to count the number of targets for each source node
- const targetCounts = edges.reduce((acc, edge) => {
-   acc[edge.source] = (acc[edge.source] || 0) + 1;
-   return acc;
- }, {});
+  const targetCounts = edges.reduce((acc, edge) => {
+    acc[edge.source] = (acc[edge.source] || 0) + 1;
+    return acc;
+  }, {});
 
- // Set the graph properties
- g.setGraph({
-   rankdir: direction,
-   nodesep: baseNodeSpacing, // Set default node spacing
-   ranksep: baseRankSpacing,  // Set default rank spacing
- });
+  g.setGraph({
+    rankdir: direction,
+    nodesep: baseNodeSpacing,
+    ranksep: baseRankSpacing,
+  });
+  g.setDefaultEdgeLabel(() => ({}));
 
- g.setDefaultEdgeLabel(() => ({}));
+  nodes.forEach((node) => {
+    g.setNode(node.id, { width: 100, height: 50 });
+  });
 
- // Set nodes with their default dimensions
- nodes.forEach((node) => {
-   g.setNode(node.id, { width: 100, height: 50 });
- });
+  edges.forEach((edge) => {
+    g.setEdge(edge.source, edge.target);
+  });
 
- // Define edges
- edges.forEach((edge) => {
-   g.setEdge(edge.source, edge.target);
- });
+  dagre.layout(g);
 
- // Perform layout calculation
- dagre.layout(g);
+  const newNodes = nodes.map((node) => {
+    const dagreNode = g.node(node.id);
+    return {
+      ...node,
+      position: {
+        x: dagreNode.x + Math.random() * 0.1,
+        y: dagreNode.y + Math.random() * 0.1,
+      },
+    };
+  });
 
- // Adjust node positions based on the calculated layout
- const newNodes = nodes.map((node) => {
-   const dagreNode = g.node(node.id);
-   return {
-     ...node,
-     position: {
-       x: dagreNode.x + Math.random() * 0.1, // Adding slight randomness
-       y: dagreNode.y + Math.random() * 0.1,
-     },
-   };
- });
+  const newEdges = edges.map((edge) => {
+    const numTargets = targetCounts[edge.source] || 1;
 
- // Create new edges while modifying spacing based on target counts
- const newEdges = edges.map(edge => {
-   const numTargets = targetCounts[edge.source] || 1; // Get the number of targets for the source node
-   
-   // Check if the source node has multiple targets and adjust spacing accordingly
-   if (numTargets > 1) {
-     g.setGraph({
-       nodesep: multipleTargetsNodeSpacing, // Set new spacing for nodes with multiple targets
-       ranksep: multipleTargetsRankSpacing,  // Set new rank spacing for nodes with multiple targets
-     });
-   }
+    if (numTargets > 1) {
+      g.setGraph({
+        nodesep: direction === 'LR' ? 180 : 200,
+        ranksep: direction === 'LR' ? 120 : 200,
+      });
+    }
 
-   return {
-     ...edge,
-     // You can also define custom styles for edges here if necessary
-   };
- });
+    return {
+      ...edge,
+    };
+  });
 
- return { nodes: newNodes, edges: newEdges };
+  return { nodes: newNodes, edges: newEdges };
 };
 
 // Updated generateGradients function
@@ -135,12 +121,12 @@ const generateGradients = (nodes, edges, direction) => {
     edge.style = {
       strokeWidth: 2,
       stroke: `url(#${gradientId})`,
-      opacity: 0.75, // Set the desired light opacity here
+      opacity: 0.75,
     };
     edge.markerEnd = {
       type: MarkerType.ArrowClosed,
       color: targetNode.data.color,
-      opacity: 0.75, // Optionally set opacity for the marker end
+      opacity: 0.75,
     };
   });
   return gradients;
@@ -154,7 +140,9 @@ function LayoutFlow() {
   const [edgeType, setEdgeType] = useState('smoothstep');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isAnimated, setIsAnimated] = useState(false);
-  const [isInitialLayoutSet, setIsInitialLayoutSet] = useState(false); // New state
+  const [isInitialLayoutSet, setIsInitialLayoutSet] = useState(false);
+  const [menu, setMenu] = useState(null); // State for context menu
+  const ref = useRef(null);
 
   const onConnect = useCallback(
     (params) => {
@@ -185,17 +173,16 @@ function LayoutFlow() {
     [nodes, edges, setEdges, setNodes]
   );
 
-  // Use useEffect to set the initial layout to TB and fit the view
   useEffect(() => {
     if (!isInitialLayoutSet) {
       onLayout({ direction: 'TB', useInitialNodes: true });
-      setIsInitialLayoutSet(true); // Set the flag to true after initial layout
+      setIsInitialLayoutSet(true);
     }
   }, [isInitialLayoutSet, onLayout]);
 
   useEffect(() => {
     if (isInitialLayoutSet) {
-      fitView(); // Fit the view after layout is set
+      fitView();
     }
   }, [isInitialLayoutSet, fitView]);
 
@@ -217,14 +204,33 @@ function LayoutFlow() {
     updateEdgesWithTypeAndAnimation(newEdgeType, isAnimated);
   };
 
+  // Handle right-click on node to open context menu
+  const onNodeContextMenu = useCallback((event, node) => {
+    event.preventDefault();
+    const pane = ref.current.getBoundingClientRect();
+    setMenu({
+      id: node.id,
+      top: event.clientY < pane.height - 10 ? event.clientY : null,
+      left: event.clientX < pane.width - 10 ? event.clientX : null,
+      right: event.clientX >= pane.width - 10 ? pane.width - event.clientX : null,
+      bottom: event.clientY >= pane.height - 10 ? pane.height - event.clientY : null,
+    });
+  }, []);
+
+  // Close the context menu when clicking outside
+  const onPaneClick = useCallback(() => setMenu(null), []);
+
   return (
     <div style={{ width: '95vw', height: '92vh' }}>
       <ReactFlow
+        ref={ref}
         nodes={nodes}
         edges={edges}
         onConnect={onConnect}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onPaneClick={onPaneClick}
+        onNodeContextMenu={onNodeContextMenu}
         fitView
         nodeTypes={nodeTypes}
         draggable
@@ -257,6 +263,8 @@ function LayoutFlow() {
           nodeTypes={nodeTypes}
           nodeColor={(node) => node.data.color || '#F3F7FA'}
         />
+
+        {menu && <ContextMenu onClose={onPaneClick} {...menu} />}
       </ReactFlow>
     </div>
   );
