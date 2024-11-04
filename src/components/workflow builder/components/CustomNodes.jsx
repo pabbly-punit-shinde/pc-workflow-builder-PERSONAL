@@ -2,6 +2,8 @@
 import { Handle } from '@xyflow/react';
 import React, { useState } from 'react';
 
+import { Box } from '@mui/material';
+
 import { Iconify } from 'src/components/iconify';
 
 import HoverButton from '../partials/HoverButton'; // Import the HoverButton component
@@ -10,6 +12,10 @@ import HoverButton from '../partials/HoverButton'; // Import the HoverButton com
 
 const CustomNode = ({ data, isHorizontal }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  // Function to determine the rotation style for the image
+  const getImageRotationStyle = () =>
+    data.label === 'Router (Pabbly)' && isHorizontal ? 'rotate(270deg)' : 'none';
 
   return (
     <div
@@ -37,21 +43,31 @@ const CustomNode = ({ data, isHorizontal }) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            // backgroundColor: 'red',
           }}
         >
-          <img
-            src={data.icon}
-            alt={data.label}
-            style={{
-              width: '100%',
-              height: '100%',
-              transition: 'filter 0.3s ease',
+          <Box
+            sx={{
+              transition: 'filter 0.1s ease, transform 0.1s ease', // Added transition for rotation
               filter: isHovered
-                ? `drop-shadow(0px 0px 8px ${data.color})`
+                ? `drop-shadow(0px 0px 10px ${data.color})`
                 : 'drop-shadow(0px 5px 6px rgba(0, 0, 0, 0.25))',
             }}
-          />
+          >
+            <img
+              src={data.icon}
+              alt={data.label}
+              style={{
+                width: '100%',
+                height: '100%',
+                // transition: 'filter 0.3s ease, transform 0.3s ease', // Added transition for rotation
+                // filter: isHovered
+                //   ? `drop-shadow(0px 0px 10px ${data.color})`
+                //   : 'drop-shadow(0px 5px 6px rgba(0, 0, 0, 0.45))',
+                transform: getImageRotationStyle(), // Apply rotation to the image
+              }}
+            />
+          </Box>
+
           <Iconify
             id="errorInNode"
             width={24}
@@ -65,7 +81,6 @@ const CustomNode = ({ data, isHorizontal }) => {
               border: '2px solid #F3F7FA',
               borderRadius: '50%',
             }}
-            // icon={"bi:exclamation"}
             icon={data.errorIcon}
           />
           <Iconify
@@ -81,11 +96,7 @@ const CustomNode = ({ data, isHorizontal }) => {
               borderRadius: '50%',
             }}
             icon={data.triggerIcon}
-
-            // icon="ic:baseline-bolt"
           />
-          {/* Use HoverButton component, visible only on hover */}
-
           {isHovered && (
             <HoverButton
               isHorizontal={isHorizontal}
@@ -153,7 +164,7 @@ const CustomNode = ({ data, isHorizontal }) => {
           <div
             style={{
               fontFamily: 'Public Sans',
-              fontSize: 11, //  changed from 10 to 11
+              fontSize: 11,
               color: '#556370',
             }}
           >
