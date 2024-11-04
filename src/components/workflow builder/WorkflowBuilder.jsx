@@ -38,28 +38,71 @@ const defaultEdgeOptions = {
 // Updated Dagre Layout
 const getDagreLayout = (nodes, edges, direction = 'TB') => {
   const g = new dagre.graphlib.Graph();
-  const nodeSpacing = direction === 'LR' ? 140 : 140;
-  const rankSpacing = direction === 'LR' ? 50 : 100;
-  g.setGraph({
-    rankdir: direction,
-    nodesep: nodeSpacing,
-    ranksep: rankSpacing,
-  });
-  g.setDefaultEdgeLabel(() => ({}));
-  nodes.forEach((node) => g.setNode(node.id, { width: 100, height: 50 }));
-  edges.forEach((edge) => g.setEdge(edge.source, edge.target));
-  dagre.layout(g);
-  const newNodes = nodes.map((node) => {
-    const dagreNode = g.node(node.id);
-    return {
-      ...node,
-      position: {
-        x: dagreNode.x + Math.random() * 0.1,
-        y: dagreNode.y + Math.random() * 0.1,
-      },
-    };
-  });
-  return { nodes: newNodes, edges };
+  const baseNodeSpacing  = direction === 'LR' ? 240 : 240;
+  const baseRankSpacing  = direction === 'LR' ? 50 : 100;
+ // Custom spacing for nodes with multiple targets
+ const multipleTargetsNodeSpacing = direction === 'LR' ? 200 : 200; // Adjust for direction
+ const multipleTargetsRankSpacing = direction === 'LR' ? 150 : 120;  // Adjust for direction
+
+ // Create a map to count the number of targets for each source node
+ const targetCounts = edges.reduce((acc, edge) => {
+   acc[edge.source] = (acc[edge.source] || 0) + 1;
+   return acc;
+ }, {});
+
+ // Set the graph properties
+ g.setGraph({
+   rankdir: direction,
+   nodesep: baseNodeSpacing, // Set default node spacing
+   ranksep: baseRankSpacing,  // Set default rank spacing
+ });
+
+ g.setDefaultEdgeLabel(() => ({}));
+
+ // Set nodes with their default dimensions
+ nodes.forEach((node) => {
+   g.setNode(node.id, { width: 100, height: 50 });
+ });
+
+ // Define edges
+ edges.forEach((edge) => {
+   g.setEdge(edge.source, edge.target);
+ });
+
+ // Perform layout calculation
+ dagre.layout(g);
+
+ // Adjust node positions based on the calculated layout
+ const newNodes = nodes.map((node) => {
+   const dagreNode = g.node(node.id);
+   return {
+     ...node,
+     position: {
+       x: dagreNode.x + Math.random() * 0.1, // Adding slight randomness
+       y: dagreNode.y + Math.random() * 0.1,
+     },
+   };
+ });
+
+ // Create new edges while modifying spacing based on target counts
+ const newEdges = edges.map(edge => {
+   const numTargets = targetCounts[edge.source] || 1; // Get the number of targets for the source node
+   
+   // Check if the source node has multiple targets and adjust spacing accordingly
+   if (numTargets > 1) {
+     g.setGraph({
+       nodesep: multipleTargetsNodeSpacing, // Set new spacing for nodes with multiple targets
+       ranksep: multipleTargetsRankSpacing,  // Set new rank spacing for nodes with multiple targets
+     });
+   }
+
+   return {
+     ...edge,
+     // You can also define custom styles for edges here if necessary
+   };
+ });
+
+ return { nodes: newNodes, edges: newEdges };
 };
 
 // Updated generateGradients function
