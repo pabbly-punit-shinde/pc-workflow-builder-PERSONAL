@@ -24,7 +24,7 @@ const iconStyle = {
 
 const ButtonsPanel = ({ onLayout, setEdgeType, fitView }) => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-    <Tooltip title="Verticle layout (Top to Bottom)" arrow placement="top" disableInteractive>
+    <Tooltip title="Verticle layout (Top to Bottom) Double click to auto align in verticle layout" arrow placement="top" disableInteractive>
       <button
         type="button"
         style={buttonStyle}
@@ -40,7 +40,7 @@ const ButtonsPanel = ({ onLayout, setEdgeType, fitView }) => (
         />
       </button>
     </Tooltip>
-    <Tooltip title="Horizontal layout (Left to Right)" arrow placement="top" disableInteractive>
+    <Tooltip title="Horizontal layout (Left to Right) Double click to auto align in horizontal layout" arrow placement="top" disableInteractive>
       <button
         type="button"
         style={buttonStyle}

@@ -372,7 +372,7 @@ export default function WorkflowNameHeader() {
             <Iconify
               width={20}
               color={popover.open ? 'inherit' : 'default'}
-              onClick={popover.onOpen}
+              // onClick={popover.onOpen}
               icon="gg:notes"
               sx={{
                 // width: 40,
