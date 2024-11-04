@@ -2,7 +2,11 @@
 import { Handle } from '@xyflow/react';
 import React, { useState } from 'react';
 
+import { Iconify } from 'src/components/iconify';
+
 import HoverButton from '../partials/HoverButton'; // Import the HoverButton component
+// import { position } from 'stylis';
+// import { borderRadius } from '@mui/system';
 
 const CustomNode = ({ data, isHorizontal }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -33,6 +37,7 @@ const CustomNode = ({ data, isHorizontal }) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            // backgroundColor: 'red',
           }}
         >
           <img
@@ -47,7 +52,38 @@ const CustomNode = ({ data, isHorizontal }) => {
                 : 'drop-shadow(0px 5px 6px rgba(0, 0, 0, 0.25))',
             }}
           />
+          <Iconify
+            id="errorInNode"
+            width={24}
+            backgroundColor="red"
+            onClick={() => alert('This will show the errors.')}
+            sx={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              color: 'white',
+              border: '2px solid #F3F7FA',
+              borderRadius: '50%',
+            }}
+            // icon={"bi:exclamation"}
+            icon={data.errorIcon}
+          />
+          <Iconify
+            id="trigger icon"
+            width={24}
+            backgroundColor={data.color}
+            sx={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              color: 'white',
+              border: '2px solid #F3F7FA',
+              borderRadius: '50%',
+            }}
+            icon={data.triggerIcon}
 
+            // icon="ic:baseline-bolt"
+          />
           {/* Use HoverButton component, visible only on hover */}
 
           {isHovered && (

@@ -8,6 +8,7 @@ const initialNodes = [
       label: "Jotform",
       subtext: "New Response",
       icon: "/assets/images/reactflow/Jotform.svg",
+      triggerIcon: "ic:baseline-bolt",
     },
     position: { x: 0, y: 0 },
   },
@@ -19,6 +20,7 @@ const initialNodes = [
       label: "Google Docs",
       subtext: "Append Text to Doc...",
       icon: "/assets/images/reactflow/docs.svg",
+      errorIcon:"bi:exclamation",
     },
     position: { x: 200, y: 0 }, // Adjusted position
   },
@@ -52,6 +54,8 @@ const initialNodes = [
       label: "Gmail",
       subtext: "Incoming Messages",
       icon: "/assets/images/reactflow/mail.svg",
+      errorIcon:"bi:exclamation",
+
     },
     position: { x: 800, y: 0 }, // Adjusted position
   },
@@ -74,6 +78,7 @@ const initialNodes = [
       label: "Router (Pabbly)",
       subtext: "Split Into Routes",
       icon: "/assets/images/reactflow/router.svg",
+
     },
     position: { x: 1200, y: 0 }, // Adjusted position
   },
@@ -96,6 +101,8 @@ const initialNodes = [
       label: "Router (Pabbly)",
       subtext: "Split Into Routes",
       icon: "/assets/images/reactflow/router.svg",
+      errorIcon:"bi:exclamation",
+
     },
     position: { x: 1600, y: 0 }, // Adjusted position
   },
@@ -107,6 +114,8 @@ const initialNodes = [
       label: "MySql",
       subtext: "Add New Row",
       icon: "/assets/images/reactflow/mysql.svg",
+      errorIcon:"bi:exclamation",
+
     },
     position: { x: 1800, y: 0 }, // Adjusted position
   },
@@ -118,6 +127,8 @@ const initialNodes = [
       label: "Google Sheets",
       subtext: "Append Text to Doc...",
       icon: "/assets/images/reactflow/sheets.svg",
+      errorIcon:"bi:exclamation",
+
     },
     position: { x: 2000, y: 0 }, // Adjusted position
   },
@@ -129,6 +140,8 @@ const initialNodes = [
       label: "Google Docs",
       subtext: "Append Text to Doc...",
       icon: "/assets/images/reactflow/docs.svg",
+      errorIcon:"bi:exclamation",
+
     },
     position: { x: 2200, y: 0 }, // Adjusted position
   },
