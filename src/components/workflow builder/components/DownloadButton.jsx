@@ -1,15 +1,13 @@
-import { toPng } from "html-to-image";
-import React, { useEffect } from "react";
-import {
-  useReactFlow,
-  getNodesBounds,
-  getViewportForBounds,
-} from "@xyflow/react";
+import { toPng } from 'html-to-image';
+import React, { useEffect } from 'react';
+import { useReactFlow, getNodesBounds, getViewportForBounds } from '@xyflow/react';
+
+import { Tooltip } from '@mui/material';
 
 function downloadImage(dataUrl) {
-  const a = document.createElement("a");
-  a.setAttribute("download", "Pabbly-Connect-Workflow.png");
-  a.setAttribute("href", dataUrl);
+  const a = document.createElement('a');
+  a.setAttribute('download', 'Pabbly-Connect-Workflow.png');
+  a.setAttribute('href', dataUrl);
   a.click();
 }
 
@@ -21,10 +19,10 @@ function DownloadButton() {
     document.fonts
       .load('1em "Public Sans"')
       .then(() => {
-        console.log("Font loaded");
+        console.log('Font loaded');
       })
       .catch(() => {
-        console.log("Font loading failed");
+        console.log('Font loading failed');
       });
   };
 
@@ -42,38 +40,40 @@ function DownloadButton() {
       2
     );
 
-    toPng(document.querySelector(".react-flow__viewport"), {
-      backgroundColor: "#F3F7FA",
+    toPng(document.querySelector('.react-flow__viewport'), {
+      backgroundColor: '#F3F7FA',
       width: window.innerWidth,
       height: window.innerHeight,
       style: {
         width: window.innerWidth,
         height: window.innerHeight,
         transform: `translate(${viewport.x}px, ${viewport.y}px) scale(${viewport.zoom})`,
-        fontFamily: "Public Sans, sans-serif", // Ensure font family here
+        fontFamily: 'Public Sans, sans-serif', // Ensure font family here
       },
     }).then(downloadImage);
   };
 
   return (
-    <button
-    type="button"
-      style={{
-        width: "30px",
-        height: "30px",
-        backgroundColor: "transparent",
-        border: "none",
-        cursor: "pointer",
-      }}
-      className="download-btn"
-      onClick={onClick}
-    >
-      <img
-        src="/assets/images/reactflow/icons/image-download.svg"
-        style={{ width: "30px" }}
-        alt="Download Snap"
-      />
-    </button>
+    <Tooltip title="Take Snapshot" arrow placement="top" disableInteractive>
+      <button
+        type="button"
+        style={{
+          width: '30px',
+          height: '30px',
+          backgroundColor: 'transparent',
+          border: 'none',
+          cursor: 'pointer',
+        }}
+        className="download-btn"
+        onClick={onClick}
+      >
+        <img
+          src="/assets/images/reactflow/icons/image-download.svg"
+          style={{ width: '30px' }}
+          alt="Download Snap"
+        />
+      </button>
+    </Tooltip>
   );
 }
 
