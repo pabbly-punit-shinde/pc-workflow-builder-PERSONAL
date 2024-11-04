@@ -38,11 +38,11 @@ const defaultEdgeOptions = {
 // Updated Dagre Layout
 const getDagreLayout = (nodes, edges, direction = 'TB') => {
   const g = new dagre.graphlib.Graph();
-  const baseNodeSpacing  = direction === 'LR' ? 240 : 240;
-  const baseRankSpacing  = direction === 'LR' ? 50 : 100;
+  const baseNodeSpacing  = direction === 'LR' ? 180 : 200;
+  const baseRankSpacing  = direction === 'LR' ? 60 : 100;
  // Custom spacing for nodes with multiple targets
- const multipleTargetsNodeSpacing = direction === 'LR' ? 200 : 200; // Adjust for direction
- const multipleTargetsRankSpacing = direction === 'LR' ? 150 : 120;  // Adjust for direction
+ const multipleTargetsNodeSpacing = direction === 'LR' ? 180 : 200; // Adjust for direction
+ const multipleTargetsRankSpacing = direction === 'LR' ? 120 : 200;  // Adjust for direction
 
  // Create a map to count the number of targets for each source node
  const targetCounts = edges.reduce((acc, edge) => {

@@ -106,7 +106,7 @@ export default function WorkflowNameHeader() {
         gap: '10px',
         backgroundColor: '#FFFFFF',
         width: '300px',
-        padding:'1px',
+        padding: '1px',
         borderRadius: '4px',
         boxShadow: '0 2px 4px rgba(84, 95, 111, .16), 0 0 1px rgba(37, 45, 91, .04)',
       }}
@@ -340,6 +340,8 @@ export default function WorkflowNameHeader() {
         </Box>
         <Box
           sx={{
+            // bgcolor:'red',
+            pl: 3,
             width: '50%',
             display: 'flex',
             flexDirection: 'row',
@@ -366,8 +368,26 @@ export default function WorkflowNameHeader() {
               }}
             />
           </Tooltip>
-          <Iconify icon="gg:notes" width={20} color="#1C252E" />
-          <FormControlLabel control={<Switch name="normal" />} />
+          <Tooltip title="Add Note" arrow placement="top" disableInteractive>
+            <Iconify
+              width={20}
+              color={popover.open ? 'inherit' : 'default'}
+              onClick={popover.onOpen}
+              icon="gg:notes"
+              sx={{
+                // width: 40,
+                // height: 20,
+                cursor: 'pointer',
+                color: popover.open ? 'inherit' : 'inherit',
+                '&:hover': {
+                  color: '#1C252E',
+                },
+              }}
+            />
+          </Tooltip>
+          <Tooltip title="Toggle workflow active or inactive" arrow placement="top" disableInteractive>
+            <FormControlLabel control={<Switch name="normal" />} />
+          </Tooltip>
         </Box>
       </Box>
       <Snackbar
