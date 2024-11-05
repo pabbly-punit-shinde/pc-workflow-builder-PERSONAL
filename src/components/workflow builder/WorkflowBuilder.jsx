@@ -1,7 +1,7 @@
 import '@xyflow/react/dist/style.css';
 
 import dagre from 'dagre';
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef,useMemo, useState, useEffect,  useCallback, } from 'react';
 import {
   Panel,
   MiniMap,
@@ -34,10 +34,10 @@ const defaultEdgeOptions = {
   pathOptions: { offset: 5 },
 };
 
-// Define node types outside the component to avoid unnecessary re-renders
-const nodeTypes = {
-  custom: (props) => <CustomNode {...props} isHorizontal={props.isHorizontal} />,
-};
+// HOC to inject isHorizontal into CustomNode
+const withIsHorizontal = (isHorizontal) => (props) => (
+  <CustomNode {...props} isHorizontal={isHorizontal} />
+);
 
 // Updated Dagre Layout
 const getDagreLayout = (nodes, edges, direction = 'TB') => {
@@ -148,6 +148,11 @@ function LayoutFlow() {
   const [isInitialLayoutSet, setIsInitialLayoutSet] = useState(false);
   const [menu, setMenu] = useState(null);
   const ref = useRef(null);
+
+  // Memoize nodeTypes so it updates when isHorizontal changes
+  const nodeTypes = useMemo(() => ({
+    custom: withIsHorizontal(isHorizontal),
+  }), [isHorizontal]);
 
   const onConnect = useCallback(
     (params) => {
@@ -260,17 +265,17 @@ function LayoutFlow() {
             boxShadow: '0 2px 4px rgba(84, 95, 111, .16), 0 0 1px rgba(37, 45, 91, .04)',
           }}
           nodeTypes={nodeTypes}
-          nodeColor={(node) => node.data.color || '#F3F7FA'}
         />
-
-        {menu && <ContextMenu onClose={onPaneClick} {...menu} />}
       </ReactFlow>
+      {menu && <ContextMenu menu={menu} />}
     </div>
   );
 }
 
-export default () => (
-  <ReactFlowProvider>
-    <LayoutFlow />
-  </ReactFlowProvider>
-);
+export default function App() {
+  return (
+    <ReactFlowProvider>
+      <LayoutFlow />
+    </ReactFlowProvider>
+  );
+}
