@@ -28,10 +28,15 @@ const proOptions = {
   hideAttribution: true,
 };
 
-// Define default edge options without specifying markerEnd color directly
+// Define default edge options
 const defaultEdgeOptions = {
   type: 'smoothstep',
   pathOptions: { offset: 5 },
+};
+
+// Define node types outside the component to avoid unnecessary re-renders
+const nodeTypes = {
+  custom: (props) => <CustomNode {...props} isHorizontal={props.isHorizontal} />,
 };
 
 // Updated Dagre Layout
@@ -141,7 +146,7 @@ function LayoutFlow() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isAnimated, setIsAnimated] = useState(false);
   const [isInitialLayoutSet, setIsInitialLayoutSet] = useState(false);
-  const [menu, setMenu] = useState(null); // State for context menu
+  const [menu, setMenu] = useState(null);
   const ref = useRef(null);
 
   const onConnect = useCallback(
@@ -193,10 +198,6 @@ function LayoutFlow() {
     });
   };
 
-  const nodeTypes = {
-    custom: (props) => <CustomNode {...props} isHorizontal={isHorizontal} />,
-  };
-
   const gradients = generateGradients(nodes, edges, isHorizontal ? 'LR' : 'TB');
 
   const handleEdgeTypeChange = (newEdgeType) => {
@@ -204,7 +205,6 @@ function LayoutFlow() {
     updateEdgesWithTypeAndAnimation(newEdgeType, isAnimated);
   };
 
-  // Handle right-click on node to open context menu
   const onNodeContextMenu = useCallback((event, node) => {
     event.preventDefault();
     const pane = ref.current.getBoundingClientRect();
@@ -217,7 +217,6 @@ function LayoutFlow() {
     });
   }, []);
 
-  // Close the context menu when clicking outside
   const onPaneClick = useCallback(() => setMenu(null), []);
 
   return (
