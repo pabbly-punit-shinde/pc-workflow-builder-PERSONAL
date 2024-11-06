@@ -1,7 +1,6 @@
 import '@xyflow/react/dist/style.css';
-
 import dagre from 'dagre';
-import React, { useRef,useMemo, useState, useEffect,  useCallback, } from 'react';
+import React, { useRef, useMemo, useState, useEffect, useCallback } from 'react';
 import {
   Panel,
   MiniMap,
@@ -16,30 +15,18 @@ import {
 } from '@xyflow/react';
 
 import WorkflowNameHeader from 'src/components/workflow builder/components/workflow-name-header';
-
 import Drawer from './components/Drawer';
 import CustomNode from './components/CustomNodes';
 import ContextMenu from './components/ContextMenu';
 import { initialNodes, initialEdges } from './nodes-edges';
 
-// Define pro options
-const proOptions = {
-  account: 'paid-pro',
-  hideAttribution: true,
-};
+const proOptions = { account: 'paid-pro', hideAttribution: true };
+const defaultEdgeOptions = { type: 'smoothstep', pathOptions: { offset: 5 } };
 
-// Define default edge options
-const defaultEdgeOptions = {
-  type: 'smoothstep',
-  pathOptions: { offset: 5 },
-};
-
-// HOC to inject isHorizontal into CustomNode
 const withIsHorizontal = (isHorizontal) => (props) => (
   <CustomNode {...props} isHorizontal={isHorizontal} />
 );
 
-// Updated Dagre Layout
 const getDagreLayout = (nodes, edges, direction = 'TB') => {
   const g = new dagre.graphlib.Graph();
   const baseNodeSpacing = direction === 'LR' ? 180 : 200;
@@ -78,25 +65,9 @@ const getDagreLayout = (nodes, edges, direction = 'TB') => {
     };
   });
 
-  const newEdges = edges.map((edge) => {
-    const numTargets = targetCounts[edge.source] || 1;
-
-    if (numTargets > 1) {
-      g.setGraph({
-        nodesep: direction === 'LR' ? 180 : 200,
-        ranksep: direction === 'LR' ? 120 : 200,
-      });
-    }
-
-    return {
-      ...edge,
-    };
-  });
-
-  return { nodes: newNodes, edges: newEdges };
+  return { nodes: newNodes, edges };
 };
 
-// Updated generateGradients function
 const generateGradients = (nodes, edges, direction) => {
   const gradients = [];
   edges.forEach((edge, index) => {
@@ -149,7 +120,6 @@ function LayoutFlow() {
   const [menu, setMenu] = useState(null);
   const ref = useRef(null);
 
-  // Memoize nodeTypes so it updates when isHorizontal changes
   const nodeTypes = useMemo(() => ({
     custom: withIsHorizontal(isHorizontal),
   }), [isHorizontal]);
@@ -212,13 +182,10 @@ function LayoutFlow() {
 
   const onNodeContextMenu = useCallback((event, node) => {
     event.preventDefault();
-    const pane = ref.current.getBoundingClientRect();
     setMenu({
       id: node.id,
-      top: event.clientY < pane.height - 10 ? event.clientY : null,
-      left: event.clientX < pane.width - 10 ? event.clientX : null,
-      right: event.clientX >= pane.width - 10 ? pane.width - event.clientX : null,
-      bottom: event.clientY >= pane.height - 10 ? pane.height - event.clientY : null,
+      top: event.clientY,
+      left: event.clientX,
     });
   }, []);
 
@@ -267,7 +234,14 @@ function LayoutFlow() {
           nodeTypes={nodeTypes}
         />
       </ReactFlow>
-      {menu && <ContextMenu menu={menu} />}
+      {menu && (
+        <ContextMenu
+          id={menu.id}
+          top={menu.top || 0}
+          left={menu.left || 0}
+          onClose={() => setMenu(null)}
+        />
+      )}
     </div>
   );
 }
