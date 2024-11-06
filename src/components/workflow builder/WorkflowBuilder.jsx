@@ -1,4 +1,5 @@
 import '@xyflow/react/dist/style.css';
+
 import dagre from 'dagre';
 import React, { useRef, useMemo, useState, useEffect, useCallback } from 'react';
 import {
@@ -15,6 +16,7 @@ import {
 } from '@xyflow/react';
 
 import WorkflowNameHeader from 'src/components/workflow builder/components/workflow-name-header';
+
 import Drawer from './components/Drawer';
 import CustomNode from './components/CustomNodes';
 import ContextMenu from './components/ContextMenu';
@@ -98,11 +100,13 @@ const generateGradients = (nodes, edges, direction) => {
       strokeWidth: 2,
       stroke: `url(#${gradientId})`,
       opacity: 0.75,
+      className: 'non-selectable',
     };
     edge.markerEnd = {
       type: MarkerType.ArrowClosed,
       color: targetNode.data.color,
       opacity: 0.75,
+      className: 'non-selectable',
     };
   });
   return gradients;
@@ -120,9 +124,12 @@ function LayoutFlow() {
   const [menu, setMenu] = useState(null);
   const ref = useRef(null);
 
-  const nodeTypes = useMemo(() => ({
-    custom: withIsHorizontal(isHorizontal),
-  }), [isHorizontal]);
+  const nodeTypes = useMemo(
+    () => ({
+      custom: withIsHorizontal(isHorizontal),
+    }),
+    [isHorizontal]
+  );
 
   const onConnect = useCallback(
     (params) => {
@@ -232,6 +239,7 @@ function LayoutFlow() {
             boxShadow: '0 2px 4px rgba(84, 95, 111, .16), 0 0 1px rgba(37, 45, 91, .04)',
           }}
           nodeTypes={nodeTypes}
+          nodeColor={(node) => node.data.color || '#555'}
         />
       </ReactFlow>
       {menu && (

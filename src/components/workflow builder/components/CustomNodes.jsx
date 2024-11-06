@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 
-import HoverButton from '../partials/HoverButton'; // Import the HoverButton component
+// import HoverButton from '../partials/HoverButton'; // Import the HoverButton component
 // import { position } from 'stylis';
 // import { borderRadius } from '@mui/system';
 
@@ -38,8 +38,8 @@ const CustomNode = ({ data, isHorizontal }) => {
       >
         <div
           style={{
-            width: 85,
-            height: 85,
+            width: 100,
+            height: 100,
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -97,13 +97,13 @@ const CustomNode = ({ data, isHorizontal }) => {
             }}
             icon={data.triggerIcon}
           />
-          {isHovered && (
+          {/* {isHovered && (
             <HoverButton
               isHorizontal={isHorizontal}
               color={data.color}
               onClick={() => alert('New node will be added when clicked.')}
             />
-          )}
+          )} */}
         </div>
 
         {/* Source Handle */}
@@ -111,13 +111,14 @@ const CustomNode = ({ data, isHorizontal }) => {
           type="source"
           position={isHorizontal ? 'right' : 'bottom'}
           style={{
-            width:20,
-            height:20,
-            background: `${data.color}`,
+            // width: 20,
+            // height: 20,
+            // background: `${data.color}`,
+            background: `transparent`,
             top: isHorizontal ? '50%' : '90%',
             left: isHorizontal ? '90%' : '50%',
             transform: isHorizontal ? 'translateY(-50%)' : 'translateX(-50%)',
-            // border: 'none',
+            border: 'none',
           }}
         />
 
@@ -126,13 +127,15 @@ const CustomNode = ({ data, isHorizontal }) => {
           type="target"
           position={isHorizontal ? 'left' : 'top'}
           style={{
-            width:20,
-            height:20,
-            background: `${data.color}`,
-            top: isHorizontal ? '50%' : -10,
-            left: isHorizontal ? -10 : '50%',
+            // width: 20,
+            // height: 20,
+            background: `transparent`,
+
+            // background: `${data.color}`,
+            top: isHorizontal ? '50%' : 0,
+            left: isHorizontal ? 0 : '50%',
             transform: isHorizontal ? 'translateY(-50%)' : 'translateX(-50%)',
-            // border: 'none',
+            border: 'none',
           }}
         />
       </div>

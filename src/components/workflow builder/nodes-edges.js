@@ -39,7 +39,8 @@ const initialNodes = [
     id: "4",
     type: "custom",
     data: {
-      color: "#74AA9C",
+      // color: "#74AA9C",
+      color: "#00A67E",
       label: "Chat Gpt",
       subtext: "Append Text to Doc...",
       icon: "/assets/images/reactflow/chatgpt.svg",
@@ -50,7 +51,8 @@ const initialNodes = [
     id: "5",
     type: "custom",
     data: {
-      color: "#C75E56",
+      // color: "#C75E56",
+      color: "#D44638",
       label: "Gmail",
       subtext: "Incoming Messages",
       icon: "/assets/images/reactflow/mail.svg",
