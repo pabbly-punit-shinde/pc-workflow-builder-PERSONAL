@@ -111,11 +111,13 @@ const CustomNode = ({ data, isHorizontal }) => {
           type="source"
           position={isHorizontal ? 'right' : 'bottom'}
           style={{
-            background: 'transparent',
+            width:20,
+            height:20,
+            background: `${data.color}`,
             top: isHorizontal ? '50%' : '90%',
             left: isHorizontal ? '90%' : '50%',
             transform: isHorizontal ? 'translateY(-50%)' : 'translateX(-50%)',
-            border: 'none',
+            // border: 'none',
           }}
         />
 
@@ -124,11 +126,13 @@ const CustomNode = ({ data, isHorizontal }) => {
           type="target"
           position={isHorizontal ? 'left' : 'top'}
           style={{
-            background: 'transparent',
-            top: isHorizontal ? '50%' : 0,
-            left: isHorizontal ? 0 : '50%',
+            width:20,
+            height:20,
+            background: `${data.color}`,
+            top: isHorizontal ? '50%' : -10,
+            left: isHorizontal ? -10 : '50%',
             transform: isHorizontal ? 'translateY(-50%)' : 'translateX(-50%)',
-            border: 'none',
+            // border: 'none',
           }}
         />
       </div>
