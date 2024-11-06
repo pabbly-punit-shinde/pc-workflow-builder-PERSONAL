@@ -15,6 +15,8 @@ import {
   ReactFlowProvider,
 } from '@xyflow/react';
 
+import { Box } from '@mui/material';
+
 import WorkflowNameHeader from 'src/components/workflow builder/components/workflow-name-header';
 
 import Drawer from './components/Drawer';
@@ -122,6 +124,7 @@ function LayoutFlow() {
   const [isAnimated, setIsAnimated] = useState(false);
   const [isInitialLayoutSet, setIsInitialLayoutSet] = useState(false);
   const [menu, setMenu] = useState(null);
+  const [isMiniMapVisible, setIsMiniMapVisible] = useState(false); // New state for MiniMap visibility
   const ref = useRef(null);
 
   const nodeTypes = useMemo(
@@ -180,6 +183,10 @@ function LayoutFlow() {
     });
   };
 
+  const toggleMinimap = () => {
+    setIsMiniMapVisible((prev) => !prev);
+  };
+
   const gradients = generateGradients(nodes, edges, isHorizontal ? 'LR' : 'TB');
 
   const handleEdgeTypeChange = (newEdgeType) => {
@@ -199,7 +206,7 @@ function LayoutFlow() {
   const onPaneClick = useCallback(() => setMenu(null), []);
 
   return (
-    <div style={{ width: '95vw', height: '92vh' }}>
+    <div style={{ display: 'flex', height: '92vh' }}>
       <ReactFlow
         ref={ref}
         nodes={nodes}
@@ -214,33 +221,37 @@ function LayoutFlow() {
         draggable
         defaultEdgeOptions={defaultEdgeOptions}
         proOptions={proOptions}
+        style={{ flex: 1 }}
       >
         <svg width="0" height="0">
           <defs>{gradients}</defs>
         </svg>
         <Panel position="top-left">
-          <WorkflowNameHeader />
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <WorkflowNameHeader />
+            <Drawer
+              isDrawerOpen={isDrawerOpen}
+              setIsDrawerOpen={setIsDrawerOpen}
+              onLayout={onLayout}
+              setEdgeType={handleEdgeTypeChange}
+              toggleAnimation={toggleAnimation}
+              fitView={fitView}
+              toggleMinimap={toggleMinimap} // Pass the toggleMinimap function
+            />
+          </Box>
         </Panel>
-        <Panel position="top-right">
-          <Drawer
-            isDrawerOpen={isDrawerOpen}
-            setIsDrawerOpen={setIsDrawerOpen}
-            onLayout={onLayout}
-            setEdgeType={handleEdgeTypeChange}
-            toggleAnimation={toggleAnimation}
-            fitView={fitView}
-          />
-        </Panel>
-
         <Controls />
-        <MiniMap
-          style={{
-            borderRadius: '0 0 4px 4px',
-            boxShadow: '0 2px 4px rgba(84, 95, 111, .16), 0 0 1px rgba(37, 45, 91, .04)',
-          }}
-          nodeTypes={nodeTypes}
-          nodeColor={(node) => node.data.color || '#555'}
-        />
+        {isMiniMapVisible && (
+          <MiniMap
+            style={{
+              borderRadius: '0 0 4px 4px',
+              boxShadow:
+                '0 2px 4px rgba(84, 95, 111, .16), 0 0 1px rgba(37, 45, 91, .04)',
+            }}
+            nodeTypes={nodeTypes}
+            nodeColor={(node) => node.data.color || '#555'}
+          />
+        )}
       </ReactFlow>
       {menu && (
         <ContextMenu

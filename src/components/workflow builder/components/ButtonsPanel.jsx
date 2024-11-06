@@ -22,9 +22,9 @@ const iconStyle = {
   height: '100%',
 };
 
-const ButtonsPanel = ({ onLayout, setEdgeType, fitView }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-    <Tooltip title="Verticle layout (Top to Bottom) Double click to auto align in verticle layout" arrow placement="top" disableInteractive>
+const ButtonsPanel = ({ onLayout, setEdgeType, fitView, toggleAnimation, toggleMinimap }) => (
+  <div style={{ display: 'flex', flexDirection: 'row', gap: 5 }}>
+    <Tooltip title="Vertical layout (Top to Bottom) Double click to auto align in vertical layout" arrow placement="top" disableInteractive>
       <button
         type="button"
         style={buttonStyle}
@@ -57,7 +57,8 @@ const ButtonsPanel = ({ onLayout, setEdgeType, fitView }) => (
       </button>
     </Tooltip>
 
-    <div style={{ height: '1px', backgroundColor: '#D3D3D3', margin: '5px 0' }} />
+    <div style={{ width: '1px', backgroundColor: '#D3D3D3', margin: '5px 0' }} />
+    
     <Tooltip title="Straight Edges" arrow placement="top" disableInteractive>
       <button type="button" style={buttonStyle} onClick={() => setEdgeType('straight')}>
         <img
@@ -93,10 +94,39 @@ const ButtonsPanel = ({ onLayout, setEdgeType, fitView }) => (
       </button>
     </Tooltip>
 
-    <div style={{ height: '1px', backgroundColor: '#D3D3D3', margin: '5px 0' }} />
-    
-      <DownloadButton />
-   
+    <div style={{ width: '1px', backgroundColor: '#D3D3D3', margin: '5px 0' }} />
+
+    {/* Button to toggle edge animation */}
+    <Tooltip title="Toggle edges animation" arrow placement="top" disableInteractive>
+      <button
+        type="button"
+        onClick={toggleAnimation}
+        style={buttonStyle}
+      >
+        <img
+          src="/assets/images/reactflow/icons/animate.svg" // Replace with your animation icon
+          style={iconStyle}
+          alt="Toggle Animation"
+        />
+      </button>
+    </Tooltip>
+
+    {/* Button to toggle minimap visibility */}
+    <Tooltip title="Toggle Minimap" arrow placement="top" disableInteractive>
+      <button
+        type="button"
+        onClick={toggleMinimap}
+        style={buttonStyle}
+      >
+        <img
+          src="/assets/images/reactflow/icons/mini-map.svg" // Replace with your minimap icon
+          style={iconStyle}
+          alt="Toggle Minimap"
+        />
+      </button>
+    </Tooltip>
+
+    <DownloadButton />
   </div>
 );
 

@@ -127,8 +127,8 @@ const CustomNode = ({ data, isHorizontal }) => {
           type="target"
           position={isHorizontal ? 'left' : 'top'}
           style={{
-            // width: 20,
-            // height: 20,
+            width: 10,
+            height: 10,
             background: `transparent`,
 
             // background: `${data.color}`,
