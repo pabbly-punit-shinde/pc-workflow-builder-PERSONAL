@@ -1,7 +1,9 @@
-import { Paper, Divider, MenuList, MenuItem, Typography } from '@mui/material';
-import { Iconify } from 'src/components/iconify';
-import React, { useState, useEffect, useCallback } from 'react';
 import { useReactFlow } from '@xyflow/react';
+import React, { useState, useEffect, useCallback } from 'react';
+
+import { Paper, Divider, MenuList, MenuItem, Typography } from '@mui/material';
+
+import { Iconify } from 'src/components/iconify';
 
 export default function ContextMenu({ id, top, left, onClose }) {
   const { getNode, setNodes, addNodes, setEdges } = useReactFlow();

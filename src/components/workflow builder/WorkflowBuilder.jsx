@@ -247,7 +247,12 @@ function LayoutFlow() {
           <defs>{gradients}</defs>
         </svg>
         <Panel position="top-left">
-          <Box sx={{ display: 'flex', gap: 1 }}>
+          <Box 
+          // sx={{ display: 'flex', gap: 1 }}
+          display='flex'
+          flexDirection={{xs:"column",md:'row'}}
+          gap="5px"
+          >
             <WorkflowNameHeader />
             <Drawer
               isDrawerOpen={isDrawerOpen}
