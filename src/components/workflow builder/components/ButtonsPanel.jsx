@@ -89,7 +89,7 @@ const ButtonsPanel = ({ onLayout, setEdgeType, fitView, toggleAnimation, toggleM
     </Tooltip>
 
     <Tooltip title="Bezier Edges" arrow placement="top" disableInteractive>
-      <button type="button" style={buttonStyle} onClick={() => setEdgeType('bezier')}>
+      <button type="button" style={buttonStyle} onClick={() => setEdgeType('simplebezier')}>
         <img src="/assets/images/reactflow/icons/bezier.svg" style={iconStyle} alt="Bezier Edges" />
       </button>
     </Tooltip>

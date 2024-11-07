@@ -8,11 +8,13 @@ import { Iconify } from 'src/components/iconify';
 export default function ContextMenu({ id, top, left, onClose }) {
   const { getNode, setNodes, addNodes, setEdges } = useReactFlow();
   const [nodeType, setNodeType] = useState(null);
+  const [label, setLabel] = useState(null);
 
   useEffect(() => {
     const node = getNode(id);
-    if (node && node.data && node.data.nodeType) {
+    if (node && node.data) {
       setNodeType(node.data.nodeType);
+      setLabel(node.data.label || node.data.nodeType);
     }
   }, [getNode, id]);
 
@@ -23,6 +25,10 @@ export default function ContextMenu({ id, top, left, onClose }) {
       ...node,
       id: `${node.id}-copy`,
       position,
+      data: {
+        ...node.data,
+        label: node.data.label || node.data.nodeType,
+      },
     };
     addNodes(newNode);
     onClose();
@@ -49,7 +55,7 @@ export default function ContextMenu({ id, top, left, onClose }) {
     >
       <MenuList>
         <Typography variant="caption" style={{ padding: '0.5em 1em', color: '#888' }}>
-          Node: {id}
+          Node: {id} - {label}
         </Typography>
 
         {/* Show options based on nodeType */}
@@ -69,7 +75,6 @@ export default function ContextMenu({ id, top, left, onClose }) {
               <Iconify icon="fa6-solid:clone" style={{ marginRight: '10px' }} />
               Clone Step
             </MenuItem>
-            
             <MenuItem>
               <Iconify icon="tabler:copy" style={{ marginRight: '10px' }} />
               Copy Step
@@ -106,7 +111,6 @@ export default function ContextMenu({ id, top, left, onClose }) {
               <Iconify icon="fa6-solid:clone" style={{ marginRight: '10px' }} />
               Clone Route
             </MenuItem>
-            {/* <Divider style={{ borderStyle: 'dashed' }} /> */}
           </>
         ) : (
           <Typography variant="body2" style={{ padding: '1em', color: '#888' }}>

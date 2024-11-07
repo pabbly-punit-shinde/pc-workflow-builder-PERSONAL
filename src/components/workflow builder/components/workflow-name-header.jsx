@@ -198,7 +198,8 @@ export default function WorkflowNameHeader() {
                     style: {
                       fontWeight: '600',
                       fontSize: '18px',
-                      width: `${textFieldWidth}px`,
+                      width: `150px`,
+                      // width: `${textFieldWidth}px`,
                       textAlign: 'left',
                       paddingLeft: '0',
                     },

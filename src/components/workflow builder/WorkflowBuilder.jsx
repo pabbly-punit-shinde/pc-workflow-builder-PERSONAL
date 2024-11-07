@@ -33,8 +33,8 @@ const withIsHorizontal = (isHorizontal) => (props) => (
 
 const getDagreLayout = (nodes, edges, direction = 'TB') => {
   const g = new dagre.graphlib.Graph();
-  const baseNodeSpacing = direction === 'LR' ? 180 : 200;
-  const baseRankSpacing = direction === 'LR' ? 60 : 100;
+  const baseNodeSpacing = direction === 'LR' ? 200 : 200;
+  const baseRankSpacing = direction === 'LR' ? 100 : 100;
 
   const targetCounts = edges.reduce((acc, edge) => {
     acc[edge.source] = (acc[edge.source] || 0) + 1;
@@ -99,12 +99,17 @@ const generateGradients = (nodes, edges, direction) => {
     );
 
     edge.style = {
+      selected: false,
+
+      selectable: false,
       strokeWidth: 2,
       stroke: `url(#${gradientId})`,
       opacity: 0.75,
       className: 'non-selectable',
     };
     edge.markerEnd = {
+      selected: false,
+      selectable: false,
       type: MarkerType.ArrowClosed,
       color: targetNode.data.color,
       opacity: 0.75,
@@ -245,8 +250,7 @@ function LayoutFlow() {
           <MiniMap
             style={{
               borderRadius: '0 0 4px 4px',
-              boxShadow:
-                '0 2px 4px rgba(84, 95, 111, .16), 0 0 1px rgba(37, 45, 91, .04)',
+              boxShadow: '0 2px 4px rgba(84, 95, 111, .16), 0 0 1px rgba(37, 45, 91, .04)',
             }}
             nodeTypes={nodeTypes}
             nodeColor={(node) => node.data.color || '#555'}
