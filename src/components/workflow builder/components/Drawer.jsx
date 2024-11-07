@@ -13,7 +13,7 @@ const Drawer = ({ isDrawerOpen, setIsDrawerOpen, onLayout, setEdgeType, toggleAn
       gap: '10px',
       backgroundColor: '#FFFFFF',
       padding: '5px',
-      width: isDrawerOpen ? 380 : '38px', // Drawer width when open and closed
+      width: isDrawerOpen ? 410 : '38px', // Drawer width when open and closed
       height: '100%', // Ensure it takes the full height
       borderRadius: '4px',
       boxShadow: '0 2px 4px rgba(84, 95, 111, .16), 0 0 1px rgba(37, 45, 91, .04)',
