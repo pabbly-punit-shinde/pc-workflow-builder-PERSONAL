@@ -115,7 +115,7 @@ const ButtonsPanel = ({
     <div style={{ width: '1px', backgroundColor: '#D3D3D3', margin: '5px 0' }} />
 
     {/* Button to toggle edge animation */}
-    <Tooltip title="Toggle edges animation" arrow placement="top" disableInteractive>
+    <Tooltip title="Toggle edges animation (Edges should be dashed)" arrow placement="top" disableInteractive>
       <button type="button" onClick={toggleAnimation} style={buttonStyle}>
         <img
           src="/assets/images/reactflow/icons/animate.svg" // Replace with your animation icon
