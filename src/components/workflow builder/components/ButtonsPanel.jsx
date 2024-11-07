@@ -22,9 +22,22 @@ const iconStyle = {
   height: '100%',
 };
 
-const ButtonsPanel = ({ onLayout, setEdgeType, fitView, toggleAnimation, toggleMinimap }) => (
+const ButtonsPanel = ({
+  onLayout,
+  setEdgeType,
+  fitView,
+  toggleAnimation,
+  toggleMinimap,
+  isDashed,
+  toggleDashStyle,
+}) => (
   <div style={{ display: 'flex', flexDirection: 'row', gap: 5 }}>
-    <Tooltip title="Vertical layout (Top to Bottom) Double click to auto align in vertical layout" arrow placement="top" disableInteractive>
+    <Tooltip
+      title="Vertical layout (Top to Bottom) Double click to auto align in vertical layout"
+      arrow
+      placement="top"
+      disableInteractive
+    >
       <button
         type="button"
         style={buttonStyle}
@@ -40,7 +53,12 @@ const ButtonsPanel = ({ onLayout, setEdgeType, fitView, toggleAnimation, toggleM
         />
       </button>
     </Tooltip>
-    <Tooltip title="Horizontal layout (Left to Right) Double click to auto align in horizontal layout" arrow placement="top" disableInteractive>
+    <Tooltip
+      title="Horizontal layout (Left to Right) Double click to auto align in horizontal layout"
+      arrow
+      placement="top"
+      disableInteractive
+    >
       <button
         type="button"
         style={buttonStyle}
@@ -58,7 +76,7 @@ const ButtonsPanel = ({ onLayout, setEdgeType, fitView, toggleAnimation, toggleM
     </Tooltip>
 
     <div style={{ width: '1px', backgroundColor: '#D3D3D3', margin: '5px 0' }} />
-    
+
     <Tooltip title="Straight Edges" arrow placement="top" disableInteractive>
       <button type="button" style={buttonStyle} onClick={() => setEdgeType('straight')}>
         <img
@@ -98,11 +116,7 @@ const ButtonsPanel = ({ onLayout, setEdgeType, fitView, toggleAnimation, toggleM
 
     {/* Button to toggle edge animation */}
     <Tooltip title="Toggle edges animation" arrow placement="top" disableInteractive>
-      <button
-        type="button"
-        onClick={toggleAnimation}
-        style={buttonStyle}
-      >
+      <button type="button" onClick={toggleAnimation} style={buttonStyle}>
         <img
           src="/assets/images/reactflow/icons/animate.svg" // Replace with your animation icon
           style={iconStyle}
@@ -113,11 +127,7 @@ const ButtonsPanel = ({ onLayout, setEdgeType, fitView, toggleAnimation, toggleM
 
     {/* Button to toggle minimap visibility */}
     <Tooltip title="Toggle Minimap" arrow placement="top" disableInteractive>
-      <button
-        type="button"
-        onClick={toggleMinimap}
-        style={buttonStyle}
-      >
+      <button type="button" onClick={toggleMinimap} style={buttonStyle}>
         <img
           src="/assets/images/reactflow/icons/mini-map.svg" // Replace with your minimap icon
           style={iconStyle}
@@ -126,6 +136,15 @@ const ButtonsPanel = ({ onLayout, setEdgeType, fitView, toggleAnimation, toggleM
       </button>
     </Tooltip>
 
+    <Tooltip title="Toggle Dashed Edges" arrow placement="top" disableInteractive>
+      <button type="button" onClick={toggleDashStyle} style={buttonStyle}>
+        <img
+          src="/assets/images/reactflow/icons/dashed.svg"
+          style={iconStyle}
+          alt="Toggle Dashed Edges"
+        />
+      </button>
+    </Tooltip>
     <DownloadButton />
   </div>
 );

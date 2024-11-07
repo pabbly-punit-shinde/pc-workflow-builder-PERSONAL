@@ -4,7 +4,8 @@ import { Tooltip } from '@mui/material';
 
 import ButtonsPanel from './ButtonsPanel'; // Import ButtonsPanel component
 
-const Drawer = ({ isDrawerOpen, setIsDrawerOpen, onLayout, setEdgeType, toggleAnimation, toggleMinimap, fitView }) => (
+const Drawer = ({ isDrawerOpen, setIsDrawerOpen, onLayout, setEdgeType, toggleAnimation, toggleMinimap, fitView, isDashed,
+  toggleDashStyle, }) => (
   <div
     style={{
       display: 'flex',
@@ -58,6 +59,8 @@ const Drawer = ({ isDrawerOpen, setIsDrawerOpen, onLayout, setEdgeType, toggleAn
           fitView={fitView}
           toggleAnimation={toggleAnimation}
           toggleMinimap={toggleMinimap}
+          isDashed={isDashed}           // Pass down isDashed state
+          toggleDashStyle={toggleDashStyle} // Pass down toggleDashStyle function
         />
       </div>
     )}

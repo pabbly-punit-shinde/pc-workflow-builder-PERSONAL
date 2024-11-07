@@ -72,7 +72,7 @@ const getDagreLayout = (nodes, edges, direction = 'TB') => {
   return { nodes: newNodes, edges };
 };
 
-const generateGradients = (nodes, edges) => {
+const generateGradients = (nodes, edges, isDashed) => {
   const gradients = [];
 
   edges.forEach((edge, index) => {
@@ -119,6 +119,7 @@ const generateGradients = (nodes, edges) => {
       stroke: `url(#${gradientId})`,
       strokeWidth: 2,
       opacity: 0.75,
+      strokeDasharray: isDashed ? '5,5' : '0',
     };
     edge.markerEnd = {
       type: MarkerType.ArrowClosed,
@@ -128,11 +129,6 @@ const generateGradients = (nodes, edges) => {
 
   return gradients;
 };
-
-
-
-
-
 
 function LayoutFlow() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -145,6 +141,7 @@ function LayoutFlow() {
   const [isInitialLayoutSet, setIsInitialLayoutSet] = useState(false);
   const [menu, setMenu] = useState(null);
   const [isMiniMapVisible, setIsMiniMapVisible] = useState(false); // New state for MiniMap visibility
+  const [isDashed, setIsDashed] = useState(false);
   const ref = useRef(null);
 
   const nodeTypes = useMemo(
@@ -199,15 +196,34 @@ function LayoutFlow() {
   const toggleAnimation = () => {
     setIsAnimated((prev) => {
       updateEdgesWithTypeAndAnimation(edgeType, !prev);
+      
       return !prev;
     });
   };
+
+   // Function to toggle dashed/solid stroke
+   const toggleDashStyle = () => {
+    setIsDashed((prev) => {
+      const newDashedState = !prev;
+      setEdges((eds) =>
+        eds.map((edge) => ({
+          ...edge,
+          style: {
+            ...edge.style,
+            strokeDasharray: newDashedState ? '5,5' : '0',
+          },
+        }))
+      );
+      return newDashedState;
+    });
+  };
+  
 
   const toggleMinimap = () => {
     setIsMiniMapVisible((prev) => !prev);
   };
 
-  const gradients = generateGradients(nodes, edges, isHorizontal ? 'LR' : 'TB');
+  const gradients = generateGradients(nodes, edges,isDashed, isHorizontal ? 'LR' : 'TB');
 
   const handleEdgeTypeChange = (newEdgeType) => {
     setEdgeType(newEdgeType);
@@ -262,6 +278,7 @@ function LayoutFlow() {
               toggleAnimation={toggleAnimation}
               fitView={fitView}
               toggleMinimap={toggleMinimap} // Pass the toggleMinimap function
+              toggleDashStyle={toggleDashStyle}
             />
           </Box>
         </Panel>
