@@ -72,17 +72,34 @@ const getDagreLayout = (nodes, edges, direction = 'TB') => {
   return { nodes: newNodes, edges };
 };
 
-const generateGradients = (nodes, edges, direction) => {
+const generateGradients = (nodes, edges) => {
   const gradients = [];
+
   edges.forEach((edge, index) => {
     const sourceNode = nodes.find((node) => node.id === edge.source);
     const targetNode = nodes.find((node) => node.id === edge.target);
     const gradientId = `gradient${index}`;
 
-    const gradientCoords =
-      direction === 'TB'
-        ? { x1: '0', y1: '0', x2: '0', y2: '1' }
-        : { x1: '0', y1: '0', x2: '1', y2: '0' };
+    // Calculate the angle of the line connecting source and target nodes
+    const dx = targetNode.position.x - sourceNode.position.x;
+    const dy = targetNode.position.y - sourceNode.position.y;
+
+    const absDx = Math.abs(dx);
+    const absDy = Math.abs(dy);
+
+    // Set gradient direction based on the dominant axis
+    let gradientCoords;
+    if (absDx > absDy) {
+      // Horizontal or near-horizontal line
+      gradientCoords = dx >= 0
+        ? { x1: '0', y1: '0', x2: '1', y2: '0' } // Left to right
+        : { x1: '1', y1: '0', x2: '0', y2: '0' }; // Right to left
+    } else {
+      // Vertical or near-vertical line
+      gradientCoords = dy >= 0
+        ? { x1: '0', y1: '0', x2: '0', y2: '1' } // Top to bottom
+        : { x1: '0', y1: '1', x2: '0', y2: '0' }; // Bottom to top
+    }
 
     gradients.push(
       <linearGradient
@@ -93,31 +110,29 @@ const generateGradients = (nodes, edges, direction) => {
         y2={gradientCoords.y2}
         key={index}
       >
-        <stop offset="10%" stopColor={sourceNode.data.color} />
+        <stop offset="0%" stopColor={sourceNode.data.color} />
         <stop offset="100%" stopColor={targetNode.data.color} />
       </linearGradient>
     );
 
     edge.style = {
-      selected: false,
-
-      selectable: false,
-      strokeWidth: 2,
       stroke: `url(#${gradientId})`,
+      strokeWidth: 2,
       opacity: 0.75,
-      className: 'non-selectable',
     };
     edge.markerEnd = {
-      selected: false,
-      selectable: false,
       type: MarkerType.ArrowClosed,
       color: targetNode.data.color,
-      opacity: 0.75,
-      className: 'non-selectable',
     };
   });
+
   return gradients;
 };
+
+
+
+
+
 
 function LayoutFlow() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
