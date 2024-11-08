@@ -99,7 +99,7 @@ export default function WorkflowNameHeader() {
 
   return (
     <Box
-      width={{ xs: '380px', md: '300px' }}
+      width={{ xs: '100%', md: '300px' }}
       paddingLeft={{xs:"20px", md:'10px'}}
       sx={{
         bgcolor: 'blue',

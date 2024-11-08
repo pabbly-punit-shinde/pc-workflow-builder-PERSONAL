@@ -300,6 +300,7 @@ function LayoutFlow() {
               fitView={fitView}
               toggleMinimap={toggleMinimap}
               toggleDashStyle={toggleDashStyle}
+              isDashed={isDashed}
             />
           </Box>
         </Panel>
