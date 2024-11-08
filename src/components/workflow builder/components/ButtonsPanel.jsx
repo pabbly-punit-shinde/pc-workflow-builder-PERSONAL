@@ -126,11 +126,11 @@ const ButtonsPanel = ({
       </Tooltip>
 
       {/* Button to toggle Smoothsteps edge */}
-      <Tooltip title="Steps Edges" arrow placement="top" disableInteractive>
+      {/* <Tooltip title="Steps Edges" arrow placement="top" disableInteractive>
         <button type="button" style={buttonStyle} onClick={() => setEdgeType('step')}>
           <img src="/assets/images/reactflow/icons/steps.svg" style={iconStyle} alt="Steps Edges" />
         </button>
-      </Tooltip>
+      </Tooltip> */}
 
       {/* Button to toggle Smoothsteps edge */}
       <Tooltip title="Smoothsteps Edges" arrow placement="top" disableInteractive>
@@ -158,6 +158,26 @@ const ButtonsPanel = ({
         </button>
       </Tooltip>
 
+      {/* Button to toggle edge Solid or Dashed */}
+      <button type="button" onClick={toggleDashStyle} style={buttonStyle}>
+        {isDashed ? (
+          <Tooltip title="Toggle Solid Edges" arrow placement="top" disableInteractive>
+            <img
+              src="/assets/images/reactflow/icons/solid.svg"
+              style={iconStyle}
+              alt="Toggle Solid Edges"
+            />
+          </Tooltip>
+        ) : (
+          <Tooltip title="Toggle Dashed Edges" arrow placement="top" disableInteractive>
+            <img
+              src="/assets/images/reactflow/icons/dashed.svg"
+              style={iconStyle}
+              alt="Toggle Dashed Edges"
+            />
+          </Tooltip>
+        )}
+      </button>
       <Box
         sx={{
           // width: {
@@ -198,26 +218,6 @@ const ButtonsPanel = ({
         </button>
       </Tooltip>
 
-      {/* Button to toggle edge Solid or Dashed */}
-      <button type="button" onClick={toggleDashStyle} style={buttonStyle}>
-        {isDashed ? (
-          <Tooltip title="Toggle Solid Edges" arrow placement="top" disableInteractive>
-            <img
-              src="/assets/images/reactflow/icons/solid.svg"
-              style={iconStyle}
-              alt="Toggle Solid Edges"
-            />
-          </Tooltip>
-        ) : (
-          <Tooltip title="Toggle Dashed Edges" arrow placement="top" disableInteractive>
-            <img
-              src="/assets/images/reactflow/icons/dashed.svg"
-              style={iconStyle}
-              alt="Toggle Dashed Edges"
-            />
-          </Tooltip>
-        )}
-      </button>
 
       {/* Button to open the overlay for snapshot */}
       {/* <Tooltip title="Choose Snapshot Size" arrow placement="top" disableInteractive>
