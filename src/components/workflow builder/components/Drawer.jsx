@@ -25,12 +25,10 @@ const Drawer = ({
       padding: '5px',
       width: {
         xs: isDrawerOpen ? '38px' : '38px',
-        sm: isDrawerOpen ? '38px' : '38px',
         md: isDrawerOpen ? '450px' : '38px',
       },
       height: {
-        xs: isDrawerOpen ? '450px' : '38px',
-        sm: isDrawerOpen ? '450px' : '38px',
+        xs: isDrawerOpen ? '460px' : '38px',
         md: '100%',
       },
       borderRadius: '4px',
@@ -68,18 +66,27 @@ const Drawer = ({
       >
         {isDrawerOpen ? (
           <Tooltip title="Click to close the drawer" arrow placement="top" disableInteractive>
-            <img
+            <Box
+              component="img"
               src="/assets/images/reactflow/icons/close.svg"
               alt="Close Drawer"
-              style={{ width: '100%', height: '100%', rotate: '270deg' }}
+              sx={{
+                width: '100%',
+                height: '100%',
+                rotate: { xs: '0deg', md: '270deg' },
+              }}
             />
           </Tooltip>
         ) : (
           <Tooltip title="Click to open the drawer" arrow placement="top" disableInteractive>
-            <img
+            <Box
+              component="img"
               src="/assets/images/reactflow/icons/open.svg"
               alt="Open Drawer"
-              style={{ width: '100%', height: '100%' }}
+              sx={{
+                width: '100%',
+                height: '100%',
+              }}
             />
           </Tooltip>
         )}

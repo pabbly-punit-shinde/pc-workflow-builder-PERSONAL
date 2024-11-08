@@ -138,7 +138,7 @@ const CustomNode = ({ data, isHorizontal }) => {
           display: 'flex',
           justifyContent: isHorizontal ? 'center' : 'flex-start', // Align label based on orientation
           marginLeft: isHorizontal ? 0 : 10, // Adjust left margin based on orientation
-          bottom: isHorizontal ? 0 : 22, // Adjust bottom position for label
+          bottom: isHorizontal ? 0 : 28, // Adjust bottom position for label
         }}
       >
         <div

@@ -1,30 +1,24 @@
 import React from 'react';
 
-import { Box, Modal, Button, Typography } from '@mui/material';
+import { Box,Card, Modal,  Button,CardMedia, Typography,CardContent  } from '@mui/material';
 
 const Overlay = ({ open, onClose, onDownload }) => {
   const screenSizes = [
-    // LinkedIn sizes
-    { label: 'LinkedIn Landscape (1200x628)', value: '1200x628' },
-    { label: 'LinkedIn Square (1200x1200)', value: '1200x1200' },
-    { label: 'LinkedIn Vertical (720x900)', value: '720x900' },
-
-    // Facebook sizes
-    { label: 'Facebook Feed Desktop (479x246)', value: '479x246' },
-    { label: 'Facebook Feed Mobile (1080x1350)', value: '1080x1350' },
-    { label: 'Facebook Right Column (1200x1200)', value: '1200x1200' },
-    { label: 'Facebook Marketplace (1200x1200)', value: '1200x1200' },
-    { label: 'Facebook Stories (1080x1920)', value: '1080x1920' },
-
-    // Instagram sizes
-    { label: 'Instagram Stories (1080x1920)', value: '1080x1920' },
-    { label: 'Instagram Feed (1080x1350)', value: '1080x1350' },
+    { label: 'LinkedIn Landscape', value: '1200x628', thumbnail: 'https://brand.linkedin.com/apps/settings/wcm/designs/linkedin/katy/global/clientlibs/resources/img/default-share.png' },
+    { label: 'LinkedIn Square', value: '1200x1200', thumbnail: 'https://brand.linkedin.com/apps/settings/wcm/designs/linkedin/katy/global/clientlibs/resources/img/default-share.png' },
+    { label: 'LinkedIn Vertical', value: '720x900', thumbnail: 'https://brand.linkedin.com/apps/settings/wcm/designs/linkedin/katy/global/clientlibs/resources/img/default-share.png' },
+    { label: 'Facebook Feed Desktop', value: '479x246', thumbnail: 'https://1000logos.net/wp-content/uploads/2016/11/Facebook-Logo-Meaning.jpg' },
+    { label: 'Facebook Feed Mobile', value: '1080x1350', thumbnail: 'https://1000logos.net/wp-content/uploads/2016/11/Facebook-Logo-Meaning.jpg' },
+    { label: 'Facebook Right Column', value: '1200x1200', thumbnail: 'https://1000logos.net/wp-content/uploads/2016/11/Facebook-Logo-Meaning.jpg' },
+    { label: 'Facebook Marketplace', value: '1200x1200', thumbnail: 'https://1000logos.net/wp-content/uploads/2016/11/Facebook-Logo-Meaning.jpg' },
+    { label: 'Facebook Stories', value: '1080x1920', thumbnail: 'https://1000logos.net/wp-content/uploads/2016/11/Facebook-Logo-Meaning.jpg' },
+    { label: 'Instagram Stories', value: '1080x1920', thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNQZmxNImi_xQIAnxLmZT-eA9MHF55zIgpjXSdsutqWNFlYmIwGvNyX1jnHBEBGn5tEaY&usqp=CAU' },
+    { label: 'Instagram Feed', value: '1080x1350', thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNQZmxNImi_xQIAnxLmZT-eA9MHF55zIgpjXSdsutqWNFlYmIwGvNyX1jnHBEBGn5tEaY&usqp=CAU' },
   ];
 
   const handleDownload = (size) => {
-    // Logic to download based on size
     onDownload(size);
-    onClose(); // Close overlay after download
+    onClose();
   };
 
   return (
@@ -35,20 +29,47 @@ const Overlay = ({ open, onClose, onDownload }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 300,
+          width: '80%',           
+          maxWidth: 900,          
+        //   height: '70vh',         
+        //   maxHeight: '80vh',      
           backgroundColor: 'white',
-          padding: 2,
+          padding: 3,
           borderRadius: 2,
+          overflowY: 'auto',      
         }}
       >
         <Typography variant="h6" gutterBottom>
           Choose Screen Size for Snapshot:
         </Typography>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+            gap: 2,
+          }}
+        >
           {screenSizes.map((size) => (
-            <Button key={size.value} onClick={() => handleDownload(size.value)}>
-              {size.label}
-            </Button>
+            <Card key={size.value} sx={{ display: 'flex', flexDirection: 'column', height: 200, padding:1 }}>
+              <CardMedia
+                component="img"
+                image={size.thumbnail} 
+                alt={size.label}
+                sx={{ height: '20%', width: '100%', objectFit: 'cover' }} // Ensures image fits within card
+              />
+              <CardContent sx={{ flexGrow: 1 }}>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {size.label}
+                </Typography>
+                <Typography variant="caption" color="textSecondary">
+                  Size: {size.value}
+                </Typography>
+              </CardContent>
+              <Button size="small" onClick={() => handleDownload(size.value)} sx={{ margin: 'auto' }}>
+                Download
+              </Button>
+            </Card>
           ))}
         </Box>
       </Box>
