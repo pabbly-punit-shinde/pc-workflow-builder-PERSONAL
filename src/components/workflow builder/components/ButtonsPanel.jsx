@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Box, Tooltip } from '@mui/material';
 
 // import { Iconify } from 'src/components/iconify';
-
-import DownloadButton from './DownloadButton';
+import Overlay from './Overlay';
+// import DownloadButton from './DownloadButton';
 
 const DIRECTION = {
   DOWN: 'TB',
@@ -33,7 +33,13 @@ const ButtonsPanel = ({
   isDashed,
   toggleDashStyle,
 }) => {
-  console.log('isDashed:', isDashed); // Check if `isDashed` is correctly updating
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+
+  // Function to handle downloading the snapshot with selected size
+  const handleDownload = (size) => {
+    console.log('Downloading snapshot with size:', size);
+    // Add logic for downloading snapshot in the desired size
+  };
 
   return (
     <Box sx={{ display: 'flex', gap: 1 }} flexDirection={{ xs: 'column', sm: 'column', md: 'row' }}>
@@ -203,8 +209,21 @@ const ButtonsPanel = ({
         )}
       </button>
 
+ {/* Button to open the overlay for snapshot */}
+ <Tooltip title="Choose Snapshot Size" arrow placement="top" disableInteractive>
+        <button
+          type="button"
+          style={buttonStyle}
+          onClick={() => setIsOverlayOpen(true)}
+        >
+          <img src="/assets/images/reactflow/icons/image-download.svg" style={iconStyle} alt="Snapshot Sizes" />
+        </button>
+      </Tooltip>
+
+      <Overlay open={isOverlayOpen} onClose={() => setIsOverlayOpen(false)} onDownload={handleDownload} />
+
       {/* Button to Download Snapshot */}
-      <DownloadButton />
+      {/* <DownloadButton /> */}
     </Box>
   );
 };
