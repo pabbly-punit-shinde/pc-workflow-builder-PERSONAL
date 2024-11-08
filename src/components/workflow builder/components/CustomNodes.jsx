@@ -91,15 +91,6 @@ const CustomNode = ({ data, isHorizontal }) => {
             }}
             icon={data.triggerIcon} // Use trigger icon from data
           />
-
-          {/* The HoverButton is commented out, but could be used for additional interactivity */}
-          {/* {isHovered && (
-            <HoverButton
-              isHorizontal={isHorizontal}
-              color={data.color}
-              onClick={() => alert('New node will be added when clicked.')}
-            />
-          )} */}
         </div>
 
         {/* Source Handle */}
@@ -136,7 +127,7 @@ const CustomNode = ({ data, isHorizontal }) => {
         style={{
           position: 'relative', // Position relative for positioning of label
           display: 'flex',
-          justifyContent: isHorizontal ? 'center' : 'flex-start', // Align label based on orientation
+          justifyContent: isHorizontal ? 'center' : 'start', // Align label based on orientation
           marginLeft: isHorizontal ? 0 : 10, // Adjust left margin based on orientation
           bottom: isHorizontal ? 0 : 28, // Adjust bottom position for label
         }}
@@ -152,13 +143,19 @@ const CustomNode = ({ data, isHorizontal }) => {
           {/* Label Text */}
           <div
             style={{
+              display: 'flex',
+              justifyContent: isHorizontal ? 'center' : 'start',
+              alignItems: 'center',
+              gap: 5,
               fontWeight: 'bold', // Bold font for the label
               fontFamily: 'Public Sans', // Font family
               fontSize: 16, // Font size for label
               color: '#1C252E', // Label color
             }}
           >
-            {data.label} {/* Display the label */}
+            {data.label}
+            
+            {data.note && <Iconify icon="fluent:notepad-28-regular" />} {/* Conditionally render note icon */}
           </div>
           {/* Subtext for additional information */}
           <div

@@ -10,6 +10,7 @@ const initialNodes = [
       subtext: 'New Response',
       icon: '/assets/images/reactflow/Jotform.svg',
       triggerIcon: 'ic:baseline-bolt',
+      note: false,
     },
     position: { x: 0, y: 0 },
   },
@@ -24,6 +25,7 @@ const initialNodes = [
       subtext: 'Append Text to Doc...',
       icon: '/assets/images/reactflow/docs.svg',
       errorIcon: 'bi:exclamation',
+      note: true,
     },
     position: { x: 200, y: 0 }, // Adjusted position
   },
@@ -37,6 +39,7 @@ const initialNodes = [
       label: 'Router (Pabbly)',
       subtext: 'Split Into Routes',
       icon: '/assets/images/reactflow/router.svg',
+      note: false,
     },
     position: { x: 400, y: 0 }, // Adjusted position
   },
@@ -51,6 +54,7 @@ const initialNodes = [
       label: 'Chat Gpt',
       subtext: 'Append Text to Doc...',
       icon: '/assets/images/reactflow/chatgpt.svg',
+      note: false,
     },
     position: { x: 600, y: 0 }, // Adjusted position
   },
@@ -66,6 +70,7 @@ const initialNodes = [
       subtext: 'Incoming Messages',
       icon: '/assets/images/reactflow/mail.svg',
       errorIcon: 'bi:exclamation',
+      note: false,
     },
     position: { x: 800, y: 0 }, // Adjusted position
   },
@@ -79,6 +84,7 @@ const initialNodes = [
       label: 'Hubspot',
       subtext: 'Create Contact',
       icon: '/assets/images/reactflow/hubspot.svg',
+      note: true,
     },
     position: { x: 1000, y: 0 }, // Adjusted position
   },
@@ -92,6 +98,7 @@ const initialNodes = [
       label: 'Router (Pabbly)',
       subtext: 'Split Into Routes',
       icon: '/assets/images/reactflow/router.svg',
+      note: true,
     },
     position: { x: 1200, y: 0 }, // Adjusted position
   },
@@ -105,6 +112,7 @@ const initialNodes = [
       label: 'Javascript',
       subtext: 'Extract Data',
       icon: '/assets/images/reactflow/js.svg',
+      note: true,
     },
     position: { x: 1400, y: 0 }, // Adjusted position
   },
@@ -119,6 +127,7 @@ const initialNodes = [
       subtext: 'Split Into Routes',
       icon: '/assets/images/reactflow/router.svg',
       errorIcon: 'bi:exclamation',
+      note: false,
     },
     position: { x: 1600, y: 0 }, // Adjusted position
   },
@@ -133,6 +142,7 @@ const initialNodes = [
       subtext: 'Add New Row',
       icon: '/assets/images/reactflow/mysql.svg',
       errorIcon: 'bi:exclamation',
+      note: false,
     },
     position: { x: 1800, y: 0 }, // Adjusted position
   },
@@ -147,6 +157,7 @@ const initialNodes = [
       subtext: 'Append Text to Doc...',
       icon: '/assets/images/reactflow/sheets.svg',
       errorIcon: 'bi:exclamation',
+      note: true,
     },
     position: { x: 2000, y: 0 }, // Adjusted position
   },
@@ -161,6 +172,7 @@ const initialNodes = [
       subtext: 'Append Text to Doc...',
       icon: '/assets/images/reactflow/docs.svg',
       errorIcon: 'bi:exclamation',
+      note: true,
     },
     position: { x: 2200, y: 0 }, // Adjusted position
   },
