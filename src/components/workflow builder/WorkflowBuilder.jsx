@@ -16,7 +16,7 @@ import {
   ReactFlowProvider, // Context provider for ReactFlow
 } from '@xyflow/react';
 
-import { Box } from '@mui/material'; // Material UI Box component for layout
+import { Box, Tooltip } from '@mui/material'; // Material UI Box component for layout
 
 // Importing custom components
 import WorkflowNameHeader from 'src/components/workflow builder/components/workflow-name-header'; // Component for displaying the workflow's name
@@ -24,6 +24,7 @@ import Drawer from './components/Drawer'; // Custom drawer component for UI cont
 import CustomNode from './components/CustomNodes'; // Custom node component for the flow chart
 import ContextMenu from './components/ContextMenu'; // Context menu for node right-click actions
 import { initialNodes, initialEdges } from './nodes-edges'; // Initial state for nodes and edges
+import Overlay from './components/Overlay';
 
 // Setting default configuration options
 const proOptions = { account: 'paid-pro', hideAttribution: true }; // Pro options for advanced ReactFlow features
@@ -103,13 +104,15 @@ const generateGradients = (nodes, edges, isDashed) => {
     // Determine the gradient direction based on the edge orientation (horizontal or vertical)
     let gradientCoords;
     if (absDx > absDy) {
-      gradientCoords = dx >= 0
-        ? { x1: '0', y1: '0', x2: '1', y2: '0' } // Horizontal left-to-right gradient
-        : { x1: '1', y1: '0', x2: '0', y2: '0' }; // Horizontal right-to-left gradient
+      gradientCoords =
+        dx >= 0
+          ? { x1: '0', y1: '0', x2: '1', y2: '0' } // Horizontal left-to-right gradient
+          : { x1: '1', y1: '0', x2: '0', y2: '0' }; // Horizontal right-to-left gradient
     } else {
-      gradientCoords = dy >= 0
-        ? { x1: '0', y1: '0', x2: '0', y2: '1' } // Vertical top-to-bottom gradient
-        : { x1: '0', y1: '1', x2: '0', y2: '0' }; // Vertical bottom-to-top gradient
+      gradientCoords =
+        dy >= 0
+          ? { x1: '0', y1: '0', x2: '0', y2: '1' } // Vertical top-to-bottom gradient
+          : { x1: '0', y1: '1', x2: '0', y2: '0' }; // Vertical bottom-to-top gradient
     }
 
     // Add the gradient definition to the array
@@ -158,7 +161,7 @@ function LayoutFlow() {
   const [isMiniMapVisible, setIsMiniMapVisible] = useState(false); // State for toggling MiniMap visibility
   const [isDashed, setIsDashed] = useState(false);
   const ref = useRef(null); // Ref for ReactFlow component
-
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   // Node type definitions (custom node with horizontal layout option)
   const nodeTypes = useMemo(
     () => ({
@@ -263,6 +266,11 @@ function LayoutFlow() {
 
   const onPaneClick = useCallback(() => setMenu(null), []); // Close the context menu when clicking on the pane
 
+  const handleDownload = (size) => {
+    console.log('Downloading snapshot with size:', size);
+    // Add logic for downloading snapshot in the desired size
+  };
+
   return (
     <div style={{ display: 'flex', height: '92vh' }}>
       {/* Main ReactFlow component to render the graph */}
@@ -289,9 +297,9 @@ function LayoutFlow() {
 
         {/* Top-left panel with workflow name and UI controls */}
         <Panel position="top-left">
-          <Box display="flex" flexDirection={{ xs: "column", md: 'row' }} gap="5px">
+          <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap="5px">
             <WorkflowNameHeader />
-            <Drawer
+            {/* <Drawer
               isDrawerOpen={isDrawerOpen}
               setIsDrawerOpen={setIsDrawerOpen}
               onLayout={onLayout}
@@ -301,12 +309,53 @@ function LayoutFlow() {
               toggleMinimap={toggleMinimap}
               toggleDashStyle={toggleDashStyle}
               isDashed={isDashed}
-            />
+            /> */}
           </Box>
         </Panel>
 
         {/* Controls for zoom and other functionalities */}
-        <Controls />
+        <Controls>
+          {' '}
+          
+          <Tooltip title="Choose Snapshot Size" arrow placement="top" disableInteractive>
+            <button
+              type="button"
+              style={{
+                width: '27px', // Adjusted width
+                height: '27px', // Adjusted height
+                backgroundColor: '#ffffff',
+                border: 'none',
+                cursor: 'pointer',
+                marginBottom:'1px'
+              }}
+              onClick={() => setIsOverlayOpen(true)}
+            >
+              <img
+                src="/assets/images/reactflow/icons/image-download.svg"
+                // style={iconStyle}
+                alt="Snapshot Sizes"
+                width="100%"
+                height="100%"
+              />
+            </button>
+          </Tooltip>
+          <Overlay
+            open={isOverlayOpen}
+            onClose={() => setIsOverlayOpen(false)}
+            onDownload={handleDownload}
+          />
+          <Drawer
+            isDrawerOpen={isDrawerOpen}
+            setIsDrawerOpen={setIsDrawerOpen}
+            onLayout={onLayout}
+            setEdgeType={handleEdgeTypeChange}
+            toggleAnimation={toggleAnimation}
+            fitView={fitView}
+            toggleMinimap={toggleMinimap}
+            toggleDashStyle={toggleDashStyle}
+            isDashed={isDashed}
+          />
+        </Controls>
 
         {/* MiniMap component to display a smaller overview */}
         {isMiniMapVisible && (

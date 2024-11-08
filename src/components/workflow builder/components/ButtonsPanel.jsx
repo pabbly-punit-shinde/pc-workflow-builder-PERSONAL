@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Box, Tooltip } from '@mui/material';
 
 // import { Iconify } from 'src/components/iconify';
-import Overlay from './Overlay';
+// import Overlay from './Overlay';
 // import DownloadButton from './DownloadButton';
 
 const DIRECTION = {
@@ -12,8 +12,8 @@ const DIRECTION = {
 };
 
 const buttonStyle = {
-  width: '30px', // Adjusted width
-  height: '30px', // Adjusted height
+  width: '27px', // Adjusted width
+  height: '27px', // Adjusted height
   backgroundColor: 'transparent',
   border: 'none',
   cursor: 'pointer',
@@ -42,7 +42,10 @@ const ButtonsPanel = ({
   };
 
   return (
-    <Box sx={{ display: 'flex', gap: 1 }} flexDirection={{ xs: 'column', sm: 'column', md: 'row' }}>
+    <Box
+      sx={{ display: 'flex', gap: 1 }}
+      flexDirection={{ xs: 'column', sm: 'column', md: 'column' }}
+    >
       <Tooltip
         title="Vertical layout (Top to Bottom) Double click to auto align in vertical layout"
         arrow
@@ -86,7 +89,7 @@ const ButtonsPanel = ({
         </button>
       </Tooltip>
 
-      <Box
+      {/* <Box
         sx={{
           width: {
             xs: '30px',
@@ -99,8 +102,19 @@ const ButtonsPanel = ({
           backgroundColor: '#D3D3D3',
           margin: '5px 0',
         }}
-      />
+      /> */}
+      <Box
+        sx={{
+          // width: {
+          //   xs: '30px',
 
+          //   md: '1px',
+          // },
+          height: '1px',
+          backgroundColor: '#D3D3D3',
+          // margin: '5px 0',
+        }}
+      />
       <Tooltip title="Straight Edges" arrow placement="top" disableInteractive>
         <button type="button" style={buttonStyle} onClick={() => setEdgeType('straight')}>
           <img
@@ -111,7 +125,7 @@ const ButtonsPanel = ({
         </button>
       </Tooltip>
 
-            {/* Button to toggle Smoothsteps edge */}
+      {/* Button to toggle Smoothsteps edge */}
       <Tooltip title="Steps Edges" arrow placement="top" disableInteractive>
         <button type="button" style={buttonStyle} onClick={() => setEdgeType('step')}>
           <img src="/assets/images/reactflow/icons/steps.svg" style={iconStyle} alt="Steps Edges" />
@@ -146,18 +160,14 @@ const ButtonsPanel = ({
 
       <Box
         sx={{
-          width: {
-            xs: '30px',
+          // width: {
+          //   xs: '30px',
 
-            md: '1px',
-          },
-          height: {
-            xs: '1px',
-
-            md: '20px',
-          },
+          //   md: '1px',
+          // },
+          height: '1px',
           backgroundColor: '#D3D3D3',
-          margin: '5px 0',
+          // margin: '5px 0',
         }}
       />
 
@@ -209,18 +219,22 @@ const ButtonsPanel = ({
         )}
       </button>
 
- {/* Button to open the overlay for snapshot */}
- <Tooltip title="Choose Snapshot Size" arrow placement="top" disableInteractive>
-        <button
-          type="button"
-          style={buttonStyle}
-          onClick={() => setIsOverlayOpen(true)}
-        >
-          <img src="/assets/images/reactflow/icons/image-download.svg" style={iconStyle} alt="Snapshot Sizes" />
+      {/* Button to open the overlay for snapshot */}
+      {/* <Tooltip title="Choose Snapshot Size" arrow placement="top" disableInteractive>
+        <button type="button" style={buttonStyle} onClick={() => setIsOverlayOpen(true)}>
+          <img
+            src="/assets/images/reactflow/icons/image-download.svg"
+            style={iconStyle}
+            alt="Snapshot Sizes"
+          />
         </button>
       </Tooltip>
 
-      <Overlay open={isOverlayOpen} onClose={() => setIsOverlayOpen(false)} onDownload={handleDownload} />
+      <Overlay
+        open={isOverlayOpen}
+        onClose={() => setIsOverlayOpen(false)}
+        onDownload={handleDownload}
+      /> */}
 
       {/* Button to Download Snapshot */}
       {/* <DownloadButton /> */}

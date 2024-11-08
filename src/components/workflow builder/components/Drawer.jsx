@@ -18,19 +18,13 @@ const Drawer = ({
   <Box
     sx={{
       display: 'flex',
-      flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+      flexDirection: { xs: 'column', sm: 'column', md: 'column' },
       justifyContent: 'space-between', // Spread items to place the button icon at the end
       gap: '10px',
       backgroundColor: '#FFFFFF',
-      padding: '5px',
-      width: {
-        xs: isDrawerOpen ? '38px' : '38px',
-        md: isDrawerOpen ? '450px' : '38px',
-      },
-      height: {
-        xs: isDrawerOpen ? '460px' : '38px',
-        md: '100%',
-      },
+      // padding: '5px',
+      width: '27px',
+
       borderRadius: '4px',
       boxShadow: '0 2px 4px rgba(84, 95, 111, .16), 0 0 1px rgba(37, 45, 91, .04)',
       transition: 'width 0.3s ease',
@@ -38,7 +32,9 @@ const Drawer = ({
   >
     {/* Conditionally render the ButtonsPanel component when the drawer is open */}
     {isDrawerOpen && (
-      <Box style={{ flex: 1 }}> {/* Ensure the ButtonsPanel takes available space */}
+      <Box style={{ flex: 1 }}>
+        {' '}
+        {/* Ensure the ButtonsPanel takes available space */}
         <ButtonsPanel
           onLayout={onLayout}
           setEdgeType={setEdgeType}
@@ -57,8 +53,8 @@ const Drawer = ({
         type="button"
         onClick={() => setIsDrawerOpen(!isDrawerOpen)}
         style={{
-          width: '30px',
-          height: '30px',
+          width: '27px',
+          height: '27px',
           backgroundColor: 'transparent',
           border: 'none',
           cursor: 'pointer',
@@ -71,9 +67,9 @@ const Drawer = ({
               src="/assets/images/reactflow/icons/close.svg"
               alt="Close Drawer"
               sx={{
-                width: '100%',
-                height: '100%',
-                rotate: { xs: '0deg', md: '270deg' },
+                width: '27px',
+                height: '27px',
+                rotate: '180deg',
               }}
             />
           </Tooltip>
