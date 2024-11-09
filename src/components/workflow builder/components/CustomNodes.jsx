@@ -1,7 +1,7 @@
 // CustomNode.js
 import { Handle } from '@xyflow/react'; // Import Handle component from React Flow
 import React, { useState } from 'react'; // React library
-import { Box } from '@mui/material'; // Material UI Box component for layout and styling
+import { Box, Tooltip } from '@mui/material'; // Material UI Box component for layout and styling
 import { Iconify } from 'src/components/iconify'; // Custom Iconify component for icons
 
 // CustomNode component to render a node with icon, label, and handles
@@ -154,8 +154,13 @@ const CustomNode = ({ data, isHorizontal }) => {
             }}
           >
             {data.label}
-            
-            {data.note && <Iconify icon="fluent:notepad-28-regular" />} {/* Conditionally render note icon */}
+            {data.note && (
+              <Tooltip title="You can view the step note that you have added to this step." arrow placement="top" disableInteractive>
+
+                <Iconify icon="fluent:notepad-28-regular" />
+              </Tooltip>
+            )}{' '}
+            {/* Conditionally render note icon */}
           </div>
           {/* Subtext for additional information */}
           <div
