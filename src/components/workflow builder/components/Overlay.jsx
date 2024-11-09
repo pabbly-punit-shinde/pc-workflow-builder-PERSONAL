@@ -4,16 +4,10 @@ import { Box,Card, Modal,  Button,CardMedia, Typography,CardContent  } from '@mu
 
 const Overlay = ({ open, onClose, onDownload }) => {
   const screenSizes = [
-    { label: 'LinkedIn Landscape', value: '1200x628', thumbnail: 'https://brand.linkedin.com/apps/settings/wcm/designs/linkedin/katy/global/clientlibs/resources/img/default-share.png' },
-    { label: 'LinkedIn Square', value: '1200x1200', thumbnail: 'https://brand.linkedin.com/apps/settings/wcm/designs/linkedin/katy/global/clientlibs/resources/img/default-share.png' },
-    { label: 'LinkedIn Vertical', value: '720x900', thumbnail: 'https://brand.linkedin.com/apps/settings/wcm/designs/linkedin/katy/global/clientlibs/resources/img/default-share.png' },
-    { label: 'Facebook Feed Desktop', value: '479x246', thumbnail: 'https://1000logos.net/wp-content/uploads/2016/11/Facebook-Logo-Meaning.jpg' },
-    { label: 'Facebook Feed Mobile', value: '1080x1350', thumbnail: 'https://1000logos.net/wp-content/uploads/2016/11/Facebook-Logo-Meaning.jpg' },
-    { label: 'Facebook Right Column', value: '1200x1200', thumbnail: 'https://1000logos.net/wp-content/uploads/2016/11/Facebook-Logo-Meaning.jpg' },
-    { label: 'Facebook Marketplace', value: '1200x1200', thumbnail: 'https://1000logos.net/wp-content/uploads/2016/11/Facebook-Logo-Meaning.jpg' },
-    { label: 'Facebook Stories', value: '1080x1920', thumbnail: 'https://1000logos.net/wp-content/uploads/2016/11/Facebook-Logo-Meaning.jpg' },
-    { label: 'Instagram Stories', value: '1080x1920', thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNQZmxNImi_xQIAnxLmZT-eA9MHF55zIgpjXSdsutqWNFlYmIwGvNyX1jnHBEBGn5tEaY&usqp=CAU' },
-    { label: 'Instagram Feed', value: '1080x1350', thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNQZmxNImi_xQIAnxLmZT-eA9MHF55zIgpjXSdsutqWNFlYmIwGvNyX1jnHBEBGn5tEaY&usqp=CAU' },
+    { label: 'Landscape', value: '1.91:1', thumbnail: '/assets/images/reactflow/overlay/Landscape.png' },
+    { label: 'Square', value: '1:1', thumbnail: '/assets/images/reactflow/overlay/Square.png' },
+    { label: 'Portrait', value: '4:5', thumbnail: '/assets/images/reactflow/overlay/Portrait.png' },
+    
   ];
 
   const handleDownload = (size) => {
@@ -40,23 +34,23 @@ const Overlay = ({ open, onClose, onDownload }) => {
         }}
       >
         <Typography variant="h6" gutterBottom>
-          Choose Screen Size for Snapshot:
+          Choose Screen Size for Snapshot
         </Typography>
         
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
             gap: 2,
           }}
         >
           {screenSizes.map((size) => (
-            <Card key={size.value} sx={{ display: 'flex', flexDirection: 'column', height: 200, padding:1 }}>
+            <Card key={size.value} sx={{ display: 'flex', flexDirection: 'column', height: 300, padding:1 }}>
               <CardMedia
                 component="img"
                 image={size.thumbnail} 
                 alt={size.label}
-                sx={{ height: '20%', width: '100%', objectFit: 'cover' }} // Ensures image fits within card
+                sx={{ height: '50%', width: '100%', objectFit: 'contain', bgcolor:"#E5E5E5", borderRadius:'8px' }} // Ensures image fits within card
               />
               <CardContent sx={{ flexGrow: 1 }}>
                 <Typography variant="body2" color="textSecondary" component="p">
@@ -66,7 +60,7 @@ const Overlay = ({ open, onClose, onDownload }) => {
                   Size: {size.value}
                 </Typography>
               </CardContent>
-              <Button size="small" onClick={() => handleDownload(size.value)} sx={{ margin: 'auto' }}>
+              <Button variant='contained' color='primary' size="small" onClick={() => handleDownload(size.value)} sx={{ margin: 'auto' }}>
                 Download
               </Button>
             </Card>
