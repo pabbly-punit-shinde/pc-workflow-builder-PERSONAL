@@ -57,10 +57,10 @@ const Overlay = ({ open, onClose, onDownload }) => {
                   {size.label}
                 </Typography>
                 <Typography variant="caption" color="textSecondary">
-                  Size: {size.value}
+                  Aspect Ratio: {size.value}
                 </Typography>
               </CardContent>
-              <Button variant='contained' color='primary' size="small" onClick={() => handleDownload(size.value)} sx={{ margin: 'auto' }}>
+              <Button variant='contained' color='primary' size="medium" onClick={() => handleDownload(size.value)} sx={{ margin: 'auto', marginBottom:2 }}>
                 Download
               </Button>
             </Card>
