@@ -24,7 +24,7 @@ const Overlay = ({ open, onClose, onDownload }) => {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: '80%',           
-          maxWidth: 900,          
+          maxWidth: 700,          
         //   height: '70vh',         
         //   maxHeight: '80vh',      
           backgroundColor: 'white',
@@ -40,7 +40,7 @@ const Overlay = ({ open, onClose, onDownload }) => {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(205px, 1fr))',
             gap: 2,
           }}
         >
