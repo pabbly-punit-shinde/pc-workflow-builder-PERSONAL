@@ -60,37 +60,40 @@ const CustomNode = ({ data, isHorizontal }) => {
           </Box>
 
           {/* Error Icon in the top right corner */}
-          <Iconify
-            id="errorInNode"
-            width={24}
-            backgroundColor="red"
-            onClick={() => alert('This will show the errors.')} // Show errors on click
-            sx={{
-              position: 'absolute', // Position icon absolutely within parent container
-              top: 0,
-              right: 0,
-              color: 'white',
-              border: '2px solid #F3F7FA',
-              borderRadius: '50%', // Make the icon circular
-            }}
-            icon={data.errorIcon} // Use error icon from data
-          />
-
+          <Tooltip title="Errors occured in this step." arrow placement="top" disableInteractive>
+            <Iconify
+              id="errorInNode"
+              width={24}
+              backgroundColor="red"
+              onClick={() => alert('This will show the errors.')} // Show errors on click
+              sx={{
+                position: 'absolute', // Position icon absolutely within parent container
+                top: 0,
+                right: 0,
+                color: 'white',
+                border: '2px solid #F3F7FA',
+                borderRadius: '50%', // Make the icon circular
+              }}
+              icon={data.errorIcon} // Use error icon from data
+            />
+          </Tooltip>
           {/* Trigger Icon in the bottom left corner */}
-          <Iconify
-            id="trigger icon"
-            width={24}
-            backgroundColor={data.color} // Set background color from data
-            sx={{
-              position: 'absolute', // Position icon absolutely within parent container
-              bottom: 0,
-              left: 0,
-              color: 'white',
-              border: '2px solid #F3F7FA',
-              borderRadius: '50%', // Make the icon circular
-            }}
-            icon={data.triggerIcon} // Use trigger icon from data
-          />
+          <Tooltip title="Instant Trigger." arrow placement="top" disableInteractive>
+            <Iconify
+              id="trigger icon"
+              width={24}
+              backgroundColor={data.color} // Set background color from data
+              sx={{
+                position: 'absolute', // Position icon absolutely within parent container
+                bottom: 0,
+                left: 0,
+                color: 'white',
+                border: '2px solid #F3F7FA',
+                borderRadius: '50%', // Make the icon circular
+              }}
+              icon={data.triggerIcon} // Use trigger icon from data
+            />
+          </Tooltip>
         </div>
 
         {/* Source Handle */}
@@ -155,8 +158,12 @@ const CustomNode = ({ data, isHorizontal }) => {
           >
             {data.label}
             {data.note && (
-              <Tooltip title="You can view the step note that you have added to this step." arrow placement="top" disableInteractive>
-
+              <Tooltip
+                title="You can view the step note that you have added to this step."
+                arrow
+                placement="top"
+                disableInteractive
+              >
                 <Iconify icon="fluent:notepad-28-regular" />
               </Tooltip>
             )}{' '}
