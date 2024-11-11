@@ -23,7 +23,7 @@ import WorkflowNameHeader from 'src/components/workflow builder/components/workf
 import Drawer from './components/Drawer'; // Custom drawer component for UI controls
 import CustomNode from './components/CustomNodes'; // Custom node component for the flow chart
 import ContextMenu from './components/ContextMenu'; // Context menu for node right-click actions
-import { initialNodes, initialEdges } from './nodes-edges'; // Initial state for nodes and edges
+import { initialNodes, initialEdges } from './nodes-edges complex workflow'; // Initial state for nodes and edges
 import Overlay from './components/Overlay';
 
 // Setting default configuration options
