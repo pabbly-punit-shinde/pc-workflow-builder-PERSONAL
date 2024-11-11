@@ -4,6 +4,8 @@ import React, { useState } from 'react'; // React library
 import { Box, Tooltip } from '@mui/material'; // Material UI Box component for layout and styling
 import { Iconify } from 'src/components/iconify'; // Custom Iconify component for icons
 
+import HoverButton from '../partials/HoverButton'; // Import the HoverButton component
+
 // CustomNode component to render a node with icon, label, and handles
 const CustomNode = ({ data, isHorizontal }) => {
   const [isHovered, setIsHovered] = useState(false); // State to track hover status
@@ -57,6 +59,13 @@ const CustomNode = ({ data, isHorizontal }) => {
                 transform: getImageRotationStyle(), // Apply rotation if needed
               }}
             />
+       
+            <HoverButton
+              isHorizontal={isHorizontal}
+              color={data.color}
+              onClick={() => alert('New node will be added when clicked.')}
+            />
+        
           </Box>
 
           {/* Error Icon in the top right corner */}
