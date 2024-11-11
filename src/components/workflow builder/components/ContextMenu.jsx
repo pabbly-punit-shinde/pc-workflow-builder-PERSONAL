@@ -126,6 +126,10 @@ export default function ContextMenu({ id, top, left, onClose }) {
                   Add Route
                 </MenuItem>,
                 <MenuItem>
+                <Iconify icon="gg:notes" style={{ marginRight: '10px' }} />
+                Add Step Note
+              </MenuItem>,
+                <MenuItem>
                   <Iconify icon="fluent:rename-16-regular" style={{ marginRight: '10px' }} />
                   Rename Step
                 </MenuItem>,
