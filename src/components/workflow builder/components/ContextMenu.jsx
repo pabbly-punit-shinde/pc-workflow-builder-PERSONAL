@@ -29,7 +29,7 @@ export default function ContextMenu({ id, top, left, onClose }) {
       let adjustedLeft = left;
 
       if (top + menuHeight > viewportHeight) {
-        adjustedTop = viewportHeight - menuHeight - 200; // 10px padding from edge
+        adjustedTop = viewportHeight - menuHeight - 10; // 10px padding from edge
       }
       if (left + menuWidth > viewportWidth) {
         adjustedLeft = viewportWidth - menuWidth - 50;

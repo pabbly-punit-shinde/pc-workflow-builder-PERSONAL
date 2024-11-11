@@ -60,7 +60,7 @@ const CustomNode = ({ data, isHorizontal }) => {
           </Box>
 
           {/* Error Icon in the top right corner */}
-          <Tooltip title="Errors occured in this step." arrow placement="top" disableInteractive>
+          <Tooltip title="Error occured in this step." arrow placement="top" disableInteractive>
             <Iconify
               id="errorInNode"
               width={24}
