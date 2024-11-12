@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-
 import { Box, Tooltip } from '@mui/material';
-
-// import { Iconify } from 'src/components/iconify';
-// import Overlay from './Overlay';
-// import DownloadButton from './DownloadButton';
 
 const DIRECTION = {
   DOWN: 'TB',
@@ -31,28 +26,35 @@ const ButtonsPanel = ({
   toggleMinimap,
   toggleEdgeStyleAndAnimate,
 }) => {
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const [clickCount, setClickCount] = useState(0);
 
-  // Function to determine the icon based on the click count
-  const getButtonIcon = () => {
+  // Function to determine the icon and tooltip based on the click count
+  const getButtonIconAndTooltip = () => {
     const cycle = clickCount % 3; // We will cycle through 3 states (Solid, Dashed, Animated)
     if (cycle === 1) {
-      return '/assets/images/reactflow/icons/animate.svg'; // Dashed icon
+      return {
+        icon: '/assets/images/reactflow/icons/animate.svg', // Animate icon
+        tooltip: 'Animate Edges', // Tooltip for Animate
+      };
     }
     if (cycle === 2) {
-      return '/assets/images/reactflow/icons/solid.svg'; // Animated icon
+      return {
+        icon: '/assets/images/reactflow/icons/solid.svg', // Solid icon
+        tooltip: 'Solid Edges', // Tooltip for Solid
+      };
     }
-    return '/assets/images/reactflow/icons/dashed.svg'; // Solid icon
+    return {
+      icon: '/assets/images/reactflow/icons/dashed.svg', // Dashed icon
+      tooltip: 'Dashed Edges', // Tooltip for Dashed
+    };
   };
+
+  // Get icon and tooltip dynamically based on the current state
+  const { icon, tooltip } = getButtonIconAndTooltip();
+
   const handleEdgeStyleAndAnimate = () => {
     setClickCount((prevCount) => prevCount + 1);
     toggleEdgeStyleAndAnimate();
-  };
-  // Function to handle downloading the snapshot with selected size
-  const handleDownload = (size) => {
-    console.log('Downloading snapshot with size:', size);
-    // Add logic for downloading snapshot in the desired size
   };
 
   return (
@@ -145,43 +147,17 @@ const ButtonsPanel = ({
         </button>
       </Tooltip>
 
-      {/* Button to toggle edge Solid or Dashed
-      <button type="button" onClick={toggleDashStyle} style={buttonStyle}>
-        {isDashed ? (
-          <Tooltip title="Toggle Solid Edges" arrow placement="top" disableInteractive>
-            <img
-              src="/assets/images/reactflow/icons/solid.svg"
-              style={iconStyle}
-              alt="Toggle Solid Edges"
-            />
-          </Tooltip>
-        ) : (
-          <Tooltip title="Toggle Dashed Edges" arrow placement="top" disableInteractive>
-            <img
-              src="/assets/images/reactflow/icons/dashed.svg"
-              style={iconStyle}
-              alt="Toggle Dashed Edges"
-            />
-          </Tooltip>
-        )}
-      </button> */}
       <Box
         sx={{
-          // width: {
-          //   xs: '30px',
-
-          //   md: '1px',
-          // },
           height: '1px',
           backgroundColor: '#D3D3D3',
-          // margin: '5px 0',
         }}
       />
 
-      {/* Button to toggle edge animation */}
-      <Tooltip title="toggle EdgeStyle And Animate" arrow placement="top" disableInteractive>
+      {/* Button to toggle edge animation with dynamic tooltip */}
+      <Tooltip title={tooltip} arrow placement="top" disableInteractive>
         <button type="button" onClick={handleEdgeStyleAndAnimate} style={buttonStyle}>
-          <img src={getButtonIcon()} style={iconStyle} alt="Toggle Animation" />
+          <img src={icon} style={iconStyle} alt={tooltip} />
         </button>
       </Tooltip>
 
@@ -195,26 +171,6 @@ const ButtonsPanel = ({
           />
         </button>
       </Tooltip>
-
-      {/* Button to open the overlay for snapshot */}
-      {/* <Tooltip title="Choose Snapshot Size" arrow placement="top" disableInteractive>
-        <button type="button" style={buttonStyle} onClick={() => setIsOverlayOpen(true)}>
-          <img
-            src="/assets/images/reactflow/icons/image-download.svg"
-            style={iconStyle}
-            alt="Snapshot Sizes"
-          />
-        </button>
-      </Tooltip>
-
-      <Overlay
-        open={isOverlayOpen}
-        onClose={() => setIsOverlayOpen(false)}
-        onDownload={handleDownload}
-      /> */}
-
-      {/* Button to Download Snapshot */}
-      {/* <DownloadButton /> */}
     </Box>
   );
 };
