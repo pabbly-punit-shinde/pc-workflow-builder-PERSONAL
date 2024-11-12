@@ -1,7 +1,8 @@
 // Importing the necessary styles and libraries
 import '@xyflow/react/dist/style.css';
 
-import dagre from 'dagre';
+// import dagre from 'dagre';
+import { tree, hierarchy } from 'd3-hierarchy';
 import React, { useRef, useMemo, useState, useEffect, useCallback } from 'react';
 import {
   Panel, // Panel component to place elements in specific positions within the flow
@@ -36,53 +37,104 @@ const withIsHorizontal = (isHorizontal) => (props) => (
 );
 
 // Function to layout the graph using the dagre library (for automatic node positioning)
-const getDagreLayout = (nodes, edges, direction = 'TB') => {
-  const g = new dagre.graphlib.Graph();
-  const baseNodeSpacing = direction === 'LR' ? 200 : 200; // Define spacing between nodes
-  const baseRankSpacing = direction === 'LR' ? 100 : 100; // Define spacing between node ranks
+// const getDagreLayout = (nodes, edges, direction = 'TB') => {
+//   const g = new dagre.graphlib.Graph();
+//   const baseNodeSpacing = direction === 'LR' ? 200 : 200; // Define spacing between nodes
+//   const baseRankSpacing = direction === 'LR' ? 100 : 100; // Define spacing between node ranks
 
-  // Count how many edges go out from each node
-  const targetCounts = edges.reduce((acc, edge) => {
-    acc[edge.source] = (acc[edge.source] || 0) + 1;
+//   // Count how many edges go out from each node
+//   const targetCounts = edges.reduce((acc, edge) => {
+//     acc[edge.source] = (acc[edge.source] || 0) + 1;
+//     return acc;
+//   }, {});
+
+//   // Set graph layout options like direction and spacing
+//   g.setGraph({
+//     rankdir: direction,
+//     nodesep: baseNodeSpacing,
+//     ranksep: baseRankSpacing,
+//   });
+
+//   g.setDefaultEdgeLabel(() => ({})); // Set default edge labels (none)
+
+//   // Add nodes to the graph
+//   nodes.forEach((node) => {
+//     g.setNode(node.id, { width: 100, height: 50 }); // Set width and height for each node
+//   });
+
+//   // Add edges to the graph
+//   edges.forEach((edge) => {
+//     g.setEdge(edge.source, edge.target); // Define edges between nodes
+//   });
+
+//   // Perform the layout computation
+//   dagre.layout(g);
+
+//   // Map layouted positions back to nodes
+//   const newNodes = nodes.map((node) => {
+//     const dagreNode = g.node(node.id);
+//     return {
+//       ...node,
+//       position: {
+//         x: dagreNode.x + Math.random() * 0.1, // Randomize position slightly for visual variation
+//         y: dagreNode.y + Math.random() * 0.1,
+//       },
+//     };
+//   });
+
+//   return { nodes: newNodes, edges }; // Return the updated node and edge positions
+// };
+
+// Function to layout the graph using the d3-hierarchy library
+const getD3HierarchyLayout = (nodes, edges, direction = 'TB') => {
+  // Map nodes to a structure that d3-hierarchy expects
+  const nodeMap = nodes.reduce((acc, node) => {
+    acc[node.id] = { ...node, children: [] };
     return acc;
   }, {});
 
-  // Set graph layout options like direction and spacing
-  g.setGraph({
-    rankdir: direction,
-    nodesep: baseNodeSpacing,
-    ranksep: baseRankSpacing,
-  });
-
-  g.setDefaultEdgeLabel(() => ({})); // Set default edge labels (none)
-
-  // Add nodes to the graph
-  nodes.forEach((node) => {
-    g.setNode(node.id, { width: 100, height: 50 }); // Set width and height for each node
-  });
-
-  // Add edges to the graph
+  // Define children based on edges
   edges.forEach((edge) => {
-    g.setEdge(edge.source, edge.target); // Define edges between nodes
+    const sourceNode = nodeMap[edge.source];
+    const targetNode = nodeMap[edge.target];
+    if (sourceNode && targetNode) {
+      sourceNode.children.push(targetNode);
+    }
   });
 
-  // Perform the layout computation
-  dagre.layout(g);
+  // Identify the root node
+  const rootNode = nodes.find((node) => !edges.some((edge) => edge.target === node.id));
+  if (!rootNode) {
+    console.error('No root node found for layout. Ensure graph is a tree or DAG.');
+    return { nodes, edges };
+  }
 
-  // Map layouted positions back to nodes
+  // Create the root hierarchy
+  const root = hierarchy(nodeMap[rootNode.id]);
+
+  // Define the layout with adjustable node size and separation
+  const treeLayout = tree()
+    .nodeSize(direction === 'LR' ? [150, 200] : [200, 150]) // Adjust nodeSize for spacing
+    .separation((a, b) => (a.parent === b.parent ? 1.5 : 2)); // Adjust separation
+
+  // Apply layout to the root hierarchy
+  treeLayout(root);
+
+  // Map layouted positions back to nodes with slight random offset
   const newNodes = nodes.map((node) => {
-    const dagreNode = g.node(node.id);
+    const layoutNode = root.descendants().find((n) => n.data.id === node.id);
     return {
       ...node,
       position: {
-        x: dagreNode.x + Math.random() * 0.1, // Randomize position slightly for visual variation
-        y: dagreNode.y + Math.random() * 0.1,
+        x: (direction === 'LR' ? layoutNode.y : layoutNode.x) + Math.random() * 0.01,  // Slight offset in x
+        y: (direction === 'LR' ? layoutNode.x : layoutNode.y) + Math.random() * 0.01,  // Slight offset in y
       },
     };
   });
 
-  return { nodes: newNodes, edges }; // Return the updated node and edge positions
+  return { nodes: newNodes, edges };
 };
+
 
 // Function to generate gradient colors for edges based on node colors
 const generateGradients = (nodes, edges, isDashed) => {
@@ -192,12 +244,23 @@ function LayoutFlow() {
   };
 
   // Handle layout changes (top-to-bottom or left-to-right)
+  // const onLayout = useCallback(
+  //   ({ direction, useInitialNodes = false }) => {
+  //     const ns = useInitialNodes ? initialNodes : nodes;
+  //     const es = useInitialNodes ? initialEdges : edges;
+  //     setIsHorizontal(direction === 'LR');
+  //     const layoutedElements = getDagreLayout(ns, es, direction);
+  //     setNodes(layoutedElements.nodes);
+  //     setEdges(layoutedElements.edges);
+  //   },
+  //   [nodes, edges, setEdges, setNodes]
+  // );
   const onLayout = useCallback(
     ({ direction, useInitialNodes = false }) => {
       const ns = useInitialNodes ? initialNodes : nodes;
       const es = useInitialNodes ? initialEdges : edges;
       setIsHorizontal(direction === 'LR');
-      const layoutedElements = getDagreLayout(ns, es, direction);
+      const layoutedElements = getD3HierarchyLayout(ns, es, direction);
       setNodes(layoutedElements.nodes);
       setEdges(layoutedElements.edges);
     },
@@ -300,7 +363,7 @@ function LayoutFlow() {
         // Second click: Start animation
         setIsAnimated(true);
         updateEdgesWithTypeAndAnimation(edgeType, true);
-      } 
+      }
       return newCount;
     });
   };
