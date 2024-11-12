@@ -19,7 +19,6 @@ const initialNodes = [
     type: 'custom',
     data: {
       nodeType: 'external-app',
-
       color: '#4285F4',
       label: 'Google Docs',
       subtext: 'Append Text to Doc...',
@@ -34,7 +33,6 @@ const initialNodes = [
     type: 'custom',
     data: {
       nodeType: 'internal-app',
-
       color: '#20B276',
       label: 'Router (Pabbly)',
       subtext: 'Split Into Routes',
@@ -49,7 +47,6 @@ const initialNodes = [
     data: {
       // color: "#74AA9C",
       nodeType: 'external-app',
-
       color: '#00A67E',
       label: 'Chat Gpt',
       subtext: 'Append Text to Doc...',
@@ -64,7 +61,6 @@ const initialNodes = [
     data: {
       // color: "#C75E56",
       nodeType: 'external-app',
-
       color: '#D44638',
       label: 'Gmail',
       subtext: 'Incoming Messages',
@@ -79,7 +75,6 @@ const initialNodes = [
     type: 'custom',
     data: {
       nodeType: 'external-app',
-
       color: '#F8761F',
       label: 'Hubspot',
       subtext: 'Create Contact',
@@ -93,7 +88,6 @@ const initialNodes = [
     type: 'custom',
     data: {
       nodeType: 'internal-app',
-
       color: '#20B276',
       label: 'Router (Pabbly)',
       subtext: 'Split Into Routes',
@@ -107,7 +101,6 @@ const initialNodes = [
     type: 'custom',
     data: {
       nodeType: 'external-app',
-
       color: '#F0C95C',
       label: 'Javascript',
       subtext: 'Extract Data',
@@ -121,7 +114,6 @@ const initialNodes = [
     type: 'custom',
     data: {
       nodeType: 'internal-app',
-
       color: '#20B276',
       label: 'Router (Pabbly)',
       subtext: 'Split Into Routes',
@@ -136,7 +128,6 @@ const initialNodes = [
     type: 'custom',
     data: {
       nodeType: 'external-app',
-
       color: '#007392',
       label: 'MySql',
       subtext: 'Add New Row',
@@ -151,7 +142,6 @@ const initialNodes = [
     type: 'custom',
     data: {
       nodeType: 'external-app',
-
       color: '#36B056',
       label: 'Google Sheets',
       subtext: 'Append Text to Doc...',
@@ -166,7 +156,6 @@ const initialNodes = [
     type: 'custom',
     data: {
       nodeType: 'external-app',
-
       color: '#4285F4',
       label: 'Google Docs',
       subtext: 'Append Text to Doc...',

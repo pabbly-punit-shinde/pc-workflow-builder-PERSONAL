@@ -4,11 +4,17 @@ import React, { useState } from 'react'; // React library
 import { Box, Tooltip } from '@mui/material'; // Material UI Box component for layout and styling
 import { Iconify } from 'src/components/iconify'; // Custom Iconify component for icons
 
-import HoverButton from '../partials/HoverButton'; // Import the HoverButton component
+import { initialEdges } from '../nodes-edges complex workflow'; // Initial state for nodes and edges
+import LastNodeButton from '../partials/LastNodeButton';
+
+function hasNoLeadingEdges(nodeId) {
+  return !initialEdges.some((edge) => edge.source === nodeId);
+}
 
 // CustomNode component to render a node with icon, label, and handles
-const CustomNode = ({ data, isHorizontal }) => {
+const CustomNode = ({ id, data, isHorizontal }) => {
   const [isHovered, setIsHovered] = useState(false); // State to track hover status
+  const showHoverButton = hasNoLeadingEdges(id);
 
   // Function to determine the rotation style for the image based on node label and orientation
   const getImageRotationStyle = () =>
@@ -59,13 +65,14 @@ const CustomNode = ({ data, isHorizontal }) => {
                 transform: getImageRotationStyle(), // Apply rotation if needed
               }}
             />
-       
-            <HoverButton
-              isHorizontal={isHorizontal}
-              color={data.color}
-              onClick={() => alert('New node will be added when clicked.')}
-            />
-        
+            {/* Render HoverButton only if the node has no leading edges */}
+            {showHoverButton && (
+              <LastNodeButton
+                isHorizontal={isHorizontal}
+                color={data.color}
+                onClick={() => alert('New node will be added when clicked.')}
+              />
+            )}
           </Box>
 
           {/* Error Icon in the top right corner */}

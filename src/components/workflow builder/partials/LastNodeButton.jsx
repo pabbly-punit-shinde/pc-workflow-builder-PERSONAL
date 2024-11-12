@@ -1,7 +1,7 @@
 // import { width } from '@mui/system';
 import React, { useState } from 'react';
 
-function HoverButton({ isHorizontal, color, onClick }) {
+function LastNodeButton({ isHorizontal, color, onClick }) {
   const [isHovered, setIsHovered] = useState(false);
 
   const baseStyle = {
@@ -9,8 +9,8 @@ function HoverButton({ isHorizontal, color, onClick }) {
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    bottom: isHorizontal ? 35 : -18,
-    right: isHorizontal ? -23 : 33,
+    bottom: isHorizontal ? 42 : -18,
+    right: isHorizontal ? -28: 33,
     rotate: isHorizontal ? '270deg' : '0deg',
     background: color,
     color: 'white',
@@ -42,15 +42,17 @@ function HoverButton({ isHorizontal, color, onClick }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <svg 
-        xmlns="http://www.w3.org/2000/svg" 
-        style={{width:'12px'}}
-        viewBox="0 0 24 24"
-      >
-        <path fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M12 20v-8m0 0V4m0 8h8m-8 0H4"/>
+      <svg xmlns="http://www.w3.org/2000/svg" style={{ width: '12px' }} viewBox="0 0 24 24">
+        <path
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeWidth="2"
+          d="M12 20v-8m0 0V4m0 8h8m-8 0H4"
+        />
       </svg>
     </button>
   );
 }
 
-export default HoverButton;
+export default LastNodeButton;
