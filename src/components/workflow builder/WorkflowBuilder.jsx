@@ -14,7 +14,9 @@ import {
   useReactFlow, // Hook to interact with the ReactFlow instance
   useEdgesState, // Hook to manage the edges state
   useNodesState, // Hook to manage the nodes state
-  ReactFlowProvider, // Context provider for ReactFlow
+  ReactFlowProvider,
+  Background,
+  BackgroundVariant, // Context provider for ReactFlow
 } from '@xyflow/react';
 
 import { Box, Tooltip } from '@mui/material'; // Material UI Box component for layout
@@ -185,7 +187,7 @@ const generateGradients = (nodes, edges, isDashed) => {
     // Apply the gradient to the edge style
     edge.style = {
       stroke: `url(#${gradientId})`,
-      strokeWidth: 4,
+      strokeWidth: 3,
       opacity: 0.75,
       strokeDasharray: isDashed ? '5,5' : '0', // Optional dashed style for edges
     };
@@ -416,7 +418,7 @@ function LayoutFlow() {
         draggable
         defaultEdgeOptions={defaultEdgeOptions}
         proOptions={proOptions}
-        style={{ flex: 1 }}
+        style={{ flex: 1,backgroundColor:"#f8f8f8" }}
       >
         {/* Define gradient styles for edges */}
         <svg width="0" height="0">
@@ -440,7 +442,19 @@ function LayoutFlow() {
             /> */}
           </Box>
         </Panel>
-
+        <Background
+        gap={20}
+        color="#ddd"
+        
+        variant={BackgroundVariant.dot}
+      />
+{/*  
+      <Background
+        id="2"
+        gap={100}
+        color="#ccc"
+        variant={BackgroundVariant.Lines}
+      /> */}
         {/* Controls for zoom and other functionalities */}
         <Controls>
           {' '}
