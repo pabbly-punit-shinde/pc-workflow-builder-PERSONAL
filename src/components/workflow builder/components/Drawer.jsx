@@ -20,7 +20,7 @@ const Drawer = ({
       display: 'flex',
       flexDirection: { xs: 'column', sm: 'column', md: 'column' },
       justifyContent: 'space-between', // Spread items to place the button icon at the end
-      gap: '10px',
+      // gap: '10px',
       backgroundColor: '#FFFFFF',
       // padding: '5px',
       width: '27px',

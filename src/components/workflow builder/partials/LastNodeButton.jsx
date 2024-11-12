@@ -1,4 +1,5 @@
 // import { width } from '@mui/system';
+import { Tooltip } from '@mui/material';
 import React, { useState } from 'react';
 
 function LastNodeButton({ isHorizontal, color, onClick }) {
@@ -35,6 +36,7 @@ function LastNodeButton({ isHorizontal, color, onClick }) {
   // };
 
   return (
+    <Tooltip title="Add another module" arrow placement="top" disableInteractive>
     <button
       type="button"
       style={isHovered ? { ...baseStyle, ...hoverStyle } : baseStyle}
@@ -52,6 +54,7 @@ function LastNodeButton({ isHorizontal, color, onClick }) {
         />
       </svg>
     </button>
+    </Tooltip>
   );
 }
 
