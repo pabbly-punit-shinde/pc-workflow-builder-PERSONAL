@@ -9,11 +9,13 @@ const Drawer = ({
   setIsDrawerOpen,
   onLayout,
   setEdgeType,
-  toggleAnimation,
+
   toggleMinimap,
   fitView,
   isDashed,
-  toggleDashStyle,
+  isAnimated,
+
+  toggleEdgeStyleAndAnimate,
 }) => (
   <Box
     sx={{
@@ -39,10 +41,13 @@ const Drawer = ({
           onLayout={onLayout}
           setEdgeType={setEdgeType}
           fitView={fitView}
-          toggleAnimation={toggleAnimation}
           toggleMinimap={toggleMinimap}
           isDashed={isDashed}
-          toggleDashStyle={toggleDashStyle}
+          isAnimated={isAnimated}
+
+          // toggleAnimation={toggleAnimation}
+          // toggleDashStyle={toggleDashStyle}
+          toggleEdgeStyleAndAnimate={toggleEdgeStyleAndAnimate}
         />
       </Box>
     )}

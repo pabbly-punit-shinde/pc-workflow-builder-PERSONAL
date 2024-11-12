@@ -160,6 +160,8 @@ function LayoutFlow() {
   const [menu, setMenu] = useState(null);
   const [isMiniMapVisible, setIsMiniMapVisible] = useState(false); // State for toggling MiniMap visibility
   const [isDashed, setIsDashed] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+
   const ref = useRef(null); // Ref for ReactFlow component
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   // Node type definitions (custom node with horizontal layout option)
@@ -216,27 +218,90 @@ function LayoutFlow() {
   }, [isInitialLayoutSet, fitView]);
 
   // Toggle edge animation
-  const toggleAnimation = () => {
-    setIsAnimated((prev) => {
-      updateEdgesWithTypeAndAnimation(edgeType, !prev);
-      return !prev;
-    });
-  };
+  // const toggleAnimation = () => {
+  //   setIsAnimated((prev) => {
+  //     const newIsAnimated = !prev;
 
-  // Toggle dashed/solid edge style
-  const toggleDashStyle = () => {
-    setIsDashed((prev) => {
-      const newDashedState = !prev;
-      setEdges((eds) =>
-        eds.map((edge) => ({
-          ...edge,
-          style: {
-            ...edge.style,
-            strokeDasharray: newDashedState ? '5,5' : '0', // Toggle between dashed and solid
-          },
-        }))
-      );
-      return newDashedState;
+  //     // Update edges with new animation state and dash style
+  //     setEdges(() =>
+  //       edges.map((edge) => ({
+  //         ...edge,
+  //         animated: newIsAnimated,
+  //         style: {
+  //           ...edge.style,
+  //           strokeDasharray: newIsAnimated ? '5,5' : '0', // Set dashed if animated, solid otherwise
+  //         },
+  //       }))
+  //     );
+
+  //     // Apply updated animation state
+  //     updateEdgesWithTypeAndAnimation(edgeType, newIsAnimated);
+
+  //     return newIsAnimated;
+  //   });
+  // };
+
+  // // Toggle dashed/solid edge style
+  // const toggleDashStyle = () => {
+  //   setIsDashed((prev) => {
+  //     const newDashedState = !prev;
+
+  //     // Update edges with new dashed/solid style
+  //     setEdges((eds) =>
+  //       eds.map((edge) => ({
+  //         ...edge,
+  //         style: {
+  //           ...edge.style,
+  //           strokeDasharray: newDashedState ? '5,5' : '0', // Toggle between dashed and solid
+  //         },
+  //       }))
+  //     );
+
+  //     // Ensure animation is turned off when toggling dash style
+  //     setIsAnimated(false);
+
+  //     return newDashedState;
+  //   });
+  // };
+
+  const toggleEdgeStyleAndAnimate = () => {
+    setClickCount((prevCount) => {
+      const newCount = (prevCount + 1) % 3;
+
+      // Reset animation state each cycle to ensure it's ready for the next start
+      if (newCount === 0) {
+        setEdges(() =>
+          edges.map((edge) => ({
+            ...edge,
+            style: {
+              ...edge.style,
+              strokeDasharray: '0', // Solid style
+            },
+          }))
+        );
+        setIsDashed(false);
+        setIsAnimated(false); // Ensure animation is off before restarting
+        updateEdgesWithTypeAndAnimation(edgeType, false);
+      }
+
+      if (newCount === 1) {
+        // First click: Set edges to dashed
+        setEdges(() =>
+          edges.map((edge) => ({
+            ...edge,
+            style: {
+              ...edge.style,
+              strokeDasharray: '5,5', // Dashed style
+            },
+          }))
+        );
+        setIsDashed(true);
+      } else if (newCount === 2) {
+        // Second click: Start animation
+        setIsAnimated(true);
+        updateEdgesWithTypeAndAnimation(edgeType, true);
+      } 
+      return newCount;
     });
   };
 
@@ -316,7 +381,6 @@ function LayoutFlow() {
         {/* Controls for zoom and other functionalities */}
         <Controls>
           {' '}
-          
           <Tooltip title="Choose Snapshot Size" arrow placement="top" disableInteractive>
             <button
               type="button"
@@ -326,7 +390,7 @@ function LayoutFlow() {
                 backgroundColor: '#ffffff',
                 border: 'none',
                 cursor: 'pointer',
-                marginBottom:'1px'
+                marginBottom: '1px',
               }}
               onClick={() => setIsOverlayOpen(true)}
             >
@@ -349,11 +413,13 @@ function LayoutFlow() {
             setIsDrawerOpen={setIsDrawerOpen}
             onLayout={onLayout}
             setEdgeType={handleEdgeTypeChange}
-            toggleAnimation={toggleAnimation}
             fitView={fitView}
             toggleMinimap={toggleMinimap}
-            toggleDashStyle={toggleDashStyle}
+            // toggleAnimation={toggleAnimation}
+            // toggleDashStyle={toggleDashStyle}
             isDashed={isDashed}
+            isAnimated={isAnimated}
+            toggleEdgeStyleAndAnimate={toggleEdgeStyleAndAnimate}
           />
         </Controls>
 

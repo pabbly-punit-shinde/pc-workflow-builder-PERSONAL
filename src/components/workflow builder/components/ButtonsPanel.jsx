@@ -28,13 +28,27 @@ const ButtonsPanel = ({
   onLayout,
   setEdgeType,
   fitView,
-  toggleAnimation,
   toggleMinimap,
-  isDashed,
-  toggleDashStyle,
+  toggleEdgeStyleAndAnimate,
 }) => {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
 
+  // Function to determine the icon based on the click count
+  const getButtonIcon = () => {
+    const cycle = clickCount % 3; // We will cycle through 3 states (Solid, Dashed, Animated)
+    if (cycle === 1) {
+      return '/assets/images/reactflow/icons/animate.svg'; // Dashed icon
+    }
+    if (cycle === 2) {
+      return '/assets/images/reactflow/icons/solid.svg'; // Animated icon
+    }
+    return '/assets/images/reactflow/icons/dashed.svg'; // Solid icon
+  };
+  const handleEdgeStyleAndAnimate = () => {
+    setClickCount((prevCount) => prevCount + 1);
+    toggleEdgeStyleAndAnimate();
+  };
   // Function to handle downloading the snapshot with selected size
   const handleDownload = (size) => {
     console.log('Downloading snapshot with size:', size);
@@ -89,30 +103,10 @@ const ButtonsPanel = ({
         </button>
       </Tooltip>
 
-      {/* <Box
-        sx={{
-          width: {
-            xs: '30px',
-            md: '1px',
-          },
-          height: {
-            xs: '1px',
-            md: '20px',
-          },
-          backgroundColor: '#D3D3D3',
-          margin: '5px 0',
-        }}
-      /> */}
       <Box
         sx={{
-          // width: {
-          //   xs: '30px',
-
-          //   md: '1px',
-          // },
           height: '1px',
           backgroundColor: '#D3D3D3',
-          // margin: '5px 0',
         }}
       />
       <Tooltip title="Straight Edges" arrow placement="top" disableInteractive>
@@ -124,13 +118,6 @@ const ButtonsPanel = ({
           />
         </button>
       </Tooltip>
-
-      {/* Button to toggle Smoothsteps edge */}
-      {/* <Tooltip title="Steps Edges" arrow placement="top" disableInteractive>
-        <button type="button" style={buttonStyle} onClick={() => setEdgeType('step')}>
-          <img src="/assets/images/reactflow/icons/steps.svg" style={iconStyle} alt="Steps Edges" />
-        </button>
-      </Tooltip> */}
 
       {/* Button to toggle Smoothsteps edge */}
       <Tooltip title="Smoothsteps Edges" arrow placement="top" disableInteractive>
@@ -158,7 +145,7 @@ const ButtonsPanel = ({
         </button>
       </Tooltip>
 
-      {/* Button to toggle edge Solid or Dashed */}
+      {/* Button to toggle edge Solid or Dashed
       <button type="button" onClick={toggleDashStyle} style={buttonStyle}>
         {isDashed ? (
           <Tooltip title="Toggle Solid Edges" arrow placement="top" disableInteractive>
@@ -177,7 +164,7 @@ const ButtonsPanel = ({
             />
           </Tooltip>
         )}
-      </button>
+      </button> */}
       <Box
         sx={{
           // width: {
@@ -192,18 +179,9 @@ const ButtonsPanel = ({
       />
 
       {/* Button to toggle edge animation */}
-      <Tooltip
-        title="Toggle edges animation (Edges should be dashed)"
-        arrow
-        placement="top"
-        disableInteractive
-      >
-        <button type="button" onClick={toggleAnimation} style={buttonStyle}>
-          <img
-            src="/assets/images/reactflow/icons/animate.svg" // Replace with your animation icon
-            style={iconStyle}
-            alt="Toggle Animation"
-          />
+      <Tooltip title="toggle EdgeStyle And Animate" arrow placement="top" disableInteractive>
+        <button type="button" onClick={handleEdgeStyleAndAnimate} style={buttonStyle}>
+          <img src={getButtonIcon()} style={iconStyle} alt="Toggle Animation" />
         </button>
       </Tooltip>
 
@@ -217,7 +195,6 @@ const ButtonsPanel = ({
           />
         </button>
       </Tooltip>
-
 
       {/* Button to open the overlay for snapshot */}
       {/* <Tooltip title="Choose Snapshot Size" arrow placement="top" disableInteractive>

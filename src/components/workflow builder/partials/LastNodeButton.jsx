@@ -1,6 +1,7 @@
 // import { width } from '@mui/system';
-import { Tooltip } from '@mui/material';
 import React, { useState } from 'react';
+
+import { Tooltip } from '@mui/material';
 
 function LastNodeButton({ isHorizontal, color, onClick }) {
   const [isHovered, setIsHovered] = useState(false);
