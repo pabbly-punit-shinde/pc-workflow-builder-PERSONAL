@@ -185,7 +185,7 @@ const generateGradients = (nodes, edges, isDashed) => {
     // Apply the gradient to the edge style
     edge.style = {
       stroke: `url(#${gradientId})`,
-      strokeWidth: 2,
+      strokeWidth: 4,
       opacity: 0.75,
       strokeDasharray: isDashed ? '5,5' : '0', // Optional dashed style for edges
     };
