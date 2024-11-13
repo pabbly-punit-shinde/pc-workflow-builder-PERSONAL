@@ -24,21 +24,22 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
       x: (isHorizontal ? positionAbsoluteX + 150 : positionAbsoluteX) + Math.random() * 0.01,
       y: (isHorizontal ? positionAbsoluteY : positionAbsoluteY + 150) + Math.random() * 0.01,
     };
-    
 
     // Create new child node
     addNodes({
       id: newNodeId,
       position: childNodePosition,
       type: 'custom',
-    data: {
-      // nodeType: 'external-app',
-      color: '#637381',
-      label: 'Empty Step',
-      subtext: 'Add New Action Step',
-      icon: '/assets/images/reactflow/newNode.svg',
-      note: false,
-    },
+      data: {
+        // nodeType: 'external-app',
+        color: '#93AABD',    // v1
+        // color: '#798D9E', // v2
+        // color: '#637381', // v3
+        label: 'Empty Step',
+        subtext: 'Add New Action Step',
+        icon: '/assets/images/reactflow/newNodeV1.svg',
+        note: false,
+      },
     });
 
     // Create edge from current node to child node
@@ -140,6 +141,7 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
         </div>
 
         <Handle
+          isConnectable={false}
           type="source"
           position={isHorizontal ? 'right' : 'bottom'}
           style={{
@@ -152,6 +154,7 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
         />
 
         <Handle
+          isConnectable={false}
           type="target"
           position={isHorizontal ? 'left' : 'top'}
           style={{

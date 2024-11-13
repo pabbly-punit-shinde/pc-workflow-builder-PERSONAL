@@ -87,7 +87,7 @@ const withIsHorizontal = (isHorizontal) => (props) => (
 //   return { nodes: newNodes, edges }; // Return the updated node and edge positions
 // };
 
-// Function to layout the graph using the d3-hierarchy library
+// Function to layout the graph using the d3-hierarchy library      
 const getD3HierarchyLayout = (nodes, edges, direction = 'TB') => {
   // Map nodes to a structure that d3-hierarchy expects
   const nodeMap = nodes.reduce((acc, node) => {
@@ -217,19 +217,17 @@ function LayoutFlow() {
 
   const ref = useRef(null); // Ref for ReactFlow component
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
-  // Node type definitions (custom node with horizontal layout option)
-  const nodeTypes = useMemo(
-    () => ({
-      custom: withIsHorizontal(isHorizontal),
-    }),
-    [isHorizontal]
-  );
 
-  // Callback for handling node connection (creating new edges)
+   // Memoize the nodeTypes to avoid recalculating on every render
+   const nodeTypes = useMemo(() => ({
+    custom: withIsHorizontal(isHorizontal),
+  }), [isHorizontal]); // Only change when isHorizontal changes
+  
+
   const onConnect = useCallback(
     (params) => {
       const newEdge = { ...params, type: edgeType, animated: isAnimated };
-      setEdges((eds) => addEdge(newEdge, eds)); // Add the new edge to the state
+      setEdges((eds) => addEdge(newEdge, eds));
     },
     [edgeType, isAnimated, setEdges]
   );
@@ -270,14 +268,14 @@ function LayoutFlow() {
 
   useEffect(() => {
     if (!isInitialLayoutSet) {
-      onLayout({ direction: 'TB', useInitialNodes: true }); // Set initial layout
+      onLayout({ direction: 'TB', useInitialNodes: true });
       setIsInitialLayoutSet(true);
     }
   }, [isInitialLayoutSet, onLayout]);
 
   useEffect(() => {
     if (isInitialLayoutSet) {
-      fitView(); // Adjust view to fit the layout
+      fitView();
     }
   }, [isInitialLayoutSet, fitView]);
 
@@ -415,6 +413,7 @@ function LayoutFlow() {
         fitView
         nodeTypes={nodeTypes}
         draggable
+        elementsSelectable={false}
         defaultEdgeOptions={defaultEdgeOptions}
         proOptions={proOptions}
         style={{ flex: 1, backgroundColor: '#f8f8f8' }}
