@@ -60,7 +60,7 @@ const ButtonsPanel = ({
 
   return (
     <Box
-      sx={{ display: 'flex', gap: 1 }}
+      sx={{ display: 'flex' }}
       flexDirection={{ xs: 'column', sm: 'column', md: 'column' }}
     >
       <Tooltip
@@ -109,7 +109,7 @@ const ButtonsPanel = ({
       <Box
         sx={{
           height: '1px',
-          backgroundColor: '#D3D3D3',
+          backgroundColor: 'rgba(84, 95, 111, .10)',
         }}
       />
       <Tooltip title="Straight Edges" arrow placement="top" disableInteractive>
@@ -151,7 +151,7 @@ const ButtonsPanel = ({
       <Box
         sx={{
           height: '1px',
-          backgroundColor: '#D3D3D3',
+          backgroundColor: 'rgba(84, 95, 111, .10)',
         }}
       />
 

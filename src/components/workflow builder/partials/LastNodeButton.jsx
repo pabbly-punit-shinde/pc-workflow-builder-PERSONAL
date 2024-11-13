@@ -37,7 +37,7 @@ function LastNodeButton({ isHorizontal, color, onClick }) {
   // };
 
   return (
-    <Tooltip title="Add another module" arrow placement="top" disableInteractive>
+    <Tooltip title="Add new action step" arrow placement="top" disableInteractive>
     <button
       type="button"
       style={isHovered ? { ...baseStyle, ...hoverStyle } : baseStyle}

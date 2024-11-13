@@ -28,7 +28,7 @@ const Drawer = ({
       width: '27px',
 
       borderRadius: '4px',
-      boxShadow: '0 2px 4px rgba(84, 95, 111, .16), 0 0 1px rgba(37, 45, 91, .04)',
+      boxShadow: '0 2px 4px rgba(84, 95, 111, .06)',
       transition: 'width 0.3s ease',
     }}
   >

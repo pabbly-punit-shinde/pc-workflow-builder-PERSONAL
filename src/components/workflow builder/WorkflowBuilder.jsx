@@ -10,12 +10,12 @@ import {
   addEdge, // Function to add an edge between nodes
   Controls, // Controls component for zooming, panning, etc.
   ReactFlow, // Main component to render the graph/flow
+  Background,
   MarkerType, // Enum for defining types of markers on edges
   useReactFlow, // Hook to interact with the ReactFlow instance
   useEdgesState, // Hook to manage the edges state
   useNodesState, // Hook to manage the nodes state
   ReactFlowProvider,
-  Background,
   BackgroundVariant, // Context provider for ReactFlow
 } from '@xyflow/react';
 
@@ -26,7 +26,7 @@ import WorkflowNameHeader from 'src/components/workflow builder/components/workf
 import Drawer from './components/Drawer'; // Custom drawer component for UI controls
 import CustomNode from './components/CustomNodes'; // Custom node component for the flow chart
 import ContextMenu from './components/ContextMenu'; // Context menu for node right-click actions
-import { initialNodes, initialEdges } from './nodes-edges complex workflow'; // Initial state for nodes and edges
+import { initialNodes, initialEdges } from './nodes-edges'; // Initial state for nodes and edges
 import Overlay from './components/Overlay';
 
 // Setting default configuration options
@@ -128,15 +128,14 @@ const getD3HierarchyLayout = (nodes, edges, direction = 'TB') => {
     return {
       ...node,
       position: {
-        x: (direction === 'LR' ? layoutNode.y : layoutNode.x) + Math.random() * 0.01,  // Slight offset in x
-        y: (direction === 'LR' ? layoutNode.x : layoutNode.y) + Math.random() * 0.01,  // Slight offset in y
+        x: (direction === 'LR' ? layoutNode.y : layoutNode.x) + Math.random() * 0.01, // Slight offset in x
+        y: (direction === 'LR' ? layoutNode.x : layoutNode.y) + Math.random() * 0.01, // Slight offset in y
       },
     };
   });
 
   return { nodes: newNodes, edges };
 };
-
 
 // Function to generate gradient colors for edges based on node colors
 const generateGradients = (nodes, edges, isDashed) => {
@@ -418,7 +417,7 @@ function LayoutFlow() {
         draggable
         defaultEdgeOptions={defaultEdgeOptions}
         proOptions={proOptions}
-        style={{ flex: 1,backgroundColor:"#f8f8f8" }}
+        style={{ flex: 1, backgroundColor: '#f8f8f8' }}
       >
         {/* Define gradient styles for edges */}
         <svg width="0" height="0">
@@ -442,13 +441,8 @@ function LayoutFlow() {
             /> */}
           </Box>
         </Panel>
-        <Background
-        gap={20}
-        color="#ddd"
-        
-        variant={BackgroundVariant.dot}
-      />
-{/*  
+        <Background gap={20} color="#ddd" variant={BackgroundVariant.dot} />
+        {/*  
       <Background
         id="2"
         gap={100}

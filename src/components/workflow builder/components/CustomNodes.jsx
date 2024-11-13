@@ -4,7 +4,7 @@ import React, { useState } from 'react'; // React library
 import { Box, Tooltip } from '@mui/material'; // Material UI Box component for layout and styling
 import { Iconify } from 'src/components/iconify'; // Custom Iconify component for icons
 
-import { initialEdges } from '../nodes-edges complex workflow'; // Initial state for nodes and edges
+import { initialEdges } from '../nodes-edges'; // Initial state for nodes and edges
 import LastNodeButton from '../partials/LastNodeButton';
 
 function hasNoLeadingEdges(nodeId) {
