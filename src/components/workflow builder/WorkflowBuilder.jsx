@@ -31,7 +31,7 @@ import Overlay from './components/Overlay';
 
 // Setting default configuration options
 const proOptions = { account: 'paid-pro', hideAttribution: true }; // Pro options for advanced ReactFlow features
-const defaultEdgeOptions = { type: 'smoothstep', pathOptions: { offset: 5 } }; // Default edge configuration
+const defaultEdgeOptions = { type: 'smoothstep', pathOptions: { offset: 15 } }; // Default edge configuration
 
 // Custom function to handle horizontal layout for nodes
 const withIsHorizontal = (isHorizontal) => (props) => (

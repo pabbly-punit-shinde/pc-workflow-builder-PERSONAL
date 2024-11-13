@@ -142,12 +142,14 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
 
         <Handle
           isConnectable={false}
+         
           type="source"
           position={isHorizontal ? 'right' : 'bottom'}
           style={{
+           
             background: `transparent`,
-            top: isHorizontal ? '50%' : '90%',
-            left: isHorizontal ? '90%' : '50%',
+            top: isHorizontal ? '50%' : '93%',
+            left: isHorizontal ? '93%' : '50%',
             transform: isHorizontal ? 'translateY(-50%)' : 'translateX(-50%)',
             border: 'none',
           }}
@@ -158,8 +160,6 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
           type="target"
           position={isHorizontal ? 'left' : 'top'}
           style={{
-            width: 10,
-            height: 10,
             background: `transparent`,
             top: isHorizontal ? '50%' : 0,
             left: isHorizontal ? 0 : '50%',
