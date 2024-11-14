@@ -15,14 +15,14 @@ const Overlay = ({ open, onClose, onDownload }) => {
       label: 'Square',
       value: '1:1',
       description:
-        'Ideal for Instagram feeds and LinkedIn posts, offering a balanced view across all devices.',
+        'Ideal for Instagram feeds and LinkedIn posts, offering a balanced view on any device.',
       thumbnail: '/assets/images/reactflow/overlay/Square.png',
     },
     {
       label: 'Portrait',
       value: '4:5',
       description:
-        'Optimized for Instagram and Facebook, giving a tall, detailed look at your workflow.',
+        'Optimized for Instagram and Facebook, providing a tall view of your workflow.',
       thumbnail: '/assets/images/reactflow/overlay/Portrait.png',
     },
   ];
@@ -52,7 +52,7 @@ const Overlay = ({ open, onClose, onDownload }) => {
           Choose the Ideal Snapshot Size for Social Sharing
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p" mb={2}>
-          Pick the best snapshot format for Instagram, Facebook, or LinkedIn, ensuring your content
+          Pick the best snapshot format to share on Instagram, Facebook, or LinkedIn, ensuring your content
           is perfectly sized for any platform.
         </Typography>
         <Box
@@ -72,7 +72,7 @@ const Overlay = ({ open, onClose, onDownload }) => {
                 padding: 1,
                 transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out', // Add smooth transition
                 '&:hover': {
-                  transform: 'scale(1.05)', // Slight zoom effect on hover
+                  transform: 'scale(1.01)', // Slight zoom effect on hover
                   boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)', // Increase shadow on hover
                 },
               }}
@@ -93,7 +93,8 @@ const Overlay = ({ open, onClose, onDownload }) => {
                 <Typography variant="body2" color="textPrimary" component="p">
                   {size.label} ({size.value})
                 </Typography>
-                <Typography variant="caption" color="textSecondary">
+                <Typography variant="caption" color="textSecondary"
+                >
                   {size.description}
                 </Typography>
               </CardContent>
