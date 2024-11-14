@@ -1,7 +1,5 @@
-// Importing the necessary styles and libraries
 import '@xyflow/react/dist/style.css';
 
-// import dagre from 'dagre';
 import { tree, hierarchy } from 'd3-hierarchy';
 import React, { useRef, useMemo, useState, useEffect, useCallback } from 'react';
 import {
@@ -10,7 +8,7 @@ import {
   addEdge, // Function to add an edge between nodes
   Controls, // Controls component for zooming, panning, etc.
   ReactFlow, // Main component to render the graph/flow
-  Background,
+  Background, // Background dots to help with zooming
   MarkerType, // Enum for defining types of markers on edges
   useReactFlow, // Hook to interact with the ReactFlow instance
   useEdgesState, // Hook to manage the edges state
@@ -19,7 +17,7 @@ import {
   BackgroundVariant, // Context provider for ReactFlow
 } from '@xyflow/react';
 
-import { Box, Tooltip } from '@mui/material'; // Material UI Box component for layout
+import { Box, Tooltip } from '@mui/material'; 
 
 // Importing custom components
 import WorkflowNameHeader from 'src/components/workflow builder/components/workflow-name-header'; // Component for displaying the workflow's name
@@ -37,55 +35,6 @@ const defaultEdgeOptions = { type: 'smoothstep', pathOptions: { offset: 15 } }; 
 const withIsHorizontal = (isHorizontal) => (props) => (
   <CustomNode {...props} isHorizontal={isHorizontal} />
 );
-
-// Function to layout the graph using the dagre library (for automatic node positioning)
-// const getDagreLayout = (nodes, edges, direction = 'TB') => {
-//   const g = new dagre.graphlib.Graph();
-//   const baseNodeSpacing = direction === 'LR' ? 200 : 200; // Define spacing between nodes
-//   const baseRankSpacing = direction === 'LR' ? 100 : 100; // Define spacing between node ranks
-
-//   // Count how many edges go out from each node
-//   const targetCounts = edges.reduce((acc, edge) => {
-//     acc[edge.source] = (acc[edge.source] || 0) + 1;
-//     return acc;
-//   }, {});
-
-//   // Set graph layout options like direction and spacing
-//   g.setGraph({
-//     rankdir: direction,
-//     nodesep: baseNodeSpacing,
-//     ranksep: baseRankSpacing,
-//   });
-
-//   g.setDefaultEdgeLabel(() => ({})); // Set default edge labels (none)
-
-//   // Add nodes to the graph
-//   nodes.forEach((node) => {
-//     g.setNode(node.id, { width: 100, height: 50 }); // Set width and height for each node
-//   });
-
-//   // Add edges to the graph
-//   edges.forEach((edge) => {
-//     g.setEdge(edge.source, edge.target); // Define edges between nodes
-//   });
-
-//   // Perform the layout computation
-//   dagre.layout(g);
-
-//   // Map layouted positions back to nodes
-//   const newNodes = nodes.map((node) => {
-//     const dagreNode = g.node(node.id);
-//     return {
-//       ...node,
-//       position: {
-//         x: dagreNode.x + Math.random() * 0.1, // Randomize position slightly for visual variation
-//         y: dagreNode.y + Math.random() * 0.1,
-//       },
-//     };
-//   });
-
-//   return { nodes: newNodes, edges }; // Return the updated node and edge positions
-// };
 
 // Function to layout the graph using the d3-hierarchy library      
 const getD3HierarchyLayout = (nodes, edges, direction = 'TB') => {
@@ -116,7 +65,7 @@ const getD3HierarchyLayout = (nodes, edges, direction = 'TB') => {
 
   // Define the layout with adjustable node size and separation
   const treeLayout = tree()
-    .nodeSize(direction === 'LR' ? [150, 200] : [200, 150]) // Adjust nodeSize for spacing
+    .nodeSize(direction === 'LR' ? [200, 200] : [200, 150]) // Adjust nodeSize for spacing
     .separation((a, b) => (a.parent === b.parent ? 1.5 : 2)); // Adjust separation
 
   // Apply layout to the root hierarchy
@@ -242,18 +191,6 @@ function LayoutFlow() {
     setEdges(updatedEdges);
   };
 
-  // Handle layout changes (top-to-bottom or left-to-right)
-  // const onLayout = useCallback(
-  //   ({ direction, useInitialNodes = false }) => {
-  //     const ns = useInitialNodes ? initialNodes : nodes;
-  //     const es = useInitialNodes ? initialEdges : edges;
-  //     setIsHorizontal(direction === 'LR');
-  //     const layoutedElements = getDagreLayout(ns, es, direction);
-  //     setNodes(layoutedElements.nodes);
-  //     setEdges(layoutedElements.edges);
-  //   },
-  //   [nodes, edges, setEdges, setNodes]
-  // );
   const onLayout = useCallback(
     ({ direction, useInitialNodes = false }) => {
       const ns = useInitialNodes ? initialNodes : nodes;
@@ -279,53 +216,7 @@ function LayoutFlow() {
     }
   }, [isInitialLayoutSet, fitView]);
 
-  // Toggle edge animation
-  // const toggleAnimation = () => {
-  //   setIsAnimated((prev) => {
-  //     const newIsAnimated = !prev;
-
-  //     // Update edges with new animation state and dash style
-  //     setEdges(() =>
-  //       edges.map((edge) => ({
-  //         ...edge,
-  //         animated: newIsAnimated,
-  //         style: {
-  //           ...edge.style,
-  //           strokeDasharray: newIsAnimated ? '5,5' : '0', // Set dashed if animated, solid otherwise
-  //         },
-  //       }))
-  //     );
-
-  //     // Apply updated animation state
-  //     updateEdgesWithTypeAndAnimation(edgeType, newIsAnimated);
-
-  //     return newIsAnimated;
-  //   });
-  // };
-
-  // // Toggle dashed/solid edge style
-  // const toggleDashStyle = () => {
-  //   setIsDashed((prev) => {
-  //     const newDashedState = !prev;
-
-  //     // Update edges with new dashed/solid style
-  //     setEdges((eds) =>
-  //       eds.map((edge) => ({
-  //         ...edge,
-  //         style: {
-  //           ...edge.style,
-  //           strokeDasharray: newDashedState ? '5,5' : '0', // Toggle between dashed and solid
-  //         },
-  //       }))
-  //     );
-
-  //     // Ensure animation is turned off when toggling dash style
-  //     setIsAnimated(false);
-
-  //     return newDashedState;
-  //   });
-  // };
-
+  // Toggle solid, dashed and animated edge styles
   const toggleEdgeStyleAndAnimate = () => {
     setClickCount((prevCount) => {
       const newCount = (prevCount + 1) % 3;
@@ -427,36 +318,17 @@ function LayoutFlow() {
         <Panel position="top-left">
           <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap="5px">
             <WorkflowNameHeader />
-            {/* <Drawer
-              isDrawerOpen={isDrawerOpen}
-              setIsDrawerOpen={setIsDrawerOpen}
-              onLayout={onLayout}
-              setEdgeType={handleEdgeTypeChange}
-              toggleAnimation={toggleAnimation}
-              fitView={fitView}
-              toggleMinimap={toggleMinimap}
-              toggleDashStyle={toggleDashStyle}
-              isDashed={isDashed}
-            /> */}
           </Box>
         </Panel>
         <Background gap={20} color="#ddd" variant={BackgroundVariant.dot} />
-        {/*  
-      <Background
-        id="2"
-        gap={100}
-        color="#ccc"
-        variant={BackgroundVariant.Lines}
-      /> */}
         {/* Controls for zoom and other functionalities */}
         <Controls>
-          {' '}
           <Tooltip title="Choose Snapshot Size" arrow placement="top" disableInteractive>
             <button
               type="button"
               style={{
-                width: '27px', // Adjusted width
-                height: '27px', // Adjusted height
+                width: '27px', 
+                height: '27px',
                 backgroundColor: '#ffffff',
                 border: 'none',
                 cursor: 'pointer',
@@ -466,7 +338,6 @@ function LayoutFlow() {
             >
               <img
                 src="/assets/images/reactflow/icons/image-download.svg"
-                // style={iconStyle}
                 alt="Snapshot Sizes"
                 width="100%"
                 height="100%"
@@ -485,8 +356,6 @@ function LayoutFlow() {
             setEdgeType={handleEdgeTypeChange}
             fitView={fitView}
             toggleMinimap={toggleMinimap}
-            // toggleAnimation={toggleAnimation}
-            // toggleDashStyle={toggleDashStyle}
             isDashed={isDashed}
             isAnimated={isAnimated}
             toggleEdgeStyleAndAnimate={toggleEdgeStyleAndAnimate}
