@@ -13,11 +13,12 @@ import {
   useReactFlow, // Hook to interact with the ReactFlow instance
   useEdgesState, // Hook to manage the edges state
   useNodesState, // Hook to manage the nodes state
+  ControlButton, // Context provider for ReactFlow
   ReactFlowProvider,
-  BackgroundVariant, // Context provider for ReactFlow
+  BackgroundVariant,
 } from '@xyflow/react';
 
-import { Box, Tooltip } from '@mui/material'; 
+import { Box, Tooltip } from '@mui/material';
 
 // Importing custom components
 import WorkflowNameHeader from 'src/components/workflow builder/components/workflow-name-header'; // Component for displaying the workflow's name
@@ -36,7 +37,7 @@ const withIsHorizontal = (isHorizontal) => (props) => (
   <CustomNode {...props} isHorizontal={isHorizontal} />
 );
 
-// Function to layout the graph using the d3-hierarchy library      
+// Function to layout the graph using the d3-hierarchy library
 const getD3HierarchyLayout = (nodes, edges, direction = 'TB') => {
   // Map nodes to a structure that d3-hierarchy expects
   const nodeMap = nodes.reduce((acc, node) => {
@@ -167,11 +168,13 @@ function LayoutFlow() {
   const ref = useRef(null); // Ref for ReactFlow component
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
-   // Memoize the nodeTypes to avoid recalculating on every render
-   const nodeTypes = useMemo(() => ({
-    custom: withIsHorizontal(isHorizontal),
-  }), [isHorizontal]); // Only change when isHorizontal changes
-  
+  // Memoize the nodeTypes to avoid recalculating on every render
+  const nodeTypes = useMemo(
+    () => ({
+      custom: withIsHorizontal(isHorizontal),
+    }),
+    [isHorizontal]
+  ); // Only change when isHorizontal changes
 
   const onConnect = useCallback(
     (params) => {
@@ -324,25 +327,14 @@ function LayoutFlow() {
         {/* Controls for zoom and other functionalities */}
         <Controls>
           <Tooltip title="Choose Snapshot Size" arrow placement="top" disableInteractive>
-            <button
-              type="button"
-              style={{
-                width: '27px', 
-                height: '27px',
-                backgroundColor: '#ffffff',
-                border: 'none',
-                cursor: 'pointer',
-                marginBottom: '1px',
-              }}
-              onClick={() => setIsOverlayOpen(true)}
-            >
+            <ControlButton onClick={() => setIsOverlayOpen(true)}>
               <img
                 src="/assets/images/reactflow/icons/image-download.svg"
                 alt="Snapshot Sizes"
                 width="100%"
                 height="100%"
               />
-            </button>
+            </ControlButton>
           </Tooltip>
           <Overlay
             open={isOverlayOpen}
