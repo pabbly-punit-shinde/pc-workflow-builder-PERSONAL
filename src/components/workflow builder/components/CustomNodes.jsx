@@ -35,9 +35,15 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
         color: '#93AABD',    // v1
         // color: '#798D9E', // v2
         // color: '#637381', // v3
+        // color: '#637381', // v4
+        // color: '#637381', // v5
         label: 'Empty Step',
         subtext: 'Add New Action Step',
         icon: '/assets/images/reactflow/newNodeV1.svg',
+        // icon: '/assets/images/reactflow/newNodeV2.svg',
+        // icon: '/assets/images/reactflow/newNodeV3.svg',
+        // icon: '/assets/images/reactflow/newNodeV4.svg',
+        // icon: '/assets/images/reactflow/newNodeV5.svg',
         note: false,
       },
     });
@@ -81,7 +87,7 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
             sx={{
               transition: 'filter 0.1s ease, transform 0.1s ease',
               filter: isHovered
-                ? `drop-shadow(0px 0px 10px ${data.color})`
+                ? `drop-shadow(0px 0px 8px ${data.color})`
                 : 'drop-shadow(0px 5px 6px rgba(0, 0, 0, 0.25))',
             }}
           >
