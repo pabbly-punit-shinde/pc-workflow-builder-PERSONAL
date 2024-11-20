@@ -5,8 +5,8 @@ import { Box, Tooltip } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 
-import { initialEdges } from '../nodes-edges';
-import LastNodeButton from '../partials/LastNodeButton';
+import { initialEdges } from '../db/initialEdges';
+import AddNodeButton from './partials/AddNodeButton';
 
 function hasNoLeadingEdges(nodeId) {
   return !initialEdges.some((edge) => edge.source === nodeId);
@@ -108,7 +108,7 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
               }}
             />
             {showHoverButton && (
-              <LastNodeButton
+              <AddNodeButton
                 isHorizontal={isHorizontal}
                 color={data.color}
                 onClick={handleAddChildNode} // Attach add child node handler
