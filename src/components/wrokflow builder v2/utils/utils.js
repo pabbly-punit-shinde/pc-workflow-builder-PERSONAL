@@ -10,6 +10,8 @@ export function getSourceHandlePosition(direction) {
       return Position.Right;
     case 'RL':
       return Position.Left;
+    default:
+      return alert('Invalid direction');
   }
 }
 
@@ -23,6 +25,8 @@ export function getTargetHandlePosition(direction) {
       return Position.Left;
     case 'RL':
       return Position.Right;
+    default:
+      return alert('Invalid direction');
   }
 }
 

@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import {
+  useStore,
   useReactFlow,
   useNodesInitialized,
-  useStore,
 } from '@xyflow/react';
 
-import { getSourceHandlePosition, getTargetHandlePosition } from '../utils/utils';
 import layoutAlgorithms from '../algorithms';
+import { getSourceHandlePosition, getTargetHandlePosition } from "./utils";
 
 function useAutoLayout(options) {
   const { setNodes, setEdges } = useReactFlow();
@@ -40,15 +40,16 @@ function useAutoLayout(options) {
         options
       );
 
-      for (const node of nextNodes) {
+      nextNodes.forEach((node) => {
         node.style = { ...node.style, opacity: 1 };
         node.sourcePosition = getSourceHandlePosition(options.direction);
         node.targetPosition = getTargetHandlePosition(options.direction);
-      }
-
-      for (const edge of edges) {
+      });
+      
+      edges.forEach((edge) => {
         edge.style = { ...edge.style, opacity: 1 };
-      }
+      });
+      
 
       setNodes(nextNodes);
       setEdges(nextEdges);
@@ -70,7 +71,7 @@ function compareNodes(xs, ys) {
   // Check if the number of nodes is different
   if (xs.length !== ys.length) return false;
 
-  for (let i = 0; i < xs.length; i++) {
+  for (let i = 0; i < xs.length; i+=1) {
     const x = xs[i];
     const y = ys[i];
 
@@ -93,7 +94,7 @@ function compareEdges(xs, ys) {
   // Check if the number of edges is different
   if (xs.length !== ys.length) return false;
 
-  for (let i = 0; i < xs.length; i++) {
+  for (let i = 0; i < xs.length; i+=1) {
     const x = xs[i];
     const y = ys[i];
 
