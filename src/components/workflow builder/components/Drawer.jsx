@@ -14,7 +14,6 @@ const Drawer = ({
   fitView,
   isDashed,
   isAnimated,
-
   toggleEdgeStyleAndAnimate,
 }) => (
   <Box

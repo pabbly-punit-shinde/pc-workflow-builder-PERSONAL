@@ -60,8 +60,9 @@ const ButtonsPanel = ({
 
   return (
     <Box
-      sx={{ display: 'flex' }}
+      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', boxShadow: 'inset 0 0 6px #C2CAD0', }}
       flexDirection={{ xs: 'column', sm: 'column', md: 'column' }}
+      // bgcolor='#F4F4F4'
     >
       <Tooltip
         title="Vertical layout (Top to Bottom) Double click to auto align in vertical layout"
@@ -109,7 +110,8 @@ const ButtonsPanel = ({
       <Box
         sx={{
           height: '1px',
-          backgroundColor: 'rgba(84, 95, 111, .10)',
+          width: '60%',
+          backgroundColor: 'rgba(84, 95, 111, .30)',
         }}
       />
       <Tooltip title="Straight Edges" arrow placement="top" disableInteractive>
@@ -151,7 +153,8 @@ const ButtonsPanel = ({
       <Box
         sx={{
           height: '1px',
-          backgroundColor: 'rgba(84, 95, 111, .10)',
+          width: '60%',
+          backgroundColor: 'rgba(84, 95, 111, .30)',
         }}
       />
 
