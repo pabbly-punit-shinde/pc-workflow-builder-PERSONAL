@@ -1,6 +1,17 @@
 import React from 'react';
 
-import { Box, Card, Modal, Button, CardMedia, Typography, CardContent } from '@mui/material';
+import {
+  Box,
+  Card,
+  Modal,
+  Button,
+  Tooltip,
+  CardMedia,
+  Typography,
+  CardContent,
+} from '@mui/material';
+
+import { Iconify } from 'src/components/iconify';
 
 const Overlay = ({ open, onClose, onDownload }) => {
   const screenSizes = [
@@ -21,8 +32,7 @@ const Overlay = ({ open, onClose, onDownload }) => {
     {
       label: 'Portrait',
       value: '4:5',
-      description:
-        'Optimized for Instagram and Facebook, providing a tall view of your workflow.',
+      description: 'Optimized for Instagram and Facebook, providing a tall view of your workflow.',
       thumbnail: '/assets/images/reactflow/overlay/Portrait.png',
     },
   ];
@@ -48,12 +58,10 @@ const Overlay = ({ open, onClose, onDownload }) => {
           overflowY: 'auto',
         }}
       >
-        <Typography variant="h6">
-          Choose the Ideal Snapshot Size for Social Sharing
-        </Typography>
+        <Typography variant="h6">Choose the Ideal Snapshot Size for Social Sharing</Typography>
         <Typography variant="body2" color="textSecondary" component="p" mb={2}>
-          Pick the best snapshot format to share on Instagram, Facebook, or LinkedIn, ensuring your content
-          is perfectly sized for any platform.
+          Pick the best snapshot format to share on Instagram, Facebook, or LinkedIn, ensuring your
+          content is perfectly sized for any platform.
         </Typography>
         <Box
           sx={{
@@ -93,28 +101,76 @@ const Overlay = ({ open, onClose, onDownload }) => {
                 <Typography variant="body2" color="textPrimary" component="p">
                   {size.label} ({size.value})
                 </Typography>
-                <Typography variant="caption" color="textSecondary"
-                >
+                <Typography variant="caption" color="textSecondary">
                   {size.description}
                 </Typography>
               </CardContent>
-              <Button
-                variant="outlined"
-                color="primary"
-                size="medium"
-                onClick={() => handleDownload(size.value)}
+              <Box
                 sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: 5,
                   margin: 'auto',
                   marginBottom: 2,
-                  '&:hover': {
-                    variant: 'contained', // Change button to 'contained' on hover
-                    bgcolor: 'primary.main', // Optional: Change background color on hover
-                     color: "white"
-                  },
                 }}
               >
-                Download
-              </Button>
+                <Tooltip title="Save to your device" arrow placement="top" disableInteractive>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                    onClick={() => handleDownload(size.value)}
+                    sx={{
+                      '&:hover': {
+                        variant: 'contained', // Change button to 'contained' on hover
+                        bgcolor: 'primary.main', // Optional: Change background color on hover
+                        color: 'white',
+                      },
+                    }}
+                  >
+                    Download
+                  </Button>
+                </Tooltip>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Tooltip title="Share on Instagram" arrow placement="top" disableInteractive>
+                    <Box
+                      sx={{
+                        display: 'inline-flex',
+                        cursor:'pointer',
+                        transition: 'transform 0.2s ease-in-out',
+                        '&:hover': { transform: 'scale(1.2)' }, // Add scale effect on hover
+                      }}
+                    >
+                      <Iconify icon="skill-icons:instagram" />
+                    </Box>
+                  </Tooltip>
+                  <Tooltip title="Share on Facebook" arrow placement="top" disableInteractive>
+                    <Box
+                      sx={{
+                        display: 'inline-flex',
+                        cursor:'pointer',
+                        transition: 'transform 0.2s ease-in-out',
+                        '&:hover': { transform: 'scale(1.2)' }, // Add scale effect on hover
+                      }}
+                    >
+                      <Iconify icon="logos:facebook" />
+                    </Box>
+                  </Tooltip>
+                  <Tooltip title="Share on LinkedIn" arrow placement="top" disableInteractive>
+                    <Box
+                      sx={{
+                        display: 'inline-flex',
+                        cursor:'pointer',
+                        transition: 'transform 0.2s ease-in-out',
+                        '&:hover': { transform: 'scale(1.2)' }, // Add scale effect on hover
+                      }}
+                    >
+                      <Iconify icon="devicon:linkedin" />
+                    </Box>
+                  </Tooltip>
+                </Box>
+              </Box>
             </Card>
           ))}
         </Box>
