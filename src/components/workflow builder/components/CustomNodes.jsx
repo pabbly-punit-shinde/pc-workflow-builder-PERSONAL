@@ -21,7 +21,7 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
   const handleAddChildNode = () => {
     const newNodeId = `${id}__${Date.now()}`;
     const childNodePosition = {
-      x: (isHorizontal ? positionAbsoluteX + 150 : positionAbsoluteX) + Math.random() * 0.01,
+      x: (isHorizontal ? positionAbsoluteX + 200 : positionAbsoluteX) + Math.random() * 0.01,
       y: (isHorizontal ? positionAbsoluteY : positionAbsoluteY + 150) + Math.random() * 0.01,
     };
 
