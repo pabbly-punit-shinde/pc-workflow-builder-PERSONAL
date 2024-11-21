@@ -137,7 +137,7 @@ const Overlay = ({ open, onClose, onDownload }) => {
                     <Box
                       sx={{
                         display: 'inline-flex',
-                        cursor:'pointer',
+                        cursor: 'pointer',
                         transition: 'transform 0.2s ease-in-out',
                         '&:hover': { transform: 'scale(1.2)' }, // Add scale effect on hover
                       }}
@@ -149,7 +149,7 @@ const Overlay = ({ open, onClose, onDownload }) => {
                     <Box
                       sx={{
                         display: 'inline-flex',
-                        cursor:'pointer',
+                        cursor: 'pointer',
                         transition: 'transform 0.2s ease-in-out',
                         '&:hover': { transform: 'scale(1.2)' }, // Add scale effect on hover
                       }}
@@ -157,11 +157,23 @@ const Overlay = ({ open, onClose, onDownload }) => {
                       <Iconify icon="logos:facebook" />
                     </Box>
                   </Tooltip>
+                  <Tooltip title="Share on X" arrow placement="top" disableInteractive>
+                    <Box
+                      sx={{
+                        display: 'inline-flex',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s ease-in-out',
+                        '&:hover': { transform: 'scale(1.2)' }, // Add scale effect on hover
+                      }}
+                    >
+                      <Iconify icon="fa6-brands:square-x-twitter" />
+                    </Box>
+                  </Tooltip>
                   <Tooltip title="Share on LinkedIn" arrow placement="top" disableInteractive>
                     <Box
                       sx={{
                         display: 'inline-flex',
-                        cursor:'pointer',
+                        cursor: 'pointer',
                         transition: 'transform 0.2s ease-in-out',
                         '&:hover': { transform: 'scale(1.2)' }, // Add scale effect on hover
                       }}
