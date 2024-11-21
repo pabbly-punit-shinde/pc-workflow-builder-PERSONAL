@@ -31,19 +31,10 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
       position: childNodePosition,
       type: 'custom',
       data: {
-        // nodeType: 'external-app',
-        color: '#93AABD', // v1
-        // color: '#798D9E', // v2
-        // color: '#637381', // v3
-        // color: '#637381', // v4
-        // color: '#637381', // v5
+        color: '#93AABD',
         label: 'Empty Step',
         subtext: 'Add New Action Step',
         icon: '/assets/images/reactflow/newNodeV1.svg',
-        // icon: '/assets/images/reactflow/newNodeV2.svg',
-        // icon: '/assets/images/reactflow/newNodeV3.svg',
-        // icon: '/assets/images/reactflow/newNodeV4.svg',
-        // icon: '/assets/images/reactflow/newNodeV5.svg',
         note: false,
       },
     });

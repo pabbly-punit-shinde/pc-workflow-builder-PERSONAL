@@ -4,13 +4,11 @@ const initialNodes = [
     type: 'custom',
 
     data: {
-      nodeType: 'external-app',
-      color: '#0A1551',
-      label: 'Jotform',
-      subtext: 'New Response',
-      icon: '/assets/images/reactflow/Jotform.svg',
-      triggerIcon: 'ic:baseline-bolt',
-      note: false,
+      color: '#93AABD',
+        label: 'Empty Step',
+        subtext: 'Add New Action Step',
+        icon: '/assets/images/reactflow/newNodeV1.svg',
+        note: false,
     },
     position: { x: 0, y: 0 },
   },
