@@ -132,7 +132,7 @@ const Overlay = ({ open, onClose, onDownload }) => {
                     Download
                   </Button>
                 </Tooltip>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                   <Tooltip title="Share on Instagram" arrow placement="top" disableInteractive>
                     <Box
                       sx={{
