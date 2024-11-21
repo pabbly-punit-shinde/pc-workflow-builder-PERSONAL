@@ -45,7 +45,7 @@ function LayoutFlow() {
   const { fitView } = useReactFlow();
   const [isHorizontal, setIsHorizontal] = useState(false);
   const [edgeType, setEdgeType] = useState('smoothstep');
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const [isAnimated, setIsAnimated] = useState(false);
   const [isInitialLayoutSet, setIsInitialLayoutSet] = useState(false);
   const [menu, setMenu] = useState(null);
