@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Tooltip } from '@mui/material';
 
-import ButtonsPanel from './ButtonsPanel';
+import ButtonsPanel from './partials/ButtonsPanel';
 
 const Drawer = ({
   isDrawerOpen,

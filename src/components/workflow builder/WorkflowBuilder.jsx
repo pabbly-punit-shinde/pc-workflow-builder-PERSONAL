@@ -1,6 +1,5 @@
 import '@xyflow/react/dist/style.css';
 
-import { tree, hierarchy } from 'd3-hierarchy';
 import React, { useRef, useMemo, useState, useEffect, useCallback } from 'react';
 import {
   Panel, // Panel component to place elements in specific positions within the flow
@@ -8,8 +7,7 @@ import {
   addEdge, // Function to add an edge between nodes
   Controls, // Controls component for zooming, panning, etc.
   ReactFlow, // Main component to render the graph/flow
-  Background, // Background dots to help with zooming
-  MarkerType, // Enum for defining types of markers on edges
+  Background, // Enum for defining types of markers on edges
   useReactFlow, // Hook to interact with the ReactFlow instance
   useEdgesState, // Hook to manage the edges state
   useNodesState, // Hook to manage the nodes state
@@ -21,12 +19,14 @@ import {
 import { Box, Tooltip } from '@mui/material';
 
 // Importing custom components
-import WorkflowNameHeader from 'src/components/workflow builder/components/workflow-name-header'; // Component for displaying the workflow's name
+import WorkflowNameHeader from 'src/components/workflow builder/components/partials/workflow-name-header'; // Component for displaying the workflow's name
 import Drawer from './components/Drawer'; // Custom drawer component for UI controls
 import CustomNode from './components/CustomNodes'; // Custom node component for the flow chart
 import ContextMenu from './components/ContextMenu'; // Context menu for node right-click actions
-import { initialNodes, initialEdges } from './nodes-edges'; // Initial state for nodes and edges
-import Overlay from './components/Overlay';
+import { initialNodes, initialEdges } from './db/nodes-edges'; // Initial state for nodes and edges
+import Overlay from './components/partials/Overlay';
+import { generateGradients } from './utils/generateGradients';
+import { getD3HierarchyLayout } from './utils/d3HierarchyLayout';
 
 // Setting default configuration options
 const proOptions = { account: 'paid-pro', hideAttribution: true }; // Pro options for advanced ReactFlow features
@@ -36,118 +36,6 @@ const defaultEdgeOptions = { type: 'smoothstep', pathOptions: { offset: 15 } }; 
 const withIsHorizontal = (isHorizontal) => (props) => (
   <CustomNode {...props} isHorizontal={isHorizontal} />
 );
-
-// Function to layout the graph using the d3-hierarchy library
-const getD3HierarchyLayout = (nodes, edges, direction = 'TB') => {
-  // Map nodes to a structure that d3-hierarchy expects
-  const nodeMap = nodes.reduce((acc, node) => {
-    acc[node.id] = { ...node, children: [] };
-    return acc;
-  }, {});
-
-  // Define children based on edges
-  edges.forEach((edge) => {
-    const sourceNode = nodeMap[edge.source];
-    const targetNode = nodeMap[edge.target];
-    if (sourceNode && targetNode) {
-      sourceNode.children.push(targetNode);
-    }
-  });
-
-  // Identify the root node
-  const rootNode = nodes.find((node) => !edges.some((edge) => edge.target === node.id));
-  if (!rootNode) {
-    console.error('No root node found for layout. Ensure graph is a tree or DAG.');
-    return { nodes, edges };
-  }
-
-  // Create the root hierarchy
-  const root = hierarchy(nodeMap[rootNode.id]);
-
-  // Define the layout with adjustable node size and separation
-  const treeLayout = tree()
-    .nodeSize(direction === 'LR' ? [200, 200] : [200, 150]) // Adjust nodeSize for spacing
-    .separation((a, b) => (a.parent === b.parent ? 1.5 : 2)); // Adjust separation
-
-  // Apply layout to the root hierarchy
-  treeLayout(root);
-
-  // Map layouted positions back to nodes with slight random offset
-  const newNodes = nodes.map((node) => {
-    const layoutNode = root.descendants().find((n) => n.data.id === node.id);
-    return {
-      ...node,
-      position: {
-        x: (direction === 'LR' ? layoutNode.y : layoutNode.x) + Math.random() * 0.01, // Slight offset in x
-        y: (direction === 'LR' ? layoutNode.x : layoutNode.y) + Math.random() * 0.01, // Slight offset in y
-      },
-    };
-  });
-
-  return { nodes: newNodes, edges };
-};
-
-// Function to generate gradient colors for edges based on node colors
-const generateGradients = (nodes, edges, isDashed) => {
-  const gradients = [];
-
-  // Loop through all edges and create gradient definitions for each
-  edges.forEach((edge, index) => {
-    const sourceNode = nodes.find((node) => node.id === edge.source); // Source node for the edge
-    const targetNode = nodes.find((node) => node.id === edge.target); // Target node for the edge
-    const gradientId = `gradient${index}`; // Unique ID for each gradient
-
-    // Calculate the angle of the edge (horizontal or vertical)
-    const dx = targetNode.position.x - sourceNode.position.x;
-    const dy = targetNode.position.y - sourceNode.position.y;
-
-    const absDx = Math.abs(dx);
-    const absDy = Math.abs(dy);
-
-    // Determine the gradient direction based on the edge orientation (horizontal or vertical)
-    let gradientCoords;
-    if (absDx > absDy) {
-      gradientCoords =
-        dx >= 0
-          ? { x1: '0', y1: '0', x2: '1', y2: '0' } // Horizontal left-to-right gradient
-          : { x1: '1', y1: '0', x2: '0', y2: '0' }; // Horizontal right-to-left gradient
-    } else {
-      gradientCoords =
-        dy >= 0
-          ? { x1: '0', y1: '0', x2: '0', y2: '1' } // Vertical top-to-bottom gradient
-          : { x1: '0', y1: '1', x2: '0', y2: '0' }; // Vertical bottom-to-top gradient
-    }
-
-    // Add the gradient definition to the array
-    gradients.push(
-      <linearGradient
-        id={gradientId}
-        x1={gradientCoords.x1}
-        y1={gradientCoords.y1}
-        x2={gradientCoords.x2}
-        y2={gradientCoords.y2}
-        key={index}
-      >
-        <stop offset="0%" stopColor={sourceNode.data.color} />
-        <stop offset="100%" stopColor={targetNode.data.color} />
-      </linearGradient>
-    );
-
-    // Apply the gradient to the edge style
-    edge.style = {
-      stroke: `url(#${gradientId})`,
-      strokeWidth: 3,
-      opacity: 0.75,
-      strokeDasharray: isDashed ? '5,5' : '0', // Optional dashed style for edges
-    };
-    edge.markerEnd = {
-      type: MarkerType.ArrowClosed, // Arrow marker at the end of the edge
-      color: targetNode.data.color, // Marker color matches target node color
-    };
-  });
-
-  return gradients; // Return the array of gradient definitions
-};
 
 // Main LayoutFlow component
 function LayoutFlow() {

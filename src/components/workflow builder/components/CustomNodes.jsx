@@ -5,8 +5,8 @@ import { Box, Tooltip } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 
-import { initialEdges } from '../nodes-edges';
-import LastNodeButton from '../partials/LastNodeButton';
+import { initialEdges } from '../db/nodes-edges';
+import LastNodeButton from './partials/LastNodeButton';
 
 function hasNoLeadingEdges(nodeId) {
   return !initialEdges.some((edge) => edge.source === nodeId);
@@ -32,7 +32,7 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
       type: 'custom',
       data: {
         // nodeType: 'external-app',
-        color: '#93AABD',    // v1
+        color: '#93AABD', // v1
         // color: '#798D9E', // v2
         // color: '#637381', // v3
         // color: '#637381', // v4
@@ -85,13 +85,13 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
         >
           <Box
             sx={{
-              display:"flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width:"100px",
-              height:"100px",
-              borderRadius:"40px",
-              bgcolor:`${data.color}`,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100px',
+              height: '100px',
+              borderRadius: '40px',
+              bgcolor: `${data.color}`,
               transition: 'filter 0.1s ease, transform 0.1s ease',
               filter: isHovered
                 ? `drop-shadow(0px 0px 8px ${data.color})`
@@ -103,7 +103,7 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
               alt={data.label}
               style={{
                 width: '55px',
-                height: "60px",
+                height: '60px',
                 transform: getImageRotationStyle(),
               }}
             />
@@ -155,11 +155,9 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
 
         <Handle
           isConnectable={false}
-         
           type="source"
           position={isHorizontal ? 'right' : 'bottom'}
           style={{
-           
             background: `transparent`,
             top: isHorizontal ? '50%' : '93%',
             left: isHorizontal ? '93%' : '50%',
