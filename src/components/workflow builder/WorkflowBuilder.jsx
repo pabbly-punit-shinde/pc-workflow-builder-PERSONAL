@@ -20,6 +20,8 @@ import { Box, Tooltip } from '@mui/material';
 
 // Importing custom components
 import WorkflowNameHeader from 'src/components/workflow builder/components/partials/workflow-name-header'; // Component for displaying the workflow's name
+import { DashboardContent } from 'src/layouts/dashboard';
+
 import Drawer from './components/Drawer'; // Custom drawer component for UI controls
 import CustomNode from './components/CustomNodes'; // Custom node component for the flow chart
 import ContextMenu from './components/ContextMenu'; // Context menu for node right-click actions
@@ -179,9 +181,8 @@ function LayoutFlow() {
     console.log('Downloading snapshot with size:', size);
     // Add logic for downloading snapshot in the desired size
   };
-
   return (
-    <div style={{ display: 'flex', height: '92vh' }}>
+    <DashboardContent disablePadding maxWidth='xxl'>
       {/* Main ReactFlow component to render the graph */}
       <ReactFlow
         ref={ref}
@@ -264,7 +265,7 @@ function LayoutFlow() {
           onClose={() => setMenu(null)}
         />
       )}
-    </div>
+    </DashboardContent>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Box, Tooltip } from '@mui/material';
+import { Box, Tooltip, IconButton } from '@mui/material';
 
 const DIRECTION = {
   DOWN: 'TB',
@@ -70,7 +70,7 @@ const ButtonsPanel = ({
         placement="top"
         disableInteractive
       >
-        <button
+        <IconButton
           type="button"
           style={buttonStyle}
           onClick={() => {
@@ -83,7 +83,7 @@ const ButtonsPanel = ({
             style={iconStyle}
             alt="Vertical Layout"
           />
-        </button>
+        </IconButton>
       </Tooltip>
       <Tooltip
         title="Horizontal layout (Left to Right) Double click to auto align in horizontal layout"
@@ -91,7 +91,7 @@ const ButtonsPanel = ({
         placement="top"
         disableInteractive
       >
-        <button
+        <IconButton
           type="button"
           style={buttonStyle}
           onClick={() => {
@@ -104,7 +104,7 @@ const ButtonsPanel = ({
             style={iconStyle}
             alt="Horizontal Layout"
           />
-        </button>
+        </IconButton>
       </Tooltip>
 
       <Box
@@ -115,18 +115,18 @@ const ButtonsPanel = ({
         }}
       />
       <Tooltip title="Straight Edges" arrow placement="top" disableInteractive>
-        <button type="button" style={buttonStyle} onClick={() => setEdgeType('straight')}>
+        <IconButton type="button" style={buttonStyle} onClick={() => setEdgeType('straight')}>
           <img
             src="/assets/images/reactflow/icons/straight.svg"
             style={iconStyle}
             alt="Straight Edges"
           />
-        </button>
+        </IconButton>
       </Tooltip>
 
       {/* Button to toggle Smoothsteps edge */}
       <Tooltip title="Smoothsteps Edges" arrow placement="top" disableInteractive>
-        <button
+        <IconButton
           type="button"
           style={{ ...buttonStyle }} // Slightly larger for this button
           onClick={() => setEdgeType('smoothstep')}
@@ -136,18 +136,18 @@ const ButtonsPanel = ({
             style={iconStyle}
             alt="Smoothsteps Edges"
           />
-        </button>
+        </IconButton>
       </Tooltip>
 
       {/* Button to toggle Bezier edge */}
       <Tooltip title="Bezier Edges" arrow placement="top" disableInteractive>
-        <button type="button" style={buttonStyle} onClick={() => setEdgeType('bezier')}>
+        <IconButton type="button" style={buttonStyle} onClick={() => setEdgeType('bezier')}>
           <img
             src="/assets/images/reactflow/icons/bezier.svg"
             style={iconStyle}
             alt="Bezier Edges"
           />
-        </button>
+        </IconButton>
       </Tooltip>
 
       <Box
@@ -160,20 +160,20 @@ const ButtonsPanel = ({
 
       {/* Button to toggle edge animation with dynamic tooltip */}
       <Tooltip title={tooltip} arrow placement="top" disableInteractive>
-        <button type="button" onClick={handleEdgeStyleAndAnimate} style={buttonStyle}>
+        <IconButton type="button" onClick={handleEdgeStyleAndAnimate} style={buttonStyle}>
           <img src={icon} style={iconStyle} alt={tooltip} />
-        </button>
+        </IconButton>
       </Tooltip>
 
       {/* Button to toggle minimap visibility */}
       <Tooltip title="Toggle Minimap" arrow placement="top" disableInteractive>
-        <button type="button" onClick={toggleMinimap} style={buttonStyle}>
+        <IconButton type="button" onClick={toggleMinimap} style={buttonStyle}>
           <img
             src="/assets/images/reactflow/icons/mini-map.svg" // Replace with your minimap icon
             style={iconStyle}
             alt="Toggle Minimap"
           />
-        </button>
+        </IconButton>
       </Tooltip>
     </Box>
   );
