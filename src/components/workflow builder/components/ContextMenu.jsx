@@ -144,7 +144,7 @@ export default function ContextMenu({ id, top, left, onClose }) {
                   variant="body2"
                   style={{ padding: '1em', color: '#888' }}
                 >
-                  No actions available for this node type
+                  All the applications available will be shown here.
                 </Typography>,
               ]}
         <Divider style={{ borderStyle: 'dashed' }} />

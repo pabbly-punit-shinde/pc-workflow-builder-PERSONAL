@@ -1,21 +1,37 @@
-import React, { useState } from 'react';
-import { Handle, useReactFlow } from '@xyflow/react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Handle, useStoreApi, useReactFlow } from '@xyflow/react';
 
 import { Box, Tooltip } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 
-import { initialEdges } from '../db/nodes-edges';
 import LastNodeButton from './partials/LastNodeButton';
 
-function hasNoLeadingEdges(nodeId) {
-  return !initialEdges.some((edge) => edge.source === nodeId);
-}
-
 const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizontal }) => {
-  const { addNodes, addEdges } = useReactFlow(); // Get functions to add nodes and edges
+  const { getEdges, addNodes, addEdges } = useReactFlow();
   const [isHovered, setIsHovered] = useState(false);
-  const showHoverButton = hasNoLeadingEdges(id);
+  const [hasNoOutgoingEdges, setHasNoOutgoingEdges] = useState(false);
+  const store = useStoreApi();
+
+  // Stable callback to check outgoing edges
+  const updateOutgoingEdgesStatus = useCallback(() => {
+    const edges = getEdges();
+    const noOutgoing = !edges.some((edge) => edge.source === id); // Check if this node has outgoing edges
+    setHasNoOutgoingEdges(noOutgoing);
+  }, [getEdges, id]);
+
+  // Update `hasNoOutgoingEdges` whenever edges change
+  useEffect(() => {
+    const unsubscribe = store.subscribe(
+      () => {
+        updateOutgoingEdgesStatus();
+      },
+      (state) => state.edges // Subscribe to edge updates
+    );
+
+    updateOutgoingEdgesStatus(); // Initial check
+    return () => unsubscribe(); // Clean up subscription on unmount
+  }, [store, updateOutgoingEdgesStatus]);
 
   // Function to add a child node below the current node
   const handleAddChildNode = () => {
@@ -32,8 +48,8 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
       type: 'custom',
       data: {
         color: '#93AABD',
-        label: 'Empty Step',
-        subtext: 'Add New Action Step',
+        label: 'Add Action',
+        subtext: 'Choose Your Next Application',
         icon: '/assets/images/reactflow/newNodeV1.svg',
         note: false,
       },
@@ -98,7 +114,7 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
                 transform: getImageRotationStyle(),
               }}
             />
-            {showHoverButton && (
+            {hasNoOutgoingEdges && (
               <LastNodeButton
                 isHorizontal={isHorizontal}
                 color={data.color}
@@ -106,42 +122,6 @@ const CustomNode = ({ id, data, positionAbsoluteX, positionAbsoluteY, isHorizont
               />
             )}
           </Box>
-
-          {/* Error Icon */}
-          <Tooltip title="Error occurred in this step." arrow placement="top" disableInteractive>
-            <Iconify
-              id="errorInNode"
-              width={24}
-              backgroundColor="red"
-              onClick={() => alert('This will show the errors.')}
-              sx={{
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                color: 'white',
-                border: '2px solid #F3F7FA',
-                borderRadius: '50%',
-              }}
-              icon={data.errorIcon}
-            />
-          </Tooltip>
-          {/* Trigger Icon */}
-          <Tooltip title="Instant Trigger." arrow placement="top" disableInteractive>
-            <Iconify
-              id="trigger icon"
-              width={24}
-              backgroundColor={data.color}
-              sx={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                color: 'white',
-                border: '2px solid #F3F7FA',
-                borderRadius: '50%',
-              }}
-              icon={data.triggerIcon}
-            />
-          </Tooltip>
         </div>
 
         <Handle

@@ -25,7 +25,7 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import Drawer from './components/Drawer'; // Custom drawer component for UI controls
 import CustomNode from './components/CustomNodes'; // Custom node component for the flow chart
 import ContextMenu from './components/ContextMenu'; // Context menu for node right-click actions
-import { initialNodes, initialEdges } from './db/nodes-edges'; // Initial state for nodes and edges
+import { initialNodes, initialEdges } from './db/nodes-edges-start'; // Initial state for nodes and edges
 import Overlay from './components/partials/Overlay';
 import { generateGradients } from './utils/generateGradients';
 import { getD3HierarchyLayout } from './utils/d3HierarchyLayout';
@@ -182,7 +182,7 @@ function LayoutFlow() {
     // Add logic for downloading snapshot in the desired size
   };
   return (
-    <DashboardContent disablePadding maxWidth='xxl'>
+    <DashboardContent disablePadding maxWidth="xxl">
       {/* Main ReactFlow component to render the graph */}
       <ReactFlow
         ref={ref}

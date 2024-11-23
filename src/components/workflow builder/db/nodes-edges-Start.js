@@ -5,8 +5,8 @@ const initialNodes = [
 
     data: {
       color: '#93AABD',
-        label: 'Empty Step',
-        subtext: 'Add New Action Step',
+        label: 'Add Trigger',
+        subtext: 'Choose Your First Application',
         icon: '/assets/images/reactflow/newNodeV1.svg',
         note: false,
     },
