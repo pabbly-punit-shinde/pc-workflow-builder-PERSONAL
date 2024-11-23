@@ -25,7 +25,7 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import Drawer from './components/Drawer'; // Custom drawer component for UI controls
 import CustomNode from './components/CustomNodes'; // Custom node component for the flow chart
 import ContextMenu from './components/ContextMenu'; // Context menu for node right-click actions
-import { initialNodes, initialEdges } from './db/nodes-edges'; // Initial state for nodes and edges
+import { initialNodes, initialEdges } from './db/nodes-edges-complex-filter'; // Initial state for nodes and edges
 import Overlay from './components/partials/Overlay';
 import { generateGradients } from './utils/generateGradients';
 import { getD3HierarchyLayout } from './utils/d3HierarchyLayout';
@@ -40,7 +40,7 @@ const withIsHorizontal = (isHorizontal) => (props) => (
 );
 
 // Main LayoutFlow component
-function LayoutFlow() {
+function ComplexLayoutFlow() {
   // State hooks for managing the flow's nodes, edges, and layout
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -273,7 +273,7 @@ function LayoutFlow() {
 export default function App() {
   return (
     <ReactFlowProvider>
-      <LayoutFlow />
+      <ComplexLayoutFlow />
     </ReactFlowProvider>
   );
 }
