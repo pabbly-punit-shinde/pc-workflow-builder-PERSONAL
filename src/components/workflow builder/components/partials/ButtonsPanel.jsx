@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useReactFlow } from '@xyflow/react';
 
 import { Box, Tooltip, IconButton } from '@mui/material';
 
@@ -23,12 +24,12 @@ const iconStyle = {
 const ButtonsPanel = ({
   onLayout,
   setEdgeType,
-  fitView,
+  // fitView,
   toggleMinimap,
   toggleEdgeStyleAndAnimate,
 }) => {
   const [clickCount, setClickCount] = useState(0);
-
+  const { fitView } = useReactFlow();
   // Function to determine the icon and tooltip based on the click count
   const getButtonIconAndTooltip = () => {
     const cycle = clickCount % 3; // We will cycle through 3 states (Solid, Dashed, Animated)
@@ -60,7 +61,12 @@ const ButtonsPanel = ({
 
   return (
     <Box
-      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', boxShadow: 'inset 0 0 6px #C2CAD0', }}
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        boxShadow: 'inset 0 0 6px #C2CAD0',
+      }}
       flexDirection={{ xs: 'column', sm: 'column', md: 'column' }}
       // bgcolor='#F4F4F4'
     >
@@ -74,9 +80,12 @@ const ButtonsPanel = ({
           type="button"
           style={buttonStyle}
           onClick={() => {
-            onLayout({ direction: DIRECTION.DOWN });
-            fitView(); // Trigger fitView after layout change
+            onLayout({ direction: DIRECTION.DOWN }); // Change layout direction
+            setTimeout(() => {
+              fitView(); // Fit the view after layout change
+            }, 0); // Delay to allow layout change to propagate
           }}
+          
         >
           <img
             src="/assets/images/reactflow/icons/vertical.svg"
@@ -95,8 +104,10 @@ const ButtonsPanel = ({
           type="button"
           style={buttonStyle}
           onClick={() => {
-            onLayout({ direction: DIRECTION.RIGHT });
-            fitView(); // Trigger fitView after layout change
+            onLayout({ direction: DIRECTION.RIGHT }); // Change layout direction
+            setTimeout(() => {
+              fitView(); // Fit the view after layout change
+            }, 0); // Delay to allow layout change to propagate
           }}
         >
           <img
