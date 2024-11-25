@@ -215,16 +215,16 @@ function StartLayoutFlow() {
         <Background gap={20} color="#ddd" variant={BackgroundVariant.dot} />
         {/* Controls for zoom and other functionalities */}
         <Controls>
-          <Tooltip title="Choose Snapshot Size" arrow placement="top" disableInteractive>
-            <ControlButton onClick={() => setIsOverlayOpen(true)}>
+          <ControlButton onClick={() => setIsOverlayOpen(true)}>
+            <Tooltip title="Choose Snapshot Size" arrow placement="top" disableInteractive>
               <img
                 src="/assets/images/reactflow/icons/image-download.svg"
                 alt="Snapshot Sizes"
                 width="100%"
                 height="100%"
               />
-            </ControlButton>
-          </Tooltip>
+            </Tooltip>
+          </ControlButton>
           <Overlay
             open={isOverlayOpen}
             onClose={() => setIsOverlayOpen(false)}
