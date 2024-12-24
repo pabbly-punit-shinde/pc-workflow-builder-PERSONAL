@@ -2,7 +2,7 @@ import React from 'react';
 
 import { CONFIG } from 'src/config-global';
 
-import LayoutFlow from 'src/components/workflow builder/WorkflowBuilder';
+import ComplexLayoutFlow from 'src/components/workflow builder complex/ComplexLayoutFlow';
 
 // import WorkflowNameHeader from 'src/components/workflow builder/workflow-name-header';
 
@@ -14,7 +14,9 @@ export default function Page() {
   return (
     <>
       {/* <WorkflowNameHeader /> */}
-      <LayoutFlow />
+      {/* <LayoutFlow /> */}
+      <ComplexLayoutFlow/>
+      
     </>
   );
 }
